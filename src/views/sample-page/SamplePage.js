@@ -7,7 +7,6 @@ import BookRegister from './BookRegister/BookRegister';
 
 
 const Register2 = () => 
-  
 (
   <PageContainer title="Book Register" description="ENTER YOUR BOOK DETAILS">
     <Box
