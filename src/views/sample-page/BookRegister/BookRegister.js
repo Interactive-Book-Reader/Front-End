@@ -2,16 +2,14 @@ import {
   Box,
   Typography,
   Button,
-  Input,
   TextField,
-  InputLabel,
   OutlinedInput,
   FormControl,
 } from '@mui/material';
 import CustomTextField from '../../../components/forms/theme-elements/CustomTextField';
 import { Stack } from '@mui/system';
 import React, { useState } from 'react';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import axios from 'axios';
 
 const BookRegister = ({ title, subtitle, subtext }) => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -21,21 +19,69 @@ const BookRegister = ({ title, subtitle, subtext }) => {
   const [summary, setSummary] = useState('');
   const [price, setPrice] = useState('');
 
-  const handleFileChange = (e) => {
-    setSelectedFile(e.target.files[0]);
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
   };
 
-  const handleSubmit = async (e) => {
-    console.log(title);
+  const handleTitleChange=(event)=>{
+    setTitle(event.target.value);
+  }
+
+  const handleAuthorChange=(event)=>{
+    setAuthor(event.target.value);
+  }
+
+  const handleGenreChange=(event)=>{
+    setGenre(event.target.value);
+  }
+
+  const handleSummaryChange=(event)=>{
+    setSummary(event.target.value);
+  }
+
+  const handlePriceChange=(event)=>{
+    setPrice(event.target.value);
+  }
+
+  const handleSubmit = async (e) => {   
     e.preventDefault();
     const formData = new FormData();
     formData.append('file', selectedFile); // Use "pdfFile" as the key name for the uploaded file
 
     try {
-      const response = await fetch('http://localhost:3001/upload', {
+      const response = await axios.post('http://localhost:3001/api/book/store', 
+      {
+          Title: Title,
+          author: author,
+          genre: genre,
+          summary: summary,
+          price: price,
+          pdf: formData,
+      });      
+      if (response.status === 200) {
+        console.log(response);
+      } else {
+        console.error('Failed to send POST request');
+      }
+    } catch (error) {
+      console.error('Error sending POST request:', error);
+    }
+    /*
+    try {
+      const response = await fetch('http://localhost:3001/api/book/store', {
         // Replace "/upload" with your server-side endpoint for PDF upload
         method: 'POST',
-        body: formData,
+        headers: {
+          'Content-Type': 'application/json', // Set the content type to JSON
+        },
+        body: JSON.stringify({
+          Title: Title,
+          author: author,
+          genre: genre,
+          summary: summary,
+          price: price,
+          pdf: formData,
+        }) 
       });
 
       if (response.ok) {
@@ -45,7 +91,7 @@ const BookRegister = ({ title, subtitle, subtext }) => {
       }
     } catch (error) {
       console.error('Error uploading the PDF:', error);
-    }
+    }*/
   };
 
   return (
@@ -74,7 +120,7 @@ const BookRegister = ({ title, subtitle, subtext }) => {
             id="title"
             variant="outlined"
             fullWidth
-            onChange={setTitle}
+            onChange={handleTitleChange}
           />
 
           <Typography
@@ -92,7 +138,7 @@ const BookRegister = ({ title, subtitle, subtext }) => {
             id="author"
             variant="outlined"
             fullWidth
-            onChange={setAuthor}
+            onChange={handleAuthorChange}
           />
 
           <Typography
@@ -110,7 +156,7 @@ const BookRegister = ({ title, subtitle, subtext }) => {
             id="Genre"
             variant="outlined"
             fullWidth
-            onChange={setGenre}
+            onChange={handleGenreChange}
           />
 
           <Typography
@@ -127,7 +173,7 @@ const BookRegister = ({ title, subtitle, subtext }) => {
             id="summary"
             variant="outlined"
             fullWidth
-            onChange={setSummary}
+            onChange={handleSummaryChange}
           />
 
           <Typography
@@ -143,7 +189,7 @@ const BookRegister = ({ title, subtitle, subtext }) => {
             label="Price"
             type="number"
             variant="outlined"
-            onChange={setPrice}
+            onChange={handlePriceChange}
             fullWidth
             InputProps={{
               startAdornment: '$',
@@ -167,17 +213,7 @@ const BookRegister = ({ title, subtitle, subtext }) => {
                 type="file"
                 accept=".pdf"
                 inputProps={{ multiple: false }}
-                endAdornment={
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    component="label"
-                    startIcon={<CloudUploadIcon />}
-                  >
-                    Upload
-                    <input type="file" style={{ display: 'none' }} accept=".pdf" />
-                  </Button>
-                }
+                onChange={handleFileChange}               
               />
             </FormControl>
           </div>
