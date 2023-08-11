@@ -46,17 +46,18 @@ import {
     const handleSubmit = async (e) => {   
       e.preventDefault();
       const formData = new FormData();
-      formData.append('file', selectedFile); // Use "pdfFile" as the key name for the uploaded file
-  
+      formData.append('pdf', selectedFile); // Use "pdfFile" as the key name for the uploaded file
+      formData.append('Title',Title);
+      formData.append('author',author);
+      formData.append('genre',genre);
+      formData.append('summary',summary);
+      formData.append('price',price);
+
+  /*
       try {
         const response = await axios.post('http://localhost:3001/api/book/store', 
         {
-            Title: Title,
-            author: author,
-            genre: genre,
-            summary: summary,
-            price: price,
-            pdf: formData,
+            body:formData
         });      
         if (response.status === 200) {
           console.log(response);
@@ -65,6 +66,16 @@ import {
         }
       } catch (error) {
         console.error('Error sending POST request:', error);
+      }*/
+      try {
+        const response = await fetch('http://localhost:3001/api/book/store', {
+          method: 'POST',
+          body: formData,
+        });
+  
+        // Handle the response from the server
+      } catch (error) {
+        // Handle errors
       }
       /*
       try {

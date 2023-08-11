@@ -1,6 +1,5 @@
 import React from 'react';
-import { Grid, Box, Card, Typography, Stack } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Grid, Box, Card} from '@mui/material';
 import PageContainer from 'src/components/container/PageContainer';
 import Logo from 'src/layouts/full/shared/logo/Logo';
 import BookRegister from './BookRegister/BookRegister';
