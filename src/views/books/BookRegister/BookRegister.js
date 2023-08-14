@@ -9,7 +9,7 @@ import {
   import CustomTextField from '../../../components/forms/theme-elements/CustomTextField';
   import { Stack } from '@mui/system';
   import React, { useState } from 'react';
-  import axios from 'axios';
+
   
   const BookRegister = ({ title, subtitle, subtext }) => {
     const [selectedFile, setSelectedFile] = useState(null);
@@ -51,58 +51,20 @@ import {
       formData.append('author',author);
       formData.append('genre',genre);
       formData.append('summary',summary);
-      formData.append('price',price);
-
-  /*
-      try {
-        const response = await axios.post('http://localhost:3001/api/book/store', 
-        {
-            body:formData
-        });      
-        if (response.status === 200) {
-          console.log(response);
-        } else {
-          console.error('Failed to send POST request');
-        }
-      } catch (error) {
-        console.error('Error sending POST request:', error);
-      }*/
+      formData.append('price',price);  
       try {
         const response = await fetch('http://localhost:3001/api/book/store', {
           method: 'POST',
           body: formData,
         });
+        if (response.ok){
+          console.log('Successfully registered.')
+        }
   
         // Handle the response from the server
       } catch (error) {
         // Handle errors
-      }
-      /*
-      try {
-        const response = await fetch('http://localhost:3001/api/book/store', {
-          // Replace "/upload" with your server-side endpoint for PDF upload
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json', // Set the content type to JSON
-          },
-          body: JSON.stringify({
-            Title: Title,
-            author: author,
-            genre: genre,
-            summary: summary,
-            price: price,
-            pdf: formData,
-          }) 
-        });
-  
-        if (response.ok) {
-          alert(response.statusText);
-        } else {
-          alert('no response');
-        }
-      } catch (error) {
-        console.error('Error uploading the PDF:', error);
-      }*/
+      }     
     };
   
     return (

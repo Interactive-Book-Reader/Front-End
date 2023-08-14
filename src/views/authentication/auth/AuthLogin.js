@@ -1,73 +1,142 @@
-import React from 'react';
 import {
-    Box,
-    Typography,
-    FormGroup,
-    FormControlLabel,
-    Button,
-    Stack,
-    Checkbox
+  Box,
+  Typography,
+  FormGroup,
+  FormControlLabel,
+  Button,
+  Stack,
+  Checkbox
 } from '@mui/material';
 import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
 
 import CustomTextField from '../../../components/forms/theme-elements/CustomTextField';
 
-const AuthLogin = ({ title, subtitle, subtext }) => (
-    <>
-        {title ? (
-            <Typography fontWeight="700" variant="h2" mb={1}>
-                {title}
-            </Typography>
-        ) : null}
+const AuthLogin = ({ title, subtitle, subtext }) => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [errorMessege,setErrorMessege]=useState('');
 
-        {subtext}
+  const handleUsernameChange = (event) => {
+    setUsername(event.target.value);
+  };
 
-        <Stack>
-            <Box>
-                <Typography variant="subtitle1"
-                    fontWeight={600} component="label" htmlFor='username' mb="5px">Username</Typography>
-                <CustomTextField id="username" variant="outlined" fullWidth />
-            </Box>
-            <Box mt="25px">
-                <Typography variant="subtitle1"
-                    fontWeight={600} component="label" htmlFor='password' mb="5px" >Password</Typography>
-                <CustomTextField id="password" type="password" variant="outlined" fullWidth />
-            </Box>
-            <Stack justifyContent="space-between" direction="row" alignItems="center" my={2}>
-                <FormGroup>
-                    <FormControlLabel
-                        control={<Checkbox defaultChecked />}
-                        label="Remeber this Device"
-                    />
-                </FormGroup>
-                <Typography
-                    component={Link}
-                    to="/"
-                    fontWeight="500"
-                    sx={{
-                        textDecoration: 'none',
-                        color: 'primary.main',
-                    }}
-                >
-                    Forgot Password ?
-                </Typography>
-            </Stack>
-        </Stack>
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
+  };
+
+  const handleLoginSubmit = async (event) => {
+    event.preventDefault();
+  
+    const loginData = {
+      username: username,
+      password: password
+    };
+  
+    try {
+      const response = await fetch('http://localhost:3001/api/publisher/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(loginData)
+      });
+  
+      
+      const responseData = await response.json();     
+      
+      if (responseData.message==='Login Successful'){
+        console.log(responseData);
+        window.location.href = '/';
+      }
+      else{
+          setErrorMessege(responseData.message);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+  
+
+  return (
+    <form onSubmit={handleLoginSubmit}>
+      {title ? (
+        <Typography fontWeight="700" variant="h2" mb={1}>
+          {title}
+        </Typography>
+      ) : null}
+
+      {subtext}
+
+      <Stack>
         <Box>
-            <Button
-                color="primary"
-                variant="contained"
-                size="large"
-                fullWidth
-                component={Link}
-                to="/"
-                type="submit"
-            >
-                Sign In
-            </Button>
+          <Typography
+            variant="subtitle1"
+            fontWeight={600}
+            component="label"
+            htmlFor="username"
+            mb="5px"
+          >
+            Username
+          </Typography>
+          <CustomTextField
+            id="username"
+            onChange={handleUsernameChange}
+            variant="outlined"
+            fullWidth
+          />
         </Box>
-        {subtitle}
-    </>
-);
+        <Box mt="25px">
+          <Typography
+            variant="subtitle1"
+            fontWeight={600}
+            component="label"
+            htmlFor="password"
+            mb="5px"
+          >
+            Password
+          </Typography>
+          <CustomTextField
+  id="password"
+  variant="outlined"
+  fullWidth
+  type="password" // Set the input type to "password"
+  onChange={handlePasswordChange}
+/>
+          
+        </Box>
+        <Stack justifyContent="space-between" direction="row" alignItems="center" my={2}>
+          <FormGroup>
+            <FormControlLabel control={<Checkbox defaultChecked />} label="Remember this Device" />
+          </FormGroup>
+          <Typography
+            component={Link}
+            to="/"
+            fontWeight="500"
+            sx={{
+              textDecoration: 'none',
+              color: 'primary.main',
+            }}
+          >
+            Forgot Password ?
+          </Typography>
+        </Stack>
+      </Stack>
+      <Box>
+        <Button
+          color="primary"
+          variant="contained"
+          size="large"
+          fullWidth
+          type="submit" // Use type="submit" to trigger form submission
+        >
+          Sign In
+        </Button>
+        <Typography style={{ color: 'red' }}>{errorMessege}</Typography>
+      </Box>
+      {subtitle}
+    </form>
+  );
+};
 
 export default AuthLogin;

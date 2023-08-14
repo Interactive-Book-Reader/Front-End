@@ -2,7 +2,6 @@ import React from 'react';
 import { Grid, Box, Card, Typography, Stack } from '@mui/material';
 import { Link } from 'react-router-dom';
 import PageContainer from 'src/components/container/PageContainer';
-import Logo from 'src/layouts/full/shared/logo/Logo';
 import AuthRegister from './auth/AuthRegister';
 
 const Register2 = () => (
@@ -34,21 +33,25 @@ const Register2 = () => (
           alignItems="center"
         >
           <Card elevation={9} sx={{ p: 4, zIndex: 1, width: '100%', maxWidth: '500px' }}>
-            <Box display="flex" alignItems="center" justifyContent="center">
-              <Logo />
-            </Box>
+            <Typography
+              variant="h4"
+              sx={{
+                mb: 2,
+                fontFamily: 'Roboto',
+                color: '#1565c0', // A shade of blue
+                textAlign: 'center',
+                textDecoration: 'underline',
+              }}
+            >
+              Welcome to Our Publications
+            </Typography>
             <AuthRegister
-              subtext={
-                <Typography variant="subtitle1" textAlign="center" color="textSecondary" mb={1}>
-                  Your Social Campaigns
-                </Typography>
-              }
               subtitle={
                 <Stack direction="row" justifyContent="center" spacing={1} mt={3}>
                   <Typography color="textSecondary" variant="h6" fontWeight="400">
                     Already have an Account?
                   </Typography>
-                  <Typography 
+                  <Typography
                     component={Link}
                     to="/auth/login"
                     fontWeight="500"

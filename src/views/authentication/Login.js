@@ -4,13 +4,13 @@ import { Grid, Box, Card, Stack, Typography } from '@mui/material';
 
 // components
 import PageContainer from 'src/components/container/PageContainer';
-import Logo from 'src/layouts/full/shared/logo/Logo';
 import AuthLogin from './auth/AuthLogin';
+
 
 const Login2 = () => {
   
   return (
-    <PageContainer title="Login" description="this is Login page">
+    <PageContainer title="Login" description="this is Login page">      
       <Box
         sx={{
           position: 'relative',
@@ -37,20 +37,24 @@ const Login2 = () => {
             justifyContent="center"
             alignItems="center"
           >
-            <Card elevation={9} sx={{ p: 4, zIndex: 1, width: '100%', maxWidth: '500px' }}>
-              <Box display="flex" alignItems="center" justifyContent="center">
-                <Logo />
-              </Box>
+            <Card elevation={9} sx={{ p: 4, zIndex: 1, width: '100%', maxWidth: '500px' }}>   
+            <Typography
+  variant="h4"
+  sx={{
+    mb: 2,
+    fontFamily: 'Roboto',
+    color: '#1565c0', // A shade of blue
+    textAlign: 'center',
+    textDecoration: 'underline',
+  }}
+>
+  Welcome to Our Publications
+</Typography>         
               <AuthLogin
-                subtext={
-                  <Typography variant="subtitle1" textAlign="center" color="textSecondary" mb={1}>
-                    Your Social Campaigns
-                  </Typography>
-                }
                 subtitle={
                   <Stack direction="row" spacing={1} justifyContent="center" mt={3}>
                     <Typography color="textSecondary" variant="h6" fontWeight="500">
-                      New to Modernize?
+                      New to Our Publications?
                     </Typography>
                     <Typography
                       component={Link}
