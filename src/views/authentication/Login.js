@@ -45,7 +45,7 @@ const Login2 = () => {
             <img
                 src={logoImage}
                 alt="Our Publications Logo"
-                style={{ maxWidth: '100%', marginBottom: '20px' }}
+                style={{ maxWidth: '100%' }}
               />       
               <AuthLogin
                 subtitle={
