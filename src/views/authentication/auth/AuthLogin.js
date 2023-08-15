@@ -129,6 +129,7 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
           size="large"
           fullWidth
           type="submit" // Use type="submit" to trigger form submission
+          sx={{ backgroundColor: '#003566' }}
         >
           Sign In
         </Button>

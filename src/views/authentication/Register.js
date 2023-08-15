@@ -3,23 +3,26 @@ import { Grid, Box, Card, Typography, Stack } from '@mui/material';
 import { Link } from 'react-router-dom';
 import PageContainer from 'src/components/container/PageContainer';
 import AuthRegister from './auth/AuthRegister';
-
+import backgroundImage from 'src/assets/images/backgrounds/AccPage.jpg'
 const Register2 = () => (
   <PageContainer title="Register" description="this is Register page">
     <Box
-      sx={{
-        position: 'relative',
-        '&:before': {
-          content: '""',
-          background: 'radial-gradient(#d2f1df, #d3d7fa, #bad8f4)',
-          backgroundSize: '400% 400%',
-          animation: 'gradient 15s ease infinite',
-          position: 'absolute',
-          height: '100%',
-          width: '100%',
-          opacity: '0.3',
-        },
-      }}
+        sx={{
+          backgroundImage: `url(${backgroundImage})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          position: 'relative',
+          '&:before': {
+            content: '""',
+            background: 'radial-gradient(#d2f1df, #d3d7fa, #bad8f4)',
+            backgroundSize: '400% 400%',
+            animation: 'gradient 15s ease infinite',
+            position: 'absolute',
+            height: '100%',
+            width: '100%',
+            opacity: '0.3',
+          },
+        }}
     >
       <Grid container spacing={0} justifyContent="center" sx={{ height: '100vh' }}>
         <Grid
@@ -37,13 +40,12 @@ const Register2 = () => (
               variant="h4"
               sx={{
                 mb: 2,
-                fontFamily: 'Roboto',
+                fontFamily: 'Helvetica',
                 color: '#1565c0', // A shade of blue
                 textAlign: 'center',
-                textDecoration: 'underline',
               }}
             >
-              Welcome to Our Publications
+              Create Your Account
             </Typography>
             <AuthRegister
               subtitle={

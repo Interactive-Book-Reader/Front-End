@@ -5,7 +5,8 @@ import { Grid, Box, Card, Stack, Typography } from '@mui/material';
 // components
 import PageContainer from 'src/components/container/PageContainer';
 import AuthLogin from './auth/AuthLogin';
-
+import logoImage from 'src/assets/images/logos/AReader3Dpublishers.png';
+import backgroundImage from 'src/assets/images/backgrounds/loginBackground.jpg';
 
 const Login2 = () => {
   
@@ -13,6 +14,9 @@ const Login2 = () => {
     <PageContainer title="Login" description="this is Login page">      
       <Box
         sx={{
+          backgroundImage: `url(${backgroundImage})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
           position: 'relative',
           '&:before': {
             content: '""',
@@ -38,18 +42,11 @@ const Login2 = () => {
             alignItems="center"
           >
             <Card elevation={9} sx={{ p: 4, zIndex: 1, width: '100%', maxWidth: '500px' }}>   
-            <Typography
-  variant="h4"
-  sx={{
-    mb: 2,
-    fontFamily: 'Roboto',
-    color: '#1565c0', // A shade of blue
-    textAlign: 'center',
-    textDecoration: 'underline',
-  }}
->
-  Welcome to Our Publications
-</Typography>         
+            <img
+                src={logoImage}
+                alt="Our Publications Logo"
+                style={{ maxWidth: '100%', marginBottom: '20px' }}
+              />       
               <AuthLogin
                 subtitle={
                   <Stack direction="row" spacing={1} justifyContent="center" mt={3}>
