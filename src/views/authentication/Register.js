@@ -3,7 +3,8 @@ import { Grid, Box, Card, Typography, Stack } from '@mui/material';
 import { Link } from 'react-router-dom';
 import PageContainer from 'src/components/container/PageContainer';
 import AuthRegister from './auth/AuthRegister';
-import backgroundImage from 'src/assets/images/backgrounds/AccPage.jpg'
+import backgroundImage from 'src/assets/images/backgrounds/AccPage.jpg';
+
 const Register2 = () => (
   <PageContainer title="Register" description="this is Register page">
     <Box
