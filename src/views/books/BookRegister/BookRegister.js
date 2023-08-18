@@ -1,9 +1,9 @@
 import { Box, Typography, Button, TextField, OutlinedInput, FormControl } from '@mui/material';
 import CustomTextField from '../../../components/forms/theme-elements/CustomTextField';
 import { Stack } from '@mui/system';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { storage } from '../../../firebase';
-import { ref, uploadBytes, listAll, getDownloadURL } from 'firebase/storage';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { v4 } from 'uuid';
 
 const BookRegister = ({ title, subtitle, subtext }) => {
@@ -15,8 +15,14 @@ const BookRegister = ({ title, subtitle, subtext }) => {
   const [price, setPrice] = useState('');
   const [coverpage, setCoverPage] = useState(null);
   const [imageLink, setImageLink] = useState('');
+  const [pdfLink, setPDFink] = useState('');
+
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
+  };
+
+  const handleCoverPageChange = (event) => {
+    setCoverPage(event.target.files[0]);
   };
 
   const handleTitleChange = (event) => {
@@ -39,9 +45,7 @@ const BookRegister = ({ title, subtitle, subtext }) => {
     setPrice(event.target.value);
   };
 
-  const imageListRef = ref(storage, 'images/');
-
-  const uploadImage = () => {
+  const handleUpload = () => {
     console.log('Uploading Image');
     if (coverpage == null) return;
     const imageRef = ref(storage, `images/${coverpage.name + v4()}`);
@@ -62,39 +66,55 @@ const BookRegister = ({ title, subtitle, subtext }) => {
       .catch((error) => {
         console.error('Error uploading image:', error);
       });
+
+    console.log('Uploading PDF');
+    if (selectedFile == null) return;
+    const pdfRef = ref(storage, `pdf/${selectedFile.name + v4()}`);
+    uploadBytes(pdfRef, selectedFile)
+      .then((snaphsot) => {
+        console.log('PDF is uploaded.');
+
+        // Get the download URL for the uploaded image
+        getDownloadURL(snaphsot.ref)
+          .then((url) => {
+            setPDFink(url); // Assuming you have a function to set the URL in your component's state
+            console.log(pdfLink);
+          })
+          .catch((error) => {
+            console.error('Error getting download URL:', error);
+          });
+      })
+      .catch((error) => {
+        console.error('Error uploading image:', error);
+      });
   };
 
-  // useEffect(()=>{
-  //   listAll(imageListRef).then((response)=>{
-  //     response.items.forEach((item)=>{
-  //       getDownloadURL(item).then((url)=>{
-  //         setImageList((prev)=>[...prev,url])
-  //       })
-  //     })
-  //   })
-  // },[]);
-
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append('pdf', selectedFile); // Use "pdfFile" as the key name for the uploaded file
-    formData.append('Title', Title);
-    formData.append('author', author);
-    formData.append('genre', genre);
-    formData.append('summary', summary);
-    formData.append('price', price);
+    const jsonData = {
+      Title: Title,
+      author: author,
+      genre: genre,
+      summary: summary,
+      price: price,
+      coverpage: imageLink,
+      pdf: pdfLink,
+    }; // Your JSON data
     try {
       const response = await fetch('http://localhost:3001/api/book/store', {
         method: 'POST',
-        body: formData,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(jsonData),
       });
-      if (response.ok) {
-        console.log('Successfully registered.');
-      }
 
-      // Handle the response from the server
+      if (response.ok) {
+        console.log('Data sent successfully');
+      } else {
+        console.error('Failed to send data');
+      }
     } catch (error) {
-      // Handle errors
+      console.error('Error:', error);
     }
   };
 
@@ -221,22 +241,31 @@ const BookRegister = ({ title, subtitle, subtext }) => {
               />
             </FormControl>
           </div>
-          <div>
-            <input
-              type="file"
-              onChange={(event) => {
-                setCoverPage(event.target.files[0]);
-              }}
-            />
-            <Button onClick={uploadImage}>Upload Image</Button>
-            {/* <div height='10px' width='10px'>
-                  {imageList.map((url)=>{
-                    return <img src={url}/>
-                  })
-                  }
-                  </div> */}
+          <div style={{ marginTop: '20px' }}>
+            <Typography
+              variant="subtitle1"
+              fontWeight={600}
+              component="label"
+              htmlFor="ISBN"
+              mb="5px"
+              mt="25px"
+            >
+              Upload Coverpage
+            </Typography>
+            <FormControl variant="outlined">
+              <OutlinedInput
+                id="pdf-file"
+                type="file"
+                accept=".pdf"
+                inputProps={{ multiple: false }}
+                onChange={handleCoverPageChange}
+              />
+            </FormControl>
           </div>
         </Stack>
+        <Button color="primary" variant="contained" size="large" fullWidth onClick={handleUpload}>
+          Upload
+        </Button>
         <Button color="primary" variant="contained" size="large" fullWidth onClick={handleSubmit}>
           Register Book
         </Button>
