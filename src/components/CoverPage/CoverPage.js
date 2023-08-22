@@ -1,0 +1,34 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { CardContent, Typography, Grid } from '@mui/material';
+
+import { Stack } from '@mui/system';
+import BlankCard from '../shared/BlankCard';
+
+
+
+const CoverPage = ({title,author,photo,price}) => {
+  return (
+    <Grid container spacing={4}>
+        <Grid item sm={12} md={4} lg={3}>
+          <BlankCard>
+            <Typography component={Link} to="/mybook">
+              <img src={photo} alt="img" width="100%" />
+            </Typography>
+            <CardContent sx={{ p: 3, pt: 2 }}>
+              <Typography variant="h6">{title}</Typography>
+              <Typography variant="h7">{author}</Typography>
+              <Stack direction="row" alignItems="center" justifyContent="space-between" mt={1}>
+                <Stack direction="row" alignItems="center">
+                  <Typography variant="h6">LKR{price}</Typography>
+                </Stack>
+              </Stack>
+            </CardContent>
+          </BlankCard>
+        </Grid>
+    
+    </Grid>
+  );
+};
+
+export default CoverPage;
