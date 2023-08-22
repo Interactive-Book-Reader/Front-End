@@ -91,7 +91,7 @@ const BookRegister = ({ title, subtitle, subtext }) => {
 
   const handleSubmit = async (e) => {
     const jsonData = {
-      Title: Title,
+      title: Title,
       author: author,
       genre: genre,
       summary: summary,
