@@ -16,6 +16,7 @@ const Error = Loadable(lazy(() => import('../views/authentication/Error')));
 const Register = Loadable(lazy(() => import('../views/authentication/Register')));
 const Login = Loadable(lazy(() => import('../views/authentication/Login')));
 const MyBook = Loadable(lazy(() => import('../views/books/MyBook')));
+const Profile=Loadable(lazy(()=>import('../views/ProfilePage/Profile')));
 
 
 const Router = [
@@ -27,6 +28,7 @@ const Router = [
       { path: '/dashboard', exact: true, element: <Dashboard /> },
       { path: '/registerbook', exact: true, element: <RegisterPage /> },
       { path: '/mybook', exact: true, element: <MyBook /> },
+      { path: '/profile',exact:true,element:<Profile/>},
       { path: '/icons', exact: true, element: <Icons /> },
       { path: '/ui/typography', exact: true, element: <TypographyPage /> },
       { path: '/ui/shadow', exact: true, element: <Shadow /> },
