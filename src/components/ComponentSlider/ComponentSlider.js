@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import 'swiper/css';
@@ -20,10 +20,10 @@ const ComponentSlider = ({ components, ...otherProps }) => {
         loop={true}
         slidesPerView={'auto'}
         coverflowEffect={{
-          rotate: 0,
-          stretch: 10,
-          depth: 100,
-          modifier: 2.5,
+          rotate: false,
+          stretch: 4,
+          depth: 60,
+          modifier: 3.5,
         }}
         pagination={{ el: '.swiper-pagination', clickable: true }}
         navigation={{
@@ -33,13 +33,12 @@ const ComponentSlider = ({ components, ...otherProps }) => {
         }}
       >
         {components.map((item, index) => (
-          <SwiperSlide key={index} style={{ width: '100%', height: '100%' }}>
+          <SwiperSlide key={index} style={{ width: '300px', height: '400px' }}>
             <div
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                border: '2px solid black',
               }}
             >
               {item}
