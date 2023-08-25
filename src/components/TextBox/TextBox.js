@@ -1,7 +1,7 @@
 import { Typography, TextField } from '@mui/material';
 import React from 'react';
 
-const TextBox = ({inputText,label, width}) => {
+const TextBox = ({inputText,label, width,type}) => {
     return(
         <div style={{ width: width, marginRight: '20px' }}>
           <Typography
@@ -21,6 +21,7 @@ const TextBox = ({inputText,label, width}) => {
           <TextField
             id="outlined-basic"
             label={label}
+            type={type}
             variant="outlined"
             sx={{ width: '100%' }}
           />
