@@ -3,7 +3,7 @@ import React from 'react';
 
 const TextBox = ({inputText,label, width}) => {
     return(
-        <div style={{ width: {width}, marginRight: '20px' }}>
+        <div style={{ width: width, marginRight: '20px' }}>
           <Typography
             variant="h7"
             component="div"
