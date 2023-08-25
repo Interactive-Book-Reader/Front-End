@@ -1,54 +1,63 @@
-import { Typography } from '@mui/material';
 import React from 'react';
 import TextBox from 'src/components/TextBox/TextBox';
-import DateField from 'src/components/DateField/DateField';
-import DropDownList from 'src/components/DropDownList/DropDownList';
+import YearPicker from 'src/components/DateField/YearPicker';
+import MainTopic from 'src/components/Topic/MainTopic';
+import SubTopic from 'src/components/Topic/SubTopic';
 
 const Profile = () => {
   return (
-    <>
-      <Typography
-        style={{
-          fontSize: '30px',
-          fontWeight: 'bold',
-          color: 'black',
-          textAlign: 'justify',
-          marginLeft: '40px',
-          marginTop: '10px',
-        }}
-      >
-        General information
-      </Typography>
-      <div style={{ display: 'flex', paddingTop: '10px' }}>
-        <TextBox inputText="First Name" label="Enter the first name:" width="350px" />
-        <TextBox inputText="Last Name" label="Enter the last name:" width="350px" />
+    <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
+      <MainTopic text="General Informations" />
+      <TextBox
+        inputText="Name"
+        label="Enter the name:"
+        width="100%"
+        type="text"
+        isMultiline={false}
+      />
+      <TextBox
+        inputText="Email Address"
+        label="name@gmail.com"
+        width="100%"
+        type="text"
+        isMultiline={false}
+      />
+      <TextBox
+        inputText="Phone"
+        label="+94 77 004 2188"
+        width="100%"
+        type="text"
+        isMultiline={false}
+      />
+      <TextBox
+        inputText="Username"
+        label="Enter the username:"
+        width="100%"
+        type="text"
+        isMultiline={false}
+      />
+      <TextBox
+        inputText="Password"
+        label="Enter the password:"
+        width="100%"
+        type="password"
+        isMultiline={false}
+      />
+      <SubTopic text="Date of Birth" />
+      <YearPicker text="Date of Birth" />
+      <TextBox
+        inputText="Bio Data"
+        label="Enter bio data:"
+        width="100%"
+        type="text"
+        isMultiline={true}
+      />
+      <div>
+        <h3>Image Upload</h3>
+        <input type="file" accept="image/*" />
+        <button>Upload</button>
       </div>
-      <div style={{ display: 'flex', paddingTop: '10px' }}>
-        <TextBox inputText="Email Address" label="name@gmail.com" width="350px" />
-        <TextBox inputText="Phone" label="+94 77 004 2188" width="350px" />
-      </div>
-      <div style={{ width: '350px', paddingTop: '10px', display: 'flex', alignItems: 'center' }}>
-        <Typography
-          variant="h7"
-          component="div"
-          sx={{
-            flexGrow: 1,
-            fontSize: '20px',
-            color: 'black',
-            textAlign: 'justify',
-            marginLeft: '10px',
-            marginTop: '10px',
-          }}
-        >
-          Date of Birth
-        </Typography>
-        <DateField text="Date of Birth" width="350px" />
-      </div>
-      <div style={{alignItems:'center'}}>
-
-      </div>
-      <DropDownList />
-    </>
+    </div>
   );
 };
 
