@@ -1,7 +1,7 @@
 import { Typography, TextField } from '@mui/material';
 import React from 'react';
 
-const TextBox = ({inputText,label, width,type}) => {
+const TextBox = ({inputText,label, width,type, isMultiline}) => {
     return(
         <div style={{ width: width, marginRight: '20px' }}>
           <Typography
@@ -23,6 +23,7 @@ const TextBox = ({inputText,label, width,type}) => {
             label={label}
             type={type}
             variant="outlined"
+            multiline={isMultiline}
             sx={{ width: '100%' }}
           />
         </div>
