@@ -4,16 +4,35 @@ import { Grid, Box } from '@mui/material';
 import PageContainer from 'src/components/container/PageContainer';
 import CoverPage from '../../components/CoverPage/CoverPage';
 import ComponentSlider from '../../components/ComponentSlider/ComponentSlider';
-// import {  useParams } from 'react-router-dom';
+import jwt from 'jsonwebtoken';
 
 const Dashboard = () => {
   const location = useLocation();
 
   useEffect(() => {
+
     const searchParams = new URLSearchParams(location.search);
     const token = searchParams.get('token');
-    console.log(token);
+
+    
+    // Sample secret key (replace with your actual secret key)
+    const secretKey = 'verySecretValue';
+
+    try {
+      // Verify and decode the JWT token
+      const decodedToken = jwt.verify(token, secretKey);
+
+      // Now you can access data from the payload
+      console.log('Decoded Token:', decodedToken);
+
+      // Example: Accessing a specific claim (replace 'claimName' with the actual claim name)
+      const username= decodedToken.username;
+      console.log('Username:', username);
+    } catch (error) {
+      console.error('Error decoding token:', error);
+    }
   }, [location.search]);
+
   
   const newbooklist = [
     <CoverPage
