@@ -9,7 +9,6 @@ import {
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 import React, { useState } from 'react';
-
 import CustomTextField from '../../../components/forms/theme-elements/CustomTextField';
 
 const AuthLogin = ({ title, subtitle, subtext }) => {
@@ -47,7 +46,8 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
       
       if (responseData.message==='Login Successful'){
         console.log(responseData);
-        window.location.href = '/';
+        window.location.href = `/dashboard?token=${responseData.token}`  
+        //Navigate('/dashboard');
       }
       else{
           setErrorMessege(responseData.message);

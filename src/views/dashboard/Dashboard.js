@@ -1,10 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Grid, Box } from '@mui/material';
 import PageContainer from 'src/components/container/PageContainer';
 import CoverPage from '../../components/CoverPage/CoverPage';
 import ComponentSlider from '../../components/ComponentSlider/ComponentSlider';
+// import {  useParams } from 'react-router-dom';
 
 const Dashboard = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const token = searchParams.get('token');
+    console.log(token);
+  }, [location.search]);
+  
   const newbooklist = [
     <CoverPage
       title="The Cat in the Hat"
