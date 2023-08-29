@@ -8,7 +8,7 @@ import {
   Checkbox
 } from '@mui/material';
 import { Link } from 'react-router-dom';
-import React, { useState } from 'react';
+import React, { useState,useContext } from 'react';
 import CustomTextField from '../../../components/forms/theme-elements/CustomTextField';
 
 const AuthLogin = ({ title, subtitle, subtext }) => {
