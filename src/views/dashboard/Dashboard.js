@@ -39,7 +39,7 @@ const Dashboard = () => {
     <CoverPage
       title="The Cat in the Hat"
       author="Dr. Seuss"
-      price="1499"
+      price="1498"
       photo="https://ia803205.us.archive.org/BookReader/BookReaderPreview.php?id=catinhat00seus&subPrefix=catinhat00seus&itemPath=/11/items/catinhat00seus&server=ia803205.us.archive.org&page=leaf1&fail=preview&&scale=4&rotate=0"
     />,
     <CoverPage
