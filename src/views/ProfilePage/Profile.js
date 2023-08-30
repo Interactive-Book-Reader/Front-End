@@ -1,4 +1,4 @@
-import React,{useEffect,useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import TextBox from 'src/components/TextBox/TextBox';
 import YearPicker from 'src/components/DateField/YearPicker';
 import MainTopic from 'src/components/Topic/MainTopic';
@@ -14,46 +14,39 @@ const Profile = () => {
   const [password, setPassword] = useState('');
   const [bio_data, setBio_data] = useState('');
   const [year_stabilized, setYear_stabilized] = useState('');
-
+  const updateData = {};
 
   const handleNameChange = (newInputText) => {
-    console.log(newInputText);
     setName(newInputText);
   };
 
   const handleEmailChange = (newInputText) => {
-    console.log(newInputText);
     setEmail(newInputText);
   };
 
   const handlePhonenumberChange = (newInputText) => {
-    console.log(newInputText);
     setPhonenumber(newInputText);
   };
 
   const handleUsernameChange = (newInputText) => {
-    console.log(newInputText);
     setUsername(newInputText);
   };
 
   const handleBio_dataChange = (newInputText) => {
-    console.log(newInputText);
     setBio_data(newInputText);
   };
 
   const handleYear_stabilizedChange = (newInputText) => {
-    console.log(newInputText);
     setYear_stabilized(newInputText);
-  };  
+  };
 
   const handlePasswordChange = (newInputText) => {
-    console.log(newInputText);
     setPassword(newInputText);
   };
 
   const cookies = new Cookies();
   const token = cookies.get('token');
-  const id=jwt(token)._id;
+  const id = jwt(token)._id;
   const [publisher, setPublisher] = useState({});
 
   const fetchData = async () => {
@@ -71,6 +64,44 @@ const Profile = () => {
   useEffect(() => {
     fetchData();
   }, []);
+
+  const handleUpdateSubmit = async (event) => {
+    console.log("handleUpdateSubmit");
+    
+    if (name !== '') {
+      updateData.name = name;
+    }
+    if (email !== '') {
+      updateData.email = email;
+    }
+    if (phonenumber !== '') {
+      updateData.phonenumber = phonenumber;
+    }
+    if (username !== '') {
+      updateData.username = username;
+    }
+    if (password !== '') {
+      updateData.password = password;
+    }
+    if (bio_data !== '') {
+      updateData.bio_data = bio_data;
+    }
+    if (year_stabilized !== '') {
+      updateData.year_stabilized = year_stabilized;
+    }
+    updateData._id = id;
+    console.log(updateData)
+
+    const response = await fetch('http://localhost:3001/api/publisher/update', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updateData),
+    });
+    const responseData = await response.json();    
+    console.log(responseData.message);
+  };
 
   return (
     <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
@@ -121,7 +152,7 @@ const Profile = () => {
         onInputChange={handlePasswordChange}
       />
       <SubTopic text={`Year Established:   ${publisher.year_stabilized}`} />
-      <YearPicker text="Date of Birth" onInputChange={handleYear_stabilizedChange}/>
+      <YearPicker text="Date of Birth" onInputChange={handleYear_stabilizedChange} />
       <TextBox
         inputText="Bio Data"
         label="Enter bio data:"
@@ -136,9 +167,11 @@ const Profile = () => {
         <input type="file" accept="image/*" />
         <button>Upload</button>
       </div>
-      <div>{name} {email} {password} {username} {bio_data} {phonenumber} {year_stabilized}</div>
       <div>
-        <button>Rename</button>
+        {name} {email} {password} {username} {bio_data} {phonenumber} {year_stabilized}
+      </div>
+      <div>
+        <button onClick={handleUpdateSubmit}>Rename</button>
       </div>
     </div>
   );
