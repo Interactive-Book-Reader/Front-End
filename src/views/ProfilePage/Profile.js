@@ -3,8 +3,14 @@ import TextBox from 'src/components/TextBox/TextBox';
 import YearPicker from 'src/components/DateField/YearPicker';
 import MainTopic from 'src/components/Topic/MainTopic';
 import SubTopic from 'src/components/Topic/SubTopic';
+import LoadingSpinner from 'src/components/Spinner/Spinner';
 import Cookies from 'universal-cookie';
 import jwt from 'jwt-decode';
+import { Typography } from '@mui/material';
+import { storage } from '../../firebase';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { v4 } from 'uuid';
+
 
 const Profile = () => {
   const [name, setName] = useState('');
@@ -13,8 +19,11 @@ const Profile = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [bio_data, setBio_data] = useState('');
-  const [year_stabilized, setYear_stabilized] = useState('');
-  const [resposeMessage,setResponseMessage]=useState('');
+  const [year_stabilized, setYear_stabilized] = useState(0);
+  const [logo, setLogo] = useState(null);
+  const [imageLink, setImageLink] = useState('');
+  const [resposeMessage, setResponseMessage] = useState('');
+  const [loading, setLoading] = useState('');
   const updateData = {};
 
   const handleNameChange = (newInputText) => {
@@ -45,6 +54,10 @@ const Profile = () => {
     setPassword(newInputText);
   };
 
+  const handleLogoChange = (event) => {
+    setLogo(event.target.files[0]);
+  };
+
   const cookies = new Cookies();
   const token = cookies.get('token');
   const id = jwt(token)._id;
@@ -67,8 +80,8 @@ const Profile = () => {
   }, []);
 
   const handleUpdateSubmit = async (event) => {
-    console.log("handleUpdateSubmit");
-    
+    console.log('handleUpdateSubmit');
+
     if (name !== '') {
       updateData.name = name;
     }
@@ -82,16 +95,24 @@ const Profile = () => {
       updateData.username = username;
     }
     if (password !== '') {
-      updateData.password = password;
+      if (password.length < 8) {
+        setResponseMessage('Password must be at least 8 characters long.');
+        return;
+      } else {
+        updateData.password = password;
+      }
     }
     if (bio_data !== '') {
       updateData.bio_data = bio_data;
     }
-    if (year_stabilized !== '') {
+    if (year_stabilized !== 0) {
       updateData.year_stabilized = year_stabilized;
     }
+    if (imageLink !== '') {
+      updateData.logo = imageLink;
+    }
     updateData._id = id;
-    console.log(updateData)
+    console.log(updateData);
 
     const response = await fetch('http://localhost:3001/api/publisher/update', {
       method: 'POST',
@@ -100,17 +121,56 @@ const Profile = () => {
       },
       body: JSON.stringify(updateData),
     });
-    const responseData = await response.json();    
+    const responseData = await response.json();
     setResponseMessage(responseData.message);
-    if (responseData.message==='Publisher data is updated successfully.'){
+    if (responseData.message === 'Publisher data is updated successfully.') {
       fetchData();
     }
     console.log(responseData.message);
   };
 
+  const handleUpload = () => {
+    if (logo === null) {
+      return; // No file selected
+    }
+    setLoading('Uploading');
+    const storageRef = ref(storage, `logo/${v4()}`);
+    uploadBytes(storageRef, logo)
+      .then((snapshot) => {
+        setLoading('Uploaded a logo!');
+        console.log('Uploaded a logo!');
+        getDownloadURL(snapshot.ref)
+          .then((url) => {
+            setImageLink(url); // Assuming you have a function to set the URL in your component's state
+            console.log(imageLink);
+          })
+          .catch((error) => {
+            console.error('Error getting download URL:', error);
+          });
+      })
+      .catch((error) => {
+        console.error('Error uploading logo:', error);
+      });
+  };
+
   return (
     <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
       <MainTopic text="General Informations" />
+      <div
+        style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '30vh' }}
+      >
+        <img
+          src={publisher.logo}
+          alt="logo"
+          style={{ borderRadius: '40%', width: '200px', height: '200px' }}
+        />
+      </div>
+      {loading==="Uploading"?<LoadingSpinner/>:null}
+      {loading==="Uploaded a logo!"?<Typography style={{ color: 'green' }}>Logo is uploaded!</Typography>:null}
+      <div>
+        <input type="file" accept="image/*" onChange={handleLogoChange} />
+        <button onClick={handleUpload}>Upload</button>
+      </div>
       <TextBox
         inputText="Name"
         label="Enter new name:"
@@ -167,17 +227,11 @@ const Profile = () => {
         defaultValue={publisher.bio_data}
         onInputChange={handleBio_dataChange}
       />
+
       <div>
-        <h3>Image Upload</h3>
-        <input type="file" accept="image/*" />
-        <button>Upload</button>
+        <button onClick={handleUpdateSubmit}>Update</button>
       </div>
-      <div>
-        <button onClick={handleUpdateSubmit}>Rename</button>
-      </div>
-      <div>
-        {resposeMessage}
-      </div>
+      <Typography style={{ color: 'red' }}>{resposeMessage}</Typography>
     </div>
   );
 };
