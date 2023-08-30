@@ -120,8 +120,8 @@ const Profile = () => {
         defaultValue="######"
         onInputChange={handlePasswordChange}
       />
-      <SubTopic text="Year Stabilished:   " />
-      <YearPicker text="Date of Birth" />
+      <SubTopic text={`Year Established:   ${publisher.year_stabilized}`} />
+      <YearPicker text="Date of Birth" onInputChange={handleYear_stabilizedChange}/>
       <TextBox
         inputText="Bio Data"
         label="Enter bio data:"
@@ -136,7 +136,10 @@ const Profile = () => {
         <input type="file" accept="image/*" />
         <button>Upload</button>
       </div>
-      <div>{name} {email} {password} {username} {bio_data} {phonenumber}</div>
+      <div>{name} {email} {password} {username} {bio_data} {phonenumber} {year_stabilized}</div>
+      <div>
+        <button>Rename</button>
+      </div>
     </div>
   );
 };
