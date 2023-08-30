@@ -3,12 +3,14 @@ import TextBox from 'src/components/TextBox/TextBox';
 import YearPicker from 'src/components/DateField/YearPicker';
 import MainTopic from 'src/components/Topic/MainTopic';
 import SubTopic from 'src/components/Topic/SubTopic';
+import LoadingSpinner from 'src/components/Spinner/Spinner';
 import Cookies from 'universal-cookie';
 import jwt from 'jwt-decode';
 import { Typography } from '@mui/material';
 import { storage } from '../../firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { v4 } from 'uuid';
+
 
 const Profile = () => {
   const [name, setName] = useState('');
@@ -21,6 +23,7 @@ const Profile = () => {
   const [logo, setLogo] = useState(null);
   const [imageLink, setImageLink] = useState('');
   const [resposeMessage, setResponseMessage] = useState('');
+  const [loading, setLoading] = useState('');
   const updateData = {};
 
   const handleNameChange = (newInputText) => {
@@ -130,9 +133,11 @@ const Profile = () => {
     if (logo === null) {
       return; // No file selected
     }
+    setLoading('Uploading');
     const storageRef = ref(storage, `logo/${v4()}`);
     uploadBytes(storageRef, logo)
       .then((snapshot) => {
+        setLoading('Uploaded a logo!');
         console.log('Uploaded a logo!');
         getDownloadURL(snapshot.ref)
           .then((url) => {
@@ -160,6 +165,8 @@ const Profile = () => {
           style={{ borderRadius: '40%', width: '200px', height: '200px' }}
         />
       </div>
+      {loading==="Uploading"?<LoadingSpinner/>:null}
+      {loading==="Uploaded a logo!"?<Typography style={{ color: 'green' }}>Logo is uploaded!</Typography>:null}
       <div>
         <input type="file" accept="image/*" onChange={handleLogoChange} />
         <button onClick={handleUpload}>Upload</button>
