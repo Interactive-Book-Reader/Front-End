@@ -1,12 +1,33 @@
-import React from 'react';
+import React,{useEffect,useState} from 'react';
 import TextBox from 'src/components/TextBox/TextBox';
 import YearPicker from 'src/components/DateField/YearPicker';
 import MainTopic from 'src/components/Topic/MainTopic';
 import SubTopic from 'src/components/Topic/SubTopic';
 import Cookies from 'universal-cookie';
+import jwt from 'jwt-decode';
 
 const Profile = () => {
   const cookies = new Cookies();
+  const token = cookies.get('token');
+  const id=jwt(token)._id;
+  const [publisher, setPublisher] = useState({});
+
+  const fetchData = async () => {
+    const response = await fetch('http://localhost:3001/api/publisher/getPublisher', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ _id: id }),
+    });
+    const data = await response.json();
+    setPublisher(data.publisher);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
       <MainTopic text="General Informations" />
@@ -60,7 +81,7 @@ const Profile = () => {
         <button>Upload</button>
       </div>
       <div>
-        <h2>{cookies.get('token')}</h2>
+        <h2>{publisher.name}</h2>
       </div>
     </div>
   );
