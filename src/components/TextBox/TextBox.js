@@ -1,7 +1,11 @@
 import { Typography, TextField } from '@mui/material';
-import React from 'react';
+import React,{useState} from 'react';
 
-const TextBox = ({inputText,label, width,type, isMultiline}) => {
+const TextBox = ({inputText,label, width,type, isMultiline,defaultValue}) => {
+  const [value, setValue] = useState(defaultValue);
+  const handleInputChange = (event) => {
+    setValue(event.target.value);
+  };
     return(
         <div style={{ width: width, marginRight: '20px' }}>
           <Typography
@@ -16,7 +20,7 @@ const TextBox = ({inputText,label, width,type, isMultiline}) => {
               marginTop: '10px',
             }}
           >
-            {inputText}
+            {inputText}:   {defaultValue}
           </Typography>
           <TextField
             id="outlined-basic"
@@ -24,6 +28,8 @@ const TextBox = ({inputText,label, width,type, isMultiline}) => {
             type={type}
             variant="outlined"
             multiline={isMultiline}
+            onChange={handleInputChange}
+            defaultValue={value}
             sx={{ width: '100%' }}
           />
         </div>

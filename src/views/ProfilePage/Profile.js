@@ -33,40 +33,45 @@ const Profile = () => {
       <MainTopic text="General Informations" />
       <TextBox
         inputText="Name"
-        label="Enter the name:"
+        label="Enter new name:"
         width="100%"
         type="text"
         isMultiline={false}
+        defaultValue={publisher.name}
       />
       <TextBox
         inputText="Email Address"
-        label="name@gmail.com"
+        label="Enter new email address:"
         width="100%"
         type="text"
         isMultiline={false}
+        defaultValue={publisher.email}
       />
       <TextBox
         inputText="Phone"
-        label="+94 77 004 2188"
+        label="Enter new phone number:"
         width="100%"
         type="text"
         isMultiline={false}
+        defaultValue={publisher.phonenumber}
       />
       <TextBox
         inputText="Username"
-        label="Enter the username:"
+        label="Enter new username:"
         width="100%"
         type="text"
         isMultiline={false}
+        defaultValue={publisher.username}
       />
       <TextBox
         inputText="Password"
-        label="Enter the password:"
+        label="Enter new password:"
         width="100%"
         type="password"
         isMultiline={false}
+        defaultValue="######"
       />
-      <SubTopic text="Date of Birth" />
+      <SubTopic text="Year Stabilished:   " />
       <YearPicker text="Date of Birth" />
       <TextBox
         inputText="Bio Data"
@@ -79,9 +84,6 @@ const Profile = () => {
         <h3>Image Upload</h3>
         <input type="file" accept="image/*" />
         <button>Upload</button>
-      </div>
-      <div>
-        <h2>{publisher.name}</h2>
       </div>
     </div>
   );
