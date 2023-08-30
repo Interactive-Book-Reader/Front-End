@@ -8,10 +8,13 @@ import {
   Checkbox
 } from '@mui/material';
 import { Link } from 'react-router-dom';
-import React, { useState,useContext } from 'react';
+import React, { useState} from 'react';
 import CustomTextField from '../../../components/forms/theme-elements/CustomTextField';
+import Cookies from "universal-cookie";
 
 const AuthLogin = ({ title, subtitle, subtext }) => {
+  const cookies = new Cookies();
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessege,setErrorMessege]=useState('');
@@ -46,6 +49,7 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
       
       if (responseData.message==='Login Successful'){
         console.log(responseData);
+        cookies.set('token', responseData.token, { path: '/dashboard' });
         window.location.href = `/dashboard?token=${responseData.token}`  
         //Navigate('/dashboard');
       }

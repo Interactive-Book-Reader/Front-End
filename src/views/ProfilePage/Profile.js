@@ -3,8 +3,10 @@ import TextBox from 'src/components/TextBox/TextBox';
 import YearPicker from 'src/components/DateField/YearPicker';
 import MainTopic from 'src/components/Topic/MainTopic';
 import SubTopic from 'src/components/Topic/SubTopic';
+import Cookies from 'universal-cookie';
 
 const Profile = () => {
+  const cookies = new Cookies();
   return (
     <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
       <MainTopic text="General Informations" />
@@ -56,6 +58,9 @@ const Profile = () => {
         <h3>Image Upload</h3>
         <input type="file" accept="image/*" />
         <button>Upload</button>
+      </div>
+      <div>
+        <h2>{cookies.get('token')}</h2>
       </div>
     </div>
   );

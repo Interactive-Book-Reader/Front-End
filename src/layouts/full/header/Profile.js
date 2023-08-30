@@ -66,7 +66,7 @@ const Profile = () => {
           <ListItemIcon>
             <IconUser width={20} />
           </ListItemIcon>
-          <ListItemText link="/profile">My Profile</ListItemText>
+          <ListItemText link="profile">My Profile</ListItemText>
         </MenuItem>
         <MenuItem>
           <ListItemIcon>
