@@ -14,6 +14,7 @@ const Profile = () => {
   const [password, setPassword] = useState('');
   const [bio_data, setBio_data] = useState('');
   const [year_stabilized, setYear_stabilized] = useState('');
+  const [resposeMessage,setResponseMessage]=useState('');
   const updateData = {};
 
   const handleNameChange = (newInputText) => {
@@ -100,6 +101,10 @@ const Profile = () => {
       body: JSON.stringify(updateData),
     });
     const responseData = await response.json();    
+    setResponseMessage(responseData.message);
+    if (responseData.message==='Publisher data is updated successfully.'){
+      fetchData();
+    }
     console.log(responseData.message);
   };
 
@@ -168,10 +173,10 @@ const Profile = () => {
         <button>Upload</button>
       </div>
       <div>
-        {name} {email} {password} {username} {bio_data} {phonenumber} {year_stabilized}
+        <button onClick={handleUpdateSubmit}>Rename</button>
       </div>
       <div>
-        <button onClick={handleUpdateSubmit}>Rename</button>
+        {resposeMessage}
       </div>
     </div>
   );
