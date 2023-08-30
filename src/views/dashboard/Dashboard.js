@@ -12,26 +12,9 @@ const Dashboard = () => {
   useEffect(() => {
 
     const searchParams = new URLSearchParams(location.search);
-    const token = searchParams.get('token');
-
-    
-    // Sample secret key (replace with your actual secret key)
-    // const secretKey = 'verySecretValue';
+    const token = searchParams.get('token'); 
     console.log(token);
-
-    // try {
-    //   // Verify and decode the JWT token
-    //   const decodedToken = jwt.decodedToken(token, secretKey);
-
-    //   // Now you can access data from the payload
-    //   console.log('Decoded Token:', decodedToken);
-
-    //   // Example: Accessing a specific claim (replace 'claimName' with the actual claim name)
-    //   const username= decodedToken.username;
-    //   console.log('Username:', username);
-    // } catch (error) {
-    //   console.error('Error decoding token:', error);
-    // }
+  
   }, [location.search]);
 
   
@@ -39,7 +22,7 @@ const Dashboard = () => {
     <CoverPage
       title="The Cat in the Hat"
       author="Dr. Seuss"
-      price="1499"
+      price="1498"
       photo="https://ia803205.us.archive.org/BookReader/BookReaderPreview.php?id=catinhat00seus&subPrefix=catinhat00seus&itemPath=/11/items/catinhat00seus&server=ia803205.us.archive.org&page=leaf1&fail=preview&&scale=4&rotate=0"
     />,
     <CoverPage
