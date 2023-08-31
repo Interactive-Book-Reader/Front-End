@@ -2,23 +2,26 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Typography, Grid } from '@mui/material';
 
-const CoverPage = ({ title, author, photo, price }) => {
+const CoverPage = ({ title, author, photo, price,id}) => {
   return (
     <Grid container spacing={4}>
       <Grid item sm={12} md={4} lg={3}>
         <div style={{ height: '500px', width: '300px' }}>
-          <Link to="/bookdetails">
+          <Link
+            to={`/bookdetails?id=${id}`}
+          >
             <img
               src={photo}
               alt="img"
               style={{
-                border: '1px solid black', // Adds a black border
-                borderRadius: '10px', // Adds corner radius
-                width: '300px', // Sets width to 300px
-                height: '300px', // Sets height to 300px
+                border: '1px solid black',
+                borderRadius: '10px',
+                width: '300px',
+                height: '300px',
               }}
             />
           </Link>
+
           <div style={{ height: '100px', width: '300px' }}>
             <div style={{ textAlign: 'center', marginBottom: '20px' }}>
               <Typography variant="h5" style={{ color: 'blue', marginBottom: '8px' }}>
