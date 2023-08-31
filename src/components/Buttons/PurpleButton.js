@@ -1,11 +1,12 @@
 import React from 'react';
 import Button from '@mui/material/Button';
 
-const PurpleButton = ({ label }) => {
+const PurpleButton = ({ label, onClick }) => {
   return (
     <Button
       variant="contained"
       color="primary"
+      onClick={onClick}
       sx={{
         backgroundColor: '#1f244f', // Purple color
         '&:hover': {
