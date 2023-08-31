@@ -18,6 +18,7 @@ const Login = Loadable(lazy(() => import('../views/authentication/Login')));
 const BoookDetailsPage = Loadable(lazy(() => import('../views/books/BoookDetailsPage')));
 const Profile=Loadable(lazy(()=>import('../views/ProfilePage/Profile')));
 const HomePage=Loadable(lazy(()=>import('../views/Home/HomePage')));
+const AboutUs=Loadable(lazy(()=>import('../views/AboutUs/AboutUs')));
 
 
 const Router = [
@@ -29,6 +30,7 @@ const Router = [
       { path: '/home', exact: true, element: <HomePage />},
       { path: '/products', exact: true, element: <Products /> },
       { path: '/registerbook', exact: true, element: <RegisterPage /> },
+      { path: '/aboutus', exact: true, element: <AboutUs /> },
       { path: '/bookdetails', exact: true, element: <BoookDetailsPage /> },
       { path: '/profile',exact:true,element:<Profile/>},
       { path: '/icons', exact: true, element: <Icons /> },
