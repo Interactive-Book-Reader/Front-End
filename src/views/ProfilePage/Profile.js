@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import TextBox from 'src/components/TextBox/TextBox';
+import PurpleButton from 'src/components/Buttons/PurpleButton';
 import YearPicker from 'src/components/DateField/YearPicker';
 import MainTopic from 'src/components/Topic/MainTopic';
 import SubTopic from 'src/components/Topic/SubTopic';
@@ -10,7 +11,9 @@ import { Typography } from '@mui/material';
 import { storage } from '../../firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { v4 } from 'uuid';
+import { Paper } from '@mui/material';
 
+import backgroundImg from 'src/assets/images/backgrounds/background.jpg';
 
 const Profile = () => {
   const [name, setName] = useState('');
@@ -154,84 +157,159 @@ const Profile = () => {
   };
 
   return (
-    <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
-      <MainTopic text="General Informations" />
-      <div
-        style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '30vh' }}
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: '100vh',
+        backgroundImage: `url(${backgroundImg})`, // Set the background image
+        backgroundSize: 'cover', // Adjust the background size
+        backgroundPosition: 'center', // Center the background image
+      }}
+    >
+      <Paper
+        elevation={10}
+        style={{
+          alignItems: 'center',
+          padding: '10px',
+          width: '19%',
+          height: '50%',
+          maxWidth: '1000px',
+          margin: '0 auto',
+          backgroundColor: '#fafaf7',
+        }}
       >
-        <img
-          src={publisher.logo}
-          alt="logo"
-          style={{ borderRadius: '40%', width: '200px', height: '200px' }}
-        />
-      </div>
-      {loading==="Uploading"?<LoadingSpinner/>:null}
-      {loading==="Uploaded a logo!"?<Typography style={{ color: 'green' }}>Logo is uploaded!</Typography>:null}
-      <div>
-        <input type="file" accept="image/*" onChange={handleLogoChange} />
-        <button onClick={handleUpload}>Upload</button>
-      </div>
-      <TextBox
-        inputText="Name"
-        label="Enter new name:"
-        width="100%"
-        type="text"
-        isMultiline={false}
-        defaultValue={publisher.name}
-        onInputChange={handleNameChange}
-      />
-      <TextBox
-        inputText="Email Address"
-        label="Enter new email address:"
-        width="100%"
-        type="text"
-        isMultiline={false}
-        defaultValue={publisher.email}
-        onInputChange={handleEmailChange}
-      />
-      <TextBox
-        inputText="Phone"
-        label="Enter new phone number:"
-        width="100%"
-        type="text"
-        isMultiline={false}
-        defaultValue={publisher.phonenumber}
-        onInputChange={handlePhonenumberChange}
-      />
-      <TextBox
-        inputText="Username"
-        label="Enter new username:"
-        width="100%"
-        type="text"
-        isMultiline={false}
-        defaultValue={publisher.username}
-        onInputChange={handleUsernameChange}
-      />
-      <TextBox
-        inputText="Password"
-        label="Enter new password:"
-        width="100%"
-        type="password"
-        isMultiline={false}
-        defaultValue="######"
-        onInputChange={handlePasswordChange}
-      />
-      <SubTopic text={`Year Established:   ${publisher.year_stabilized}`} />
-      <YearPicker text="Date of Birth" onInputChange={handleYear_stabilizedChange} />
-      <TextBox
-        inputText="Bio Data"
-        label="Enter bio data:"
-        width="100%"
-        type="text"
-        isMultiline={true}
-        defaultValue={publisher.bio_data}
-        onInputChange={handleBio_dataChange}
-      />
+        <MainTopic text="Your Profile" />
+      </Paper>
+      <Paper
+        elevation={10}
+        style={{
+          padding: '20px',
+          width: '100%',
+          maxWidth: '1000px',
+          margin: '0 auto',
+          backgroundColor: '#fafaf7',
+        }}
+      >
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '30vh',
+          }}
+        >
+          <img src={publisher.logo} alt="logo" style={{ width: '200px', height: '200px' }} />
+        </div>
+        {loading === 'Uploading' ? <LoadingSpinner /> : null}
+        {loading === 'Uploaded a logo!' ? (
+          <Typography style={{ color: 'green' }}>Logo is uploaded!</Typography>
+        ) : null}
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <input type="file" accept="image/*" onChange={handleLogoChange} />
+          <button
+            onClick={handleUpload}
+            style={{
+              marginLeft: '10px',
+              marginBottom: '20px',
+              backgroundColor: '#444',
+              color: '#fff',
+              border: 'none',
+              padding: '5px 10px',
+              cursor: 'pointer',
+            }}
+          >
+            Upload
+          </button>
+        </div>
 
-      <div>
-        <button onClick={handleUpdateSubmit}>Update</button>
-      </div>
-      <Typography style={{ color: 'red' }}>{resposeMessage}</Typography>
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
+          <div style={{ width: '48%' }}>
+            <TextBox
+              inputText="Name"
+              label="Enter new name:"
+              width="100%"
+              type="text"
+              isMultiline={false}
+              defaultValue={publisher.name}
+              onInputChange={handleNameChange}
+            />
+          </div>
+          <div style={{ width: '48%' }}>
+            <TextBox
+              inputText="Email Address"
+              label="Enter new email address:"
+              width="100%"
+              type="text"
+              isMultiline={false}
+              defaultValue={publisher.email}
+              onInputChange={handleEmailChange}
+            />
+          </div>
+        </div>
+
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
+          <div style={{ width: '48%' }}>
+            <TextBox
+              inputText="Phone"
+              label="Enter new phone number:"
+              width="100%"
+              type="text"
+              isMultiline={false}
+              defaultValue={publisher.phonenumber}
+              onInputChange={handlePhonenumberChange}
+            />
+          </div>
+          <div style={{ width: '48%' }}>
+            <TextBox
+              inputText="Username"
+              label="Enter new username:"
+              width="100%"
+              type="text"
+              isMultiline={false}
+              defaultValue={publisher.username}
+              onInputChange={handleUsernameChange}
+            />
+          </div>
+        </div>
+
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
+          <div style={{ width: '48%' }}>
+            <TextBox
+              inputText="Password"
+              label="Enter new password:"
+              width="100%"
+              type="password"
+              isMultiline={false}
+              defaultValue="Not Visible only editable"
+              onInputChange={handlePasswordChange}
+            />
+          </div>
+          <div style={{ width: '48%' }}>
+            <SubTopic text={`Year Established:   ${publisher.year_stabilized}`} />
+            <YearPicker text="Date of Birth" onInputChange={handleYear_stabilizedChange} />
+          </div>
+        </div>
+
+        <TextBox
+          inputText="Bio Data"
+          label="Enter bio data:"
+          width="100%"
+          type="text"
+          isMultiline={true}
+          defaultValue={publisher.bio_data}
+          onInputChange={handleBio_dataChange}
+        />
+
+        <div
+          style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}
+          onSubmit={handleUpdateSubmit}
+        >
+          {loading === 'Uploading' ? null : <PurpleButton label="Update" onClick={handleUpdateSubmit} />}          
+        </div>
+        <Typography style={{ color: 'green' }}>{resposeMessage}</Typography>
+      </Paper>
     </div>
   );
 };

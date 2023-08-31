@@ -1,5 +1,6 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { ReactComponent as LogoDark } from 'src/assets/images/logos/dark-logo.svg';
+import logoImage from 'src/assets/images/logos/AReader3Dpublishers.png'; // Adjust the path to your PNG image
 import { styled } from '@mui/material';
 
 const LinkStyled = styled(Link)(() => ({
@@ -12,9 +13,9 @@ const LinkStyled = styled(Link)(() => ({
 const Logo = () => {
   return (
     <LinkStyled to="/">
-      <LogoDark height={70} />
+      <img src={logoImage} alt="Logo" height={110} />
     </LinkStyled>
-  )
+  );
 };
 
 export default Logo;

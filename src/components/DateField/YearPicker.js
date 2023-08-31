@@ -1,21 +1,42 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { Paper } from '@mui/material';
 
-const YearPicker= ({ label,onInputChange}) => {
+const YearPicker = ({ label, onInputChange }) => {
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleInputChange = (event) => {
+    const newValue = event.target.value;
+    onInputChange(newValue); // Call the callback with the new value
+  };
   const printDate = (date) => {
     onInputChange(date.format('YYYY'));
   };
   return (
-    <div style={{ marginRight: '20px' }}>
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DemoContainer components={['DatePicker']}>
-          <DatePicker label={label} views={['year']} onChange={printDate}/>
-        </DemoContainer>
-      </LocalizationProvider>
-    </div>
+    <Paper
+      elevation={isHovered ? 10 : 3} // Change elevation on hover
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      style={{
+        padding: isHovered ? '15px' : '10px', // Adjust padding on hover
+        width: '100%',
+        maxWidth: '1000px',
+        margin: '0 auto',
+        backgroundColor: '#fafaf7',
+        transition: 'all 0.3s ease-in-out', // Add a transition effect
+      }}
+    >
+      <div style={{ marginRight: '20px', backgroundColor: '#fafaf7' }}>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DemoContainer components={['DatePicker']}>
+            <DatePicker label={label} views={['year']} onChange={printDate} />
+          </DemoContainer>
+        </LocalizationProvider>
+      </div>
+    </Paper>
   );
 };
 

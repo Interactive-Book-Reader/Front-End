@@ -11,7 +11,7 @@ import { Pagination, Navigation, EffectCoverflow, Scrollbar, A11y } from 'swiper
 
 const ComponentSlider = ({ components, ...otherProps }) => {
   return (
-    <div style={{ marginTop: 30 }} {...otherProps}>
+    <div style={{ marginTop: 30, overflow: 'hidden' }} {...otherProps}>
       <Swiper
         modules={[EffectCoverflow, Pagination, Navigation, A11y, Scrollbar]}
         effect={'coverflow'}
@@ -20,25 +20,34 @@ const ComponentSlider = ({ components, ...otherProps }) => {
         loop={true}
         slidesPerView={'auto'}
         coverflowEffect={{
-          rotate: false,
-          stretch: 4,
-          depth: 60,
-          modifier: 3.5,
+          rotate: 0, // Adjust the rotate value
+          stretch: 0, // Adjust the stretch value
+          depth: 100, // Adjust the depth value
+          modifier: 1, // Adjust the modifier value
         }}
-        pagination={{ el: '.swiper-pagination', clickable: true }}
+        pagination={{ clickable: true }}
         navigation={{
           nextEl: '.swiper-button-next',
           prevEl: '.swiper-button-prev',
           clickable: true,
         }}
+        onInit={(swiper) => {
+          swiper.params.navigation.nextEl = '.swiper-button-next';
+          swiper.params.navigation.prevEl = '.swiper-button-prev';
+        }}
       >
         {components.map((item, index) => (
-          <SwiperSlide key={index} style={{ width: '300px', height: '400px' }}>
+          <SwiperSlide
+            key={index}
+            style={{ width: '300px', height: '500px', background: '#edf3fc' }}
+          >
             <div
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
+                boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.5)',
+                borderRadius: '10px', // Add border-radius to soften corners
               }}
             >
               {item}
