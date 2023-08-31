@@ -29,7 +29,7 @@ const Products = () => {
   }, []);
 
   const newbooklist = booklist.map((book, index) => (
-    <CoverPage title={book.title} author={book.author} price={book.price} photo={book.coverpage} />
+    <CoverPage title={book.title} author={book.author} price={book.price} photo={book.coverpage} id={book._id}/>
   ));
   return (
     <PageContainer title="Products" description="this is Products">

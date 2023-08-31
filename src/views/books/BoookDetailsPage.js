@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect,useLayoutEffect,useState} from 'react';
 import {
   Grid,
   Box,
@@ -11,30 +11,41 @@ import {
 import CustomTextField from '../../components/forms/theme-elements/CustomTextField';
 import { Stack } from '@mui/system';
 import PageContainer from 'src/components/container/PageContainer';
-import img1 from 'src/assets/images/products/s4.jpg';
-import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { IconTrash } from '@tabler/icons';
 
+const BookDetailsPage = () => {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const id = queryParams.get('id');
+  const [book, setBook] = useState({});
 
-const book1 = [
-  {
-    title: 'Harry Potter and the Philosophers Stone',
-    Author: 'J.K. Rowling',
-    photo: img1,
-    price: 2690,
-  },
-];
+  const fetchData = async () => {
+    const response = await fetch('http://localhost:3001/api/book/show', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ id: id }),
+    });
+    const data = await response.json();
+    setBook(data);
+    console.log(data);
+  };
 
-const Dashboard = () => {
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <PageContainer title="Dashboard" description="this is Dashboard">
       <Box>
         <Grid container spacing={3}>
-          {book1.map((book, index) => (
+      
             <>
-              <Grid item xs={12} lg={3} key={index}>
-                <Typography component={Link} to="/mybook">
-                  <img src={book.photo} alt="img" width="100%" />
+              <Grid item xs={12} lg={3}>
+                <Typography>
+                  <img src={book.coverpage} alt="img" width="100%" />
                 </Typography>
               </Grid>
               <Grid item xs={12} lg={5}>
@@ -47,9 +58,9 @@ const Dashboard = () => {
                       htmlFor="title"
                       mb="5px"
                     >
-                      Title
+                      Title: {book.title}
                     </Typography>
-                    <CustomTextField label="title" id="title" variant="outlined" fullWidth />
+                    <CustomTextField label="Enter new title:" id="title" variant="outlined" fullWidth />
 
                     <Typography
                       variant="subtitle1"
@@ -59,9 +70,9 @@ const Dashboard = () => {
                       mb="5px"
                       mt="25px"
                     >
-                      Author
+                      Author: {book.author}
                     </Typography>
-                    <CustomTextField label="author" id="author" variant="outlined" fullWidth />
+                    <CustomTextField label="Enter new author:" id="author" variant="outlined" fullWidth />
 
                     <Typography
                       variant="subtitle1"
@@ -71,9 +82,9 @@ const Dashboard = () => {
                       mb="5px"
                       mt="25px"
                     >
-                      Genre
+                      Genre: {book.genre}
                     </Typography>
-                    <CustomTextField label="genere" id="Genre" variant="outlined" fullWidth />
+                    <CustomTextField label="Enter new genre:" id="Genre" variant="outlined" fullWidth />
 
                     <Typography
                       variant="subtitle1"
@@ -82,9 +93,9 @@ const Dashboard = () => {
                       htmlFor="summary"
                       mb="5px"
                     >
-                      Summary
+                      Summary: {book.summary}
                     </Typography>
-                    <CustomTextField label="summary" id="summary" variant="outlined" fullWidth />
+                    <CustomTextField label="Enter new summary" id="summary" variant="outlined" fullWidth />
 
                     <Typography
                       variant="subtitle1"
@@ -93,8 +104,11 @@ const Dashboard = () => {
                       htmlFor="price"
                       mb="5px"
                     >
-                      Price
+                      Price: {book.price}
                     </Typography>
+                    <div>                   
+                      
+                    </div>
                     <TextField
                       label="Price"
                       type="number"
@@ -143,11 +157,11 @@ const Dashboard = () => {
                 </Box>
               </Grid>
             </>
-          ))}
+
         </Grid>
       </Box>
     </PageContainer>
   );
 };
 
-export default Dashboard;
+export default BookDetailsPage;
