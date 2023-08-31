@@ -6,14 +6,14 @@ const CoverPage = ({ title, author, photo, price }) => {
   return (
     <Grid container spacing={4}>
       <Grid item sm={12} md={4} lg={3}>
-        <div style={{ height: '400px', width: '300px' }}>
+        <div style={{ height: '500px', width: '300px' }}>
           <Link to="/mybook">
             <img
               src={photo}
               alt="img"
               style={{
-                border: '3px solid black', // Adds a black border
-                borderRadius: '40px', // Adds corner radius
+                border: '1px solid black', // Adds a black border
+                borderRadius: '10px', // Adds corner radius
                 width: '300px', // Sets width to 300px
                 height: '300px', // Sets height to 300px
               }}
