@@ -7,7 +7,7 @@ const FullLayout = Loadable(lazy(() => import('../layouts/full/FullLayout')));
 const BlankLayout = Loadable(lazy(() => import('../layouts/blank/BlankLayout')));
 
 /* ****Pages***** */
-const Dashboard = Loadable(lazy(() => import('../views/dashboard/Dashboard')))
+const Products = Loadable(lazy(() => import('../views/dashboard/Dashboard')))
 const RegisterPage = Loadable(lazy(() => import('../views/books/RegisterPage')))
 const Icons = Loadable(lazy(() => import('../views/icons/Icons')))
 const TypographyPage = Loadable(lazy(() => import('../views/utilities/TypographyPage')))
@@ -17,6 +17,7 @@ const Register = Loadable(lazy(() => import('../views/authentication/Register'))
 const Login = Loadable(lazy(() => import('../views/authentication/Login')));
 const MyBook = Loadable(lazy(() => import('../views/books/MyBook')));
 const Profile=Loadable(lazy(()=>import('../views/ProfilePage/Profile')));
+const HomePage=Loadable(lazy(()=>import('../views/Home/HomePage')));
 
 
 const Router = [
@@ -24,8 +25,9 @@ const Router = [
     path: '/',
     element: <FullLayout />,
     children: [
-      { path: '/', element: <Navigate to="/dashboard" /> },
-      { path: '/dashboard', exact: true, element: <Dashboard /> },
+      { path: '/', element: <Navigate to="/home" /> },
+      { path: '/home', exact: true, element: <HomePage />},
+      { path: '/products', exact: true, element: <Products /> },
       { path: '/registerbook', exact: true, element: <RegisterPage /> },
       { path: '/mybook', exact: true, element: <MyBook /> },
       { path: '/profile',exact:true,element:<Profile/>},
