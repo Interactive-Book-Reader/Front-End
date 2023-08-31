@@ -282,7 +282,7 @@ const Profile = () => {
               width="100%"
               type="password"
               isMultiline={false}
-              defaultValue="######"
+              defaultValue="Not Visible only editable"
               onInputChange={handlePasswordChange}
             />
           </div>
@@ -302,10 +302,13 @@ const Profile = () => {
           onInputChange={handleBio_dataChange}
         />
 
-        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-          <PurpleButton label="Upload" />
+        <div
+          style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}
+          onSubmit={handleUpdateSubmit}
+        >
+          {loading === 'Uploading' ? null : <PurpleButton label="Update" onClick={handleUpdateSubmit} />}          
         </div>
-        <Typography style={{ color: 'red' }}>{resposeMessage}</Typography>
+        <Typography style={{ color: 'green' }}>{resposeMessage}</Typography>
       </Paper>
     </div>
   );
