@@ -7,7 +7,7 @@ const CoverPage = ({ title, author, photo, price }) => {
     <Grid container spacing={4}>
       <Grid item sm={12} md={4} lg={3}>
         <div style={{ height: '500px', width: '300px' }}>
-          <Link to="/mybook">
+          <Link to="/bookdetails">
             <img
               src={photo}
               alt="img"
