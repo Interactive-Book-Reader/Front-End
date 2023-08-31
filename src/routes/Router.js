@@ -15,9 +15,10 @@ const Shadow = Loadable(lazy(() => import('../views/utilities/Shadow')))
 const Error = Loadable(lazy(() => import('../views/authentication/Error')));
 const Register = Loadable(lazy(() => import('../views/authentication/Register')));
 const Login = Loadable(lazy(() => import('../views/authentication/Login')));
-const MyBook = Loadable(lazy(() => import('../views/books/MyBook')));
+const BoookDetailsPage = Loadable(lazy(() => import('../views/books/BoookDetailsPage')));
 const Profile=Loadable(lazy(()=>import('../views/ProfilePage/Profile')));
 const HomePage=Loadable(lazy(()=>import('../views/Home/HomePage')));
+const AboutUs=Loadable(lazy(()=>import('../views/AboutUs/AboutUs')));
 
 
 const Router = [
@@ -29,7 +30,8 @@ const Router = [
       { path: '/home', exact: true, element: <HomePage />},
       { path: '/products', exact: true, element: <Products /> },
       { path: '/registerbook', exact: true, element: <RegisterPage /> },
-      { path: '/mybook', exact: true, element: <MyBook /> },
+      { path: '/aboutus', exact: true, element: <AboutUs /> },
+      { path: '/bookdetails', exact: true, element: <BoookDetailsPage /> },
       { path: '/profile',exact:true,element:<Profile/>},
       { path: '/icons', exact: true, element: <Icons /> },
       { path: '/ui/typography', exact: true, element: <TypographyPage /> },
