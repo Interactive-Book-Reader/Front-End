@@ -7,7 +7,7 @@ const FullLayout = Loadable(lazy(() => import('../layouts/full/FullLayout')));
 const BlankLayout = Loadable(lazy(() => import('../layouts/blank/BlankLayout')));
 
 /* ****Pages***** */
-const Products = Loadable(lazy(() => import('../views/dashboard/Dashboard')))
+const Products = Loadable(lazy(() => import('../views/products/Products')))
 const RegisterPage = Loadable(lazy(() => import('../views/books/RegisterPage')))
 const Icons = Loadable(lazy(() => import('../views/icons/Icons')))
 const TypographyPage = Loadable(lazy(() => import('../views/utilities/TypographyPage')))
