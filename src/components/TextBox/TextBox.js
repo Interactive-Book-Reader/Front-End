@@ -22,7 +22,7 @@ const TextBox = ({ inputText, label, width, type, isMultiline, onInputChange, de
         maxWidth: '1000px',
         margin: '0 auto',
         backgroundColor: '#fafaf7',
-        transition: 'all 0.3s ease-in-out', // Add a transition effect
+        transition: 'all 0.6s ease-in-out', // Add a transition effect
       }}
     >
       <div style={{ width: width, marginRight: '20px' }}>

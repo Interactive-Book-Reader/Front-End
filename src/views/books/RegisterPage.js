@@ -1,49 +1,30 @@
 import React from 'react';
-import { Grid, Box, Card} from '@mui/material';
+import { Card } from '@mui/material';
 import PageContainer from 'src/components/container/PageContainer';
-import Logo from 'src/layouts/full/shared/logo/Logo';
 import BookRegister from './BookRegister/BookRegister';
+import backgroundImg from 'src/assets/images/backgrounds/registerbg1.jpg';
 
-
-const Register2 = () => 
-  
-(
+const Register2 = () => (
   <PageContainer title="Book Register" description="ENTER YOUR BOOK DETAILS">
-    <Box
+    <Card
+      elevation={9}
       sx={{
-        position: 'relative',
-        '&:before': {
-          content: '""',
-          background: 'radial-gradient(#d2f1df, #d3d7fa, #bad8f4)',
-          backgroundSize: '400% 400%',
-          animation: 'gradient 15s ease infinite',
-          position: 'absolute',
-          height: '100%',
-          width: '100%',
-          opacity: '0.3',
-        },
+        p: 4,
+        zIndex: 1,
+        width: '100%',
+        maxWidth: '1200px',
+        backgroundImage: `url(${backgroundImg})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
       }}
     >
-      <Grid container spacing={0} justifyContent="center" sx={{ height: '100vh' }}>
-        <Grid
-          item
-          xs={12}
-          sm={12}
-          lg={4}
-          xl={3}
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-        >
-          <Card elevation={9} sx={{ p: 4, zIndex: 1, width: '100%', maxWidth: '500px' }}>
-            <Box display="flex" alignItems="center" justifyContent="center">
-              <Logo />
-            </Box>
-            <BookRegister/>
-          </Card>
-        </Grid>
-      </Grid>
-    </Box>
+      <BookRegister />
+    </Card>
   </PageContainer>
 );
 
