@@ -5,10 +5,14 @@ import React, { useState } from 'react';
 import { storage } from '../../../firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { v4 } from 'uuid';
+import Spinner from '../../../components/Spinner/Spinner';
+import Cokkies from 'universal-cookie';
+import jwt from 'jwt-decode';
 
 const BookRegister = ({ title, subtitle, subtext }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [Title, setTitle] = useState('');
+  const [ISBN, setISBN] = useState('');
   const [author, setAuthor] = useState('');
   const [genre, setGenre] = useState('');
   const [summary, setSummary] = useState('');
@@ -16,6 +20,12 @@ const BookRegister = ({ title, subtitle, subtext }) => {
   const [coverpage, setCoverPage] = useState(null);
   const [imageLink, setImageLink] = useState('');
   const [pdfLink, setPDFink] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [registerBook, setRegisterBook] = useState('');
+
+  const cookies = new Cokkies();
+  const token = cookies.get('token');
+  const id = jwt(token)._id;
 
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -27,6 +37,10 @@ const BookRegister = ({ title, subtitle, subtext }) => {
 
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
+  };
+
+  const handleISBNChange = (event) => {
+    setISBN(event.target.value);
   };
 
   const handleAuthorChange = (event) => {
@@ -46,12 +60,14 @@ const BookRegister = ({ title, subtitle, subtext }) => {
   };
 
   const handleUpload = () => {
+    setLoading(true);
     console.log('Uploading Image');
     if (coverpage == null) return;
     const imageRef = ref(storage, `images/${coverpage.name + v4()}`);
     uploadBytes(imageRef, coverpage)
       .then((snaphsot) => {
         console.log('Image is uploaded.');
+        setLoading(false);
 
         // Get the download URL for the uploaded image
         getDownloadURL(snaphsot.ref)
@@ -90,8 +106,12 @@ const BookRegister = ({ title, subtitle, subtext }) => {
   };
 
   const handleSubmit = async (e) => {
+    console.log("id is ",id);
+    console.log(ISBN);
     const jsonData = {
+      publisher_id: id,
       title: Title,
+      ISBN: ISBN,
       author: author,
       genre: genre,
       summary: summary,
@@ -109,8 +129,10 @@ const BookRegister = ({ title, subtitle, subtext }) => {
       });
 
       if (response.ok) {
+        setRegisterBook('Book Registered Successfully');
         console.log('Data sent successfully');
       } else {
+        setRegisterBook('Book Registration Failed');
         console.error('Failed to send data');
       }
     } catch (error) {
@@ -145,6 +167,23 @@ const BookRegister = ({ title, subtitle, subtext }) => {
             variant="outlined"
             fullWidth
             onChange={handleTitleChange}
+          />
+          <Typography
+            variant="subtitle1"
+            fontWeight={600}
+            component="label"
+            htmlFor="title"
+            mb="5px"
+            mt="25px"
+          >
+            ISBN
+          </Typography>
+          <CustomTextField
+            label="title"
+            id="title"
+            variant="outlined"
+            fullWidth
+            onChange={handleISBNChange}
           />
 
           <Typography
@@ -296,7 +335,23 @@ const BookRegister = ({ title, subtitle, subtext }) => {
               Register Book
             </Button>
           </div>
-        </Box>
+
+        </Stack>
+
+        <Button color="primary" variant="contained" size="large" fullWidth onClick={handleUpload}>
+          Upload
+        </Button>
+        {loading ? <Spinner /> : null}
+        {!loading ? (
+          <Button color="primary" variant="contained" size="large" fullWidth onClick={handleSubmit}>
+            Register Book
+          </Button>
+        ) : null}
+        {registerBook === 'Book Registered Successfully' ? (
+          <Typography style={{ color: 'green' }}>{registerBook}</Typography>
+        ) : registerBook === 'Book Registration Failed' ? (
+          <Typography style={{ color: 'red' }}>{registerBook}</Typography>
+        ) : null}
       </Box>
       {subtitle}
     </>

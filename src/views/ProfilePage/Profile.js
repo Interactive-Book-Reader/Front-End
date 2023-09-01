@@ -5,13 +5,13 @@ import YearPicker from 'src/components/DateField/YearPicker';
 import MainTopic from 'src/components/Topic/MainTopic';
 import SubTopic from 'src/components/Topic/SubTopic';
 import LoadingSpinner from 'src/components/Spinner/Spinner';
-import Cookies from 'universal-cookie';
 import jwt from 'jwt-decode';
 import { Typography } from '@mui/material';
 import { storage } from '../../firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { v4 } from 'uuid';
 import { Paper } from '@mui/material';
+import { getAuthToken } from '../authentication/auth/AuthLogin';
 
 import backgroundImg from 'src/assets/images/backgrounds/background.jpg';
 
@@ -28,6 +28,9 @@ const Profile = () => {
   const [resposeMessage, setResponseMessage] = useState('');
   const [loading, setLoading] = useState('');
   const updateData = {};
+
+  
+  
 
   const handleNameChange = (newInputText) => {
     setName(newInputText);
@@ -61,8 +64,7 @@ const Profile = () => {
     setLogo(event.target.files[0]);
   };
 
-  const cookies = new Cookies();
-  const token = cookies.get('token');
+  const token = getAuthToken();
   const id = jwt(token)._id;
   const [publisher, setPublisher] = useState({});
 

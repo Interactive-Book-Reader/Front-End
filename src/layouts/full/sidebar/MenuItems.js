@@ -1,5 +1,5 @@
 import {
-  IconLayoutDashboard, IconLogin, IconBook2, IconUserPlus
+   IconLogin, IconBook2, IconUserPlus, IconHome,IconBrandProducthunt,IconAccessible
 } from '@tabler/icons';
 
 import { uniqueId } from 'lodash';
@@ -7,14 +7,19 @@ import { uniqueId } from 'lodash';
 const Menuitems = [
   {
     navlabel: true,
-    subheader: 'Home',
+    subheader: 'Home'  
   },
-
+  {
+    id:uniqueId(),
+    title: 'Home',
+    icon: IconHome,
+    href: '/home',
+  },
   {
     id: uniqueId(),
-    title: 'Dashboard',
-    icon: IconLayoutDashboard,
-    href: '/dashboard',
+    title: 'Products',
+    icon: IconBrandProducthunt,
+    href: '/products',
   },
 
   {
@@ -22,6 +27,12 @@ const Menuitems = [
     title: 'Book Register',
     icon: IconBook2,
     href: '/registerbook',
+  },
+  {
+    id : uniqueId(),
+    title: 'About us',
+    icon: IconAccessible,
+    href: '/aboutus',
   },
   
   {

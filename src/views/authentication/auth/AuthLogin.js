@@ -49,8 +49,8 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
       
       if (responseData.message==='Login Successful'){
         console.log(responseData);
-        cookies.set('token', responseData.token, { path: '/dashboard' });
-        window.location.href = `/dashboard?token=${responseData.token}`  
+        cookies.set('token', responseData.token);
+        window.location.href = `/home?token=${responseData.token}`  
         //Navigate('/dashboard');
       }
       else{
@@ -143,5 +143,11 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
     </form>
   );
 };
+
+export const getAuthToken=()=> {
+  const cookies = new Cookies();
+  const token = cookies.get('token');
+  return token;
+}
 
 export default AuthLogin;
