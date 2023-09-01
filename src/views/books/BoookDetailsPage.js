@@ -16,6 +16,7 @@ import { IconTrash, IconCloudUpload, IconAdjustments } from '@tabler/icons';
 import { storage } from '../../firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { v4 } from 'uuid';
+import Spinner from '../../components/Spinner/Spinner';
 
 const BookDetailsPage = () => {
   const [pdf, setPdf] = useState(null);
@@ -27,6 +28,8 @@ const BookDetailsPage = () => {
   const [price, setPrice] = useState(0);
   const [imageLink, setImageLink] = useState('');
   const [pdfLink, setPDFLink] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [loadingdetails, setLoadingDetails] = useState('');
   const updateData = {};
 
   const fetchData = async () => {
@@ -77,6 +80,7 @@ const BookDetailsPage = () => {
     });
     const data = await response.json();
     if (data.message === 'Book is updated successfully') {
+      setLoadingDetails('Book is updated successfully');
       fetchData();
     }
     console.log(data.message);
@@ -84,6 +88,7 @@ const BookDetailsPage = () => {
 
   const handleUpload = () => {
     console.log('uploading');
+    setLoading(true);
     if (pdf !== null) {
       const storageRef = ref(storage, `pdf/${pdf.name + v4()}`);
       uploadBytes(storageRef, pdf)
@@ -91,7 +96,9 @@ const BookDetailsPage = () => {
           console.log('Uploaded pdf!');
           getDownloadURL(snapshot.ref)
             .then((url) => {
+              setLoading(false);
               setPDFLink(url);
+              setLoadingDetails('PDF uploaded successfully!');
             })
             .catch((error) => {
               console.log(error);
@@ -108,7 +115,9 @@ const BookDetailsPage = () => {
           console.log('Uploaded coverpage!');
           getDownloadURL(snapshot.ref)
             .then((url) => {
+              setLoading(false);
               setImageLink(url);
+              setLoadingDetails('Coverpage uploaded successfully!');
             })
             .catch((error) => {
               console.log(error);
@@ -119,6 +128,21 @@ const BookDetailsPage = () => {
         });
     }
   };
+
+  const handleDelete =async () => {
+    const response = await fetch('http://localhost:3001/api/book/delete', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ id: id }), 
+    });
+    const data = await response.json();
+    if (data.message === 'Book is deleted successfully!') {
+      window.location.href = '/products';
+    }
+  };
+    
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -292,17 +316,24 @@ const BookDetailsPage = () => {
                     Upload
                   </Button>
                   <div style={{ marginTop: '10px' }} /> {/* Add a spacer */}
-                  <Button
-                    color="primary"
-                    variant="contained"
-                    size="large"
-                    fullWidth
-                    startIcon={<IconAdjustments />}
-                    marginTop="10px"
-                    onClick={handleUpdate}
-                  >
-                    Update details
-                  </Button>
+                  {!loading && (
+                    <Button
+                      color="primary"
+                      variant="contained"
+                      size="large"
+                      fullWidth
+                      startIcon={<IconAdjustments />}
+                      marginTop="10px"
+                      onClick={handleUpdate}
+                    >
+                      Update details
+                    </Button>
+                  )}
+                  {loading ? (
+                    <div style={{ marginTop: '10px' }}>
+                      <Spinner />
+                    </div>
+                  ) : null}
                   <div style={{ marginTop: '10px' }} /> {/* Add a spacer */}
                   <Button
                     color="primary"
@@ -311,9 +342,11 @@ const BookDetailsPage = () => {
                     fullWidth
                     startIcon={<IconTrash />}
                     marginTop="10px"
+                    onClick={handleDelete}
                   >
                     Delete book
                   </Button>
+                  <Typography style={{ color: 'green' }}>{loadingdetails}</Typography>
                 </div>
               </Box>
             </Grid>
