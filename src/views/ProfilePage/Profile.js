@@ -282,7 +282,7 @@ const Profile = () => {
               width="100%"
               type="password"
               isMultiline={false}
-              defaultValue="######"
+              defaultValue="Not Visible only editable"
               onInputChange={handlePasswordChange}
             />
           </div>

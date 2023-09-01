@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Typography, TextField } from '@mui/material';
+import SubTopic from 'src/components/Topic/SubTopic';
 import { Paper } from '@mui/material';
 
-const TextBox = ({ inputText, label, width, type, isMultiline, onInputChange }) => {
+const TextBox = ({ inputText, label, width, type, isMultiline, onInputChange, defaultValue }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   const handleInputChange = (event) => {
@@ -25,20 +26,24 @@ const TextBox = ({ inputText, label, width, type, isMultiline, onInputChange }) 
       }}
     >
       <div style={{ width: width, marginRight: '20px' }}>
-        <Typography
-          variant="h7"
-          component="div"
-          sx={{
-            flexGrow: 1,
-            fontSize: '15px',
-            color: 'black',
-            textAlign: 'justify',
-            marginLeft: '10px',
-            marginTop: '10px',
-          }}
-        >
-          {inputText}
-        </Typography>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <Typography
+            variant="h7"
+            component="div"
+            sx={{
+              flexGrow: 1,
+              fontSize: '15px',
+              color: 'black',
+              textAlign: 'justify',
+              marginLeft: '10px',
+              marginTop: '10px',
+            }}
+          >
+            {inputText}
+          </Typography>
+          <SubTopic text={defaultValue} />
+        </div>
+
         <TextField
           id="outlined-basic"
           label={label}
