@@ -334,16 +334,33 @@ const BookRegister = ({ title, subtitle, subtext }) => {
             >
               Register Book
             </Button>
+
           </div>
 
         </Stack>
-
-        <Button color="primary" variant="contained" size="large" fullWidth onClick={handleUpload}>
+{/* 
+        <Button color="primary" variant="contained" size="medium" mb="5px" onClick={handleUpload}>
           Upload
         </Button>
         {loading ? <Spinner /> : null}
         {!loading ? (
-          <Button color="primary" variant="contained" size="large" fullWidth onClick={handleSubmit}>
+          <Button color="primary" variant="contained" size="medium" mb="5px" onClick={handleSubmit}>
+            Register Book
+          </Button>
+        ) : null}
+        {registerBook === 'Book Registered Successfully' ? (
+          <Typography style={{ color: 'green' }}>{registerBook}</Typography>
+        ) : registerBook === 'Book Registration Failed' ? (
+          <Typography style={{ color: 'red' }}>{registerBook}</Typography>
+        ) : null} */}
+        <Box display="flex" justifyContent="center">
+        <Button color="primary" variant="contained" size="medium" mb="5px" onClick={handleUpload}>
+          Upload
+        </Button>
+          <div style={{ marginLeft: '10px' }}>
+          {loading ? <Spinner /> : null}
+        {!loading ? (
+          <Button color="primary" variant="contained" size="medium" mb="5px" onClick={handleSubmit}>
             Register Book
           </Button>
         ) : null}
@@ -352,6 +369,8 @@ const BookRegister = ({ title, subtitle, subtext }) => {
         ) : registerBook === 'Book Registration Failed' ? (
           <Typography style={{ color: 'red' }}>{registerBook}</Typography>
         ) : null}
+          </div>
+        </Box>
       </Box>
       {subtitle}
     </>

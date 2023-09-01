@@ -2,14 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Typography, Grid } from '@mui/material';
 
-const CoverPage = ({ title, author, photo, price,id}) => {
+const CoverPage = ({ title, author, photo, price, id }) => {
   return (
     <Grid container spacing={4}>
       <Grid item sm={12} md={4} lg={3}>
         <div style={{ height: '500px', width: '300px' }}>
-          <Link
-            to={`/bookdetails?id=${id}`}
-          >
+          <Link to={`/bookdetails?id=${id}`}>
             <img
               src={photo}
               alt="img"
