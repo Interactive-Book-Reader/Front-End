@@ -332,8 +332,21 @@ const BookRegister = ({ title, subtitle, subtext }) => {
               mb="5px"
               onClick={handleSubmit}
             >
+
+              Upload Coverpage
+            </Typography>
+            <FormControl variant="outlined">
+              <OutlinedInput
+                id="image-file"
+                type="file"
+                accept=".png, .jpg, .jpeg"
+                inputProps={{ multiple: false }}
+                onChange={handleCoverPageChange}
+              />
+            </FormControl>
               Register Book
             </Button>
+
 
           </div>
 
