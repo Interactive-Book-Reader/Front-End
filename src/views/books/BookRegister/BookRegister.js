@@ -293,9 +293,9 @@ const BookRegister = ({ title, subtitle, subtext }) => {
             </Typography>
             <FormControl variant="outlined">
               <OutlinedInput
-                id="pdf-file"
+                id="image-file"
                 type="file"
-                accept=".pdf"
+                accept=".png, .jpg, .jpeg"
                 inputProps={{ multiple: false }}
                 onChange={handleCoverPageChange}
               />
