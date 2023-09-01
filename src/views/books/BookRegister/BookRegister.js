@@ -162,7 +162,7 @@ const BookRegister = ({ title, subtitle, subtext }) => {
             Title
           </Typography>
           <CustomTextField
-            label="title"
+            label="Sample Title - The Adventure Begins"
             id="title"
             variant="outlined"
             fullWidth
@@ -197,7 +197,7 @@ const BookRegister = ({ title, subtitle, subtext }) => {
             Author
           </Typography>
           <CustomTextField
-            label="author"
+            label="Sample Author - John Doe"
             id="author"
             variant="outlined"
             fullWidth
@@ -215,58 +215,68 @@ const BookRegister = ({ title, subtitle, subtext }) => {
             Genre
           </Typography>
           <CustomTextField
-            label="genere"
+            label="Sample Genre - Science Fiction"
             id="Genre"
             variant="outlined"
             fullWidth
             onChange={handleGenreChange}
           />
-
           <Typography
             variant="subtitle1"
             fontWeight={600}
             component="label"
-            htmlFor="summary"
+            htmlFor="Summary"
             mb="5px"
+            mt="25px"
           >
             Summary
           </Typography>
           <CustomTextField
-            label="summary"
+            label="Sample Summary - In a world of advanced technology and uncharted galaxies, follow the journey..."
             id="summary"
             variant="outlined"
             fullWidth
             onChange={handleSummaryChange}
           />
-
           <Typography
             variant="subtitle1"
             fontWeight={600}
             component="label"
             htmlFor="price"
             mb="5px"
+            mt="25px"
           >
             Price
           </Typography>
-          <TextField
-            label="Price"
-            type="number"
-            variant="outlined"
-            onChange={handlePriceChange}
-            fullWidth
-            InputProps={{
-              startAdornment: '$',
-            }}
-          />
+          <Box boxShadow={3} p={0} borderRadius={1} style={{ width: '50%' }}>
+            <TextField
+              label="Price"
+              type="number"
+              variant="outlined"
+              onChange={handlePriceChange}
+              fullWidth
+              InputProps={{
+                startAdornment: '$',
+              }}
+              inputProps={{
+                min: 0, // Set the minimum allowed value to 0
+              }}
+              style={{ width: '100%' }} // Apply width to the TextField
+              mt="25px"
+            />
+          </Box>
 
-          <div style={{ marginTop: '20px' }}>
+          <div
+            style={{ marginTop: '20px', display: 'flex', alignItems: 'center', marginLeft: '30px' }}
+          >
             <Typography
               variant="subtitle1"
               fontWeight={600}
               component="label"
               htmlFor="ISBN"
               mb="5px"
-              mt="25px"
+              mt="20px"
+              style={{ marginRight: '10px', marginBottom: '15px' }} // Add margin to the right for spacing
             >
               Upload PDF
             </Typography>
@@ -274,21 +284,55 @@ const BookRegister = ({ title, subtitle, subtext }) => {
               <OutlinedInput
                 id="pdf-file"
                 type="file"
-                accept=".pdf"
+                accept="application/pdf"
                 inputProps={{ multiple: false }}
                 onChange={handleFileChange}
               />
             </FormControl>
-          </div>
-          <div style={{ marginTop: '20px' }}>
-            <Typography
-              variant="subtitle1"
-              fontWeight={600}
-              component="label"
-              htmlFor="ISBN"
-              mb="5px"
-              mt="25px"
+
+            <div
+              style={{
+                marginLeft: '20px',
+                display: 'flex',
+                alignItems: 'center',
+              }}
             >
+              <Typography
+                variant="subtitle1"
+                fontWeight={600}
+                component="label"
+                htmlFor="ISBN"
+                mb="5px"
+                mt="25px"
+                style={{ marginRight: '10px', marginBottom: '25px' }}
+              >
+                Upload Coverpage
+              </Typography>
+              <FormControl variant="outlined">
+                <OutlinedInput
+                  id="pdf-file"
+                  type="file"
+                  accept=".pdf"
+                  inputProps={{ multiple: false }}
+                  onChange={handleCoverPageChange}
+                />
+              </FormControl>
+            </div>
+          </div>
+        </Stack>
+        <Box display="flex" justifyContent="center">
+          <Button color="primary" variant="contained" size="medium" mb="5px" onClick={handleUpload}>
+            Upload
+          </Button>
+          <div style={{ marginLeft: '10px' }}>
+            <Button
+              color="primary"
+              variant="contained"
+              size="medium"
+              mb="5px"
+              onClick={handleSubmit}
+            >
+
               Upload Coverpage
             </Typography>
             <FormControl variant="outlined">
@@ -300,15 +344,36 @@ const BookRegister = ({ title, subtitle, subtext }) => {
                 onChange={handleCoverPageChange}
               />
             </FormControl>
-          </div>
-        </Stack>
+              Register Book
+            </Button>
 
-        <Button color="primary" variant="contained" size="large" fullWidth onClick={handleUpload}>
+
+          </div>
+
+        </Stack>
+{/* 
+        <Button color="primary" variant="contained" size="medium" mb="5px" onClick={handleUpload}>
           Upload
         </Button>
         {loading ? <Spinner /> : null}
         {!loading ? (
-          <Button color="primary" variant="contained" size="large" fullWidth onClick={handleSubmit}>
+          <Button color="primary" variant="contained" size="medium" mb="5px" onClick={handleSubmit}>
+            Register Book
+          </Button>
+        ) : null}
+        {registerBook === 'Book Registered Successfully' ? (
+          <Typography style={{ color: 'green' }}>{registerBook}</Typography>
+        ) : registerBook === 'Book Registration Failed' ? (
+          <Typography style={{ color: 'red' }}>{registerBook}</Typography>
+        ) : null} */}
+        <Box display="flex" justifyContent="center">
+        <Button color="primary" variant="contained" size="medium" mb="5px" onClick={handleUpload}>
+          Upload
+        </Button>
+          <div style={{ marginLeft: '10px' }}>
+          {loading ? <Spinner /> : null}
+        {!loading ? (
+          <Button color="primary" variant="contained" size="medium" mb="5px" onClick={handleSubmit}>
             Register Book
           </Button>
         ) : null}
@@ -317,6 +382,8 @@ const BookRegister = ({ title, subtitle, subtext }) => {
         ) : registerBook === 'Book Registration Failed' ? (
           <Typography style={{ color: 'red' }}>{registerBook}</Typography>
         ) : null}
+          </div>
+        </Box>
       </Box>
       {subtitle}
     </>
