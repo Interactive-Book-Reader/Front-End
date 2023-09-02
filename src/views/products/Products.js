@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Grid, Box } from '@mui/material';
 import PageContainer from 'src/components/container/PageContainer';
 import CoverPage from '../../components/CoverPage/CoverPage';
-import ComponentSlider from '../../components/ComponentSlider/ComponentSlider';
+import ComponentSlider from '../../components/Slider/ComponentSlider';
 import { getAuthToken } from '../authentication/auth/AuthLogin';
 import jwt from 'jwt-decode';
 
