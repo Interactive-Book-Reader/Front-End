@@ -320,37 +320,9 @@ const BookRegister = ({ title, subtitle, subtext }) => {
             </div>
           </div>
         </Stack>
-        <Box display="flex" justifyContent="center">
-          <Button color="primary" variant="contained" size="medium" mb="5px" onClick={handleUpload}>
-            Upload
-          </Button>
-          <div style={{ marginLeft: '10px' }}>
-            <Button
-              color="primary"
-              variant="contained"
-              size="medium"
-              mb="5px"
-              onClick={handleSubmit}
-            >
+      
 
-              Upload Coverpage
-            </Typography>
-            <FormControl variant="outlined">
-              <OutlinedInput
-                id="image-file"
-                type="file"
-                accept=".png, .jpg, .jpeg"
-                inputProps={{ multiple: false }}
-                onChange={handleCoverPageChange}
-              />
-            </FormControl>
-              Register Book
-            </Button>
-
-
-          </div>
-
-        </Stack>
+   
 {/* 
         <Button color="primary" variant="contained" size="medium" mb="5px" onClick={handleUpload}>
           Upload
