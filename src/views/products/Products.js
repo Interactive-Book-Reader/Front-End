@@ -5,9 +5,11 @@ import CoverPage from '../../components/CoverPage/CoverPage';
 import ComponentSlider from '../../components/ComponentSlider/ComponentSlider';
 import { getAuthToken } from '../authentication/auth/AuthLogin';
 import jwt from 'jwt-decode';
+
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import PurpleButton from 'src/components/Buttons/PurpleButton';
+import SearchBar from 'src/components/SearchBar/SearchBar';
 
 const Products = () => {
   const token = getAuthToken();
@@ -32,6 +34,9 @@ const Products = () => {
       pdf.save('report.pdf');
     });
   };
+  // eslint-disable-next-line no-unused-vars
+  const [searchValue, setSearchValue] = useState('');
+  const [filteredBooks, setFilteredBooks] = useState([]);
 
   const fetchData = async () => {
     const response = await fetch('http://localhost:3001/api/book/publisherbook', {
@@ -43,6 +48,7 @@ const Products = () => {
     });
     const data = await response.json();
     setBooklist(data.response);
+    setFilteredBooks(data.response);
     console.log(data.response);
   };
 
@@ -50,7 +56,25 @@ const Products = () => {
     fetchData();
   }, []);
 
-  const newbooklist = booklist.map((book, index) => (
+  const handleSearch = (query) => {
+    setSearchValue(query);
+    filterBooks(query);
+  };
+
+  const filterBooks = (query) => {
+    if (!query) {
+      // If the search query is empty, show all books
+      setFilteredBooks(booklist);
+    } else {
+      // Filter books by title containing the search query (case-insensitive)
+      const filtered = booklist.filter((book) =>
+        book.title.toLowerCase().includes(query.toLowerCase()),
+      );
+      setFilteredBooks(filtered);
+    }
+  };
+
+  const newbooklist = filteredBooks.map((book, index) => (
     <CoverPage
       title={book.title}
       author={book.author}
@@ -59,10 +83,13 @@ const Products = () => {
       id={book._id}
     />
   ));
+
   return (
     <PageContainer title="Products" description="this is Products">
       <div style={tableContainerStyle} ref={pdfRef}>
         <h2 style={tableTitleStyle}>Book List</h2>
+        <SearchBar callback={handleSearch} />
+
         <table style={bookTableStyle}>
           <thead>
             <tr>
@@ -75,7 +102,7 @@ const Products = () => {
             </tr>
           </thead>
           <tbody>
-            {booklist.map((book, index) => (
+            {filteredBooks.map((book, index) => (
               <tr key={index}>
                 <td style={cellStyle}>{book.title}</td>
                 <td style={cellStyle}>{book.author}</td>
@@ -88,7 +115,7 @@ const Products = () => {
           </tbody>
         </table>
       </div>
-      <PurpleButton label="Download report" onClick={downloadPDF}/>
+      <PurpleButton label="Download report" onClick={downloadPDF} />
 
       <Box>
         <Grid container spacing={3}>
@@ -100,7 +127,6 @@ const Products = () => {
     </PageContainer>
   );
 };
-
 const tableContainerStyle = {
   display: 'flex',
   flexDirection: 'column',
@@ -114,7 +140,7 @@ const tableContainerStyle = {
 
 const tableTitleStyle = {
   fontSize: '24px',
-  marginBottom: '20px',
+  textAlign: 'center',
 };
 
 const bookTableStyle = {
