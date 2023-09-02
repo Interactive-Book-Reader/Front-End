@@ -5,19 +5,19 @@ import {
   FormControlLabel,
   Button,
   Stack,
-  Checkbox
+  Checkbox,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
-import React, { useState} from 'react';
+import React, { useState } from 'react';
 import CustomTextField from '../../../components/forms/theme-elements/CustomTextField';
-import Cookies from "universal-cookie";
+import Cookies from 'universal-cookie';
 
 const AuthLogin = ({ title, subtitle, subtext }) => {
   const cookies = new Cookies();
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [errorMessege,setErrorMessege]=useState('');
+  const [errorMessege, setErrorMessege] = useState('');
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
@@ -29,38 +29,35 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
 
   const handleLoginSubmit = async (event) => {
     event.preventDefault();
-  
+
     const loginData = {
       username: username,
-      password: password
+      password: password,
     };
-  
+
     try {
       const response = await fetch('http://localhost:3001/api/publisher/login', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(loginData)
+        body: JSON.stringify(loginData),
       });
-  
-      
-      const responseData = await response.json();     
-      
-      if (responseData.message==='Login Successful'){
+
+      const responseData = await response.json();
+
+      if (responseData.message === 'Login Successful') {
         console.log(responseData);
         cookies.set('token', responseData.token);
-        window.location.href = `/home?token=${responseData.token}`  
+        window.location.href = `/home?token=${responseData.token}`;
         //Navigate('/dashboard');
-      }
-      else{
-          setErrorMessege(responseData.message);
+      } else {
+        setErrorMessege(responseData.message);
       }
     } catch (error) {
       console.error('Error:', error);
     }
   };
-  
 
   return (
     <form onSubmit={handleLoginSubmit}>
@@ -101,13 +98,12 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
             Password
           </Typography>
           <CustomTextField
-  id="password"
-  variant="outlined"
-  fullWidth
-  type="password" // Set the input type to "password"
-  onChange={handlePasswordChange}
-/>
-          
+            id="password"
+            variant="outlined"
+            fullWidth
+            type="password" // Set the input type to "password"
+            onChange={handlePasswordChange}
+          />
         </Box>
         <Stack justifyContent="space-between" direction="row" alignItems="center" my={2}>
           <FormGroup>
@@ -144,10 +140,10 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
   );
 };
 
-export const getAuthToken=()=> {
+export const getAuthToken = () => {
   const cookies = new Cookies();
   const token = cookies.get('token');
   return token;
-}
+};
 
 export default AuthLogin;

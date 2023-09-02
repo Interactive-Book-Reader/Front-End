@@ -15,12 +15,12 @@ const CustomTextField = styled((props) => <TextField {...props} />)(({ theme }) 
     boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
     transition: 'box-shadow 0.3s ease, padding 0.3s ease', // Add transitions for box shadow and padding
     width: '100%',
-    padding: '10px', // Initial padding
+    padding: '2px', // Initial padding
     height: 'auto', // Initial height
   },
   '&:hover .MuiOutlinedInput-root': {
-    boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
-    padding: '20px', // Expanded padding on hover
+    boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.7)',
+    padding: '4px', // Expanded padding on hover
     height: 'auto', // Expanded height on hover
   },
 }));
