@@ -1,5 +1,5 @@
 import {
-   IconLogin, IconBook2, IconUserPlus, IconHome,IconBrandProducthunt,IconAccessible
+   IconLogin, IconBook2, IconUserPlus, IconHome,IconBrandProducthunt,IconAccessible,IconCards
 } from '@tabler/icons';
 
 import { uniqueId } from 'lodash';
@@ -20,6 +20,12 @@ const Menuitems = [
     title: 'Products',
     icon: IconBrandProducthunt,
     href: '/products',
+  },
+  {
+    id: uniqueId(),
+    title: 'Customers',
+    icon: IconCards,
+    href: '/customers',
   },
 
   {
