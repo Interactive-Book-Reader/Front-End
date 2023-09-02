@@ -29,11 +29,16 @@ const Products = () => {
   }, []);
 
   const newbooklist = booklist.map((book, index) => (
-    <CoverPage title={book.title} author={book.author} price={book.price} photo={book.coverpage} id={book._id}/>
+    <CoverPage
+      title={book.title}
+      author={book.author}
+      price={book.price}
+      photo={book.coverpage}
+      id={book._id}
+    />
   ));
   return (
     <PageContainer title="Products" description="this is Products">
-      
       <div style={tableContainerStyle}>
         <h2 style={tableTitleStyle}>Book List</h2>
         <table style={bookTableStyle}>
@@ -75,9 +80,12 @@ const Products = () => {
 const tableContainerStyle = {
   display: 'flex',
   flexDirection: 'column',
-  alignItems: 'center',
+  alignItems: 'top',
   justifyContent: 'center',
-  height: '50vh',
+  height: 'auto',
+  background: 'white',
+  boxShadow: '0px 20px 20px rgba(225.83, 225.19, 248.63, 0.50)',
+  borderRadius: 30,
 };
 
 const tableTitleStyle = {
@@ -87,20 +95,27 @@ const tableTitleStyle = {
 
 const bookTableStyle = {
   borderCollapse: 'collapse',
-  width: '80%',
-  maxWidth: '800px',
+  width: '100%',
+  maxWidth: '1000px',
   margin: '0 auto',
 };
 
 const cellStyle = {
-  border: '1px solid #ccc',
+  border: '0px',
   padding: '10px',
   textAlign: 'center',
+  left: 116,
+  top: 4,
+  color: 'black',
+  fontSize: 13,
+  fontFamily: 'Poppins',
+  fontWeight: '600',
+  wordWrap: 'break-word',
 };
 
 const headerCellStyle = {
-  backgroundColor: '#f2f2f2',
-  fontWeight: 'bold',
+  backgroundColor: '#abc4ed',
+  color: '#22262b',
 };
 
 export default Products;
