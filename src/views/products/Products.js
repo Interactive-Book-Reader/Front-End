@@ -115,7 +115,16 @@ const Products = () => {
           </tbody>
         </table>
       </div>
-      <PurpleButton label="Download report" onClick={downloadPDF} />
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'right',
+          alignItems: 'right',
+          marginTop: '10px',
+        }}
+      >
+        <PurpleButton label="Download report" onClick={downloadPDF} />
+      </div>
 
       <Box>
         <Grid container spacing={3}>

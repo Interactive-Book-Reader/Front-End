@@ -341,29 +341,29 @@ const BookRegister = ({ title, subtitle, subtext }) => {
                   />
                 </FormControl>
 
-                <div style={{ marginLeft: '20px', display: 'flex', alignItems: 'center' }}>                 
-                    <Typography
-                      variant="subtitle1"
-                      fontWeight={600}
-                      component="label"
-                      htmlFor="ISBN"
-                      mb="5px"
-                      mt="25px"
-                      style={{ marginRight: '10px', marginBottom: '25px' }}
-                    >
-                      Upload Coverpage
-                    </Typography>         
-                 
-                    <FormControl variant="outlined" className="MuiOutlinedInput-root">
-                      <OutlinedInput
-                        id="pdf-file"
-                        type="file"
-                        accept=".pdf"
-                        inputProps={{ multiple: false }}
-                        onChange={handleCoverPageChange}
-                        className="MuiOutlinedInput-input"
-                      />
-                    </FormControl>             
+                <div style={{ marginLeft: '20px', display: 'flex', alignItems: 'center' }}>
+                  <Typography
+                    variant="subtitle1"
+                    fontWeight={600}
+                    component="label"
+                    htmlFor="ISBN"
+                    mb="5px"
+                    mt="25px"
+                    style={{ marginRight: '10px', marginBottom: '25px' }}
+                  >
+                    Upload Coverpage
+                  </Typography>
+
+                  <FormControl variant="outlined" className="MuiOutlinedInput-root">
+                    <OutlinedInput
+                      id="pdf-file"
+                      type="file"
+                      accept=".pdf"
+                      inputProps={{ multiple: false }}
+                      onChange={handleCoverPageChange}
+                      className="MuiOutlinedInput-input"
+                    />
+                  </FormControl>
                 </div>
               </div>
             </Stack>
