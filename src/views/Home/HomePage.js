@@ -28,9 +28,9 @@ const HomePage = () => {
     // Add more image URLs here
   ];
 
-  const newImageList = images.map((image, index) => <img src={image} />);
+  const newImageList = images.map((image, index) => <img src={image} alt="new cover" />);
   return (
-    <PageContainer title="Home Page" description="this is Home Page">
+    <PageContainer title="Home Page" alt="home" description="this is Home Page">
       <Box>
         <Grid container>
           <Grid item xs={12} lg={13}>
@@ -93,7 +93,7 @@ const HomePage = () => {
           >
             <img
               src={image5}
-              alt="Image"
+              alt="new pic"
               style={{ maxWidth: '100%', maxHeight: '100%', borderRadius: '40px' }}
             />
           </div>
