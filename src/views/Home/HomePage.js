@@ -6,7 +6,6 @@ import image1 from 'src/assets/images/home/img1.PNG';
 import image2 from 'src/assets/images/home/img2.PNG';
 import image3 from 'src/assets/images/home/img3.PNG';
 import image4 from 'src/assets/images/home/img2.PNG';
-import Stack from '@mui/material/Stack';
 import HoverCarousel from "hover-carousel";
 
 const HomePage = () => {

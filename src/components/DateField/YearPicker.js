@@ -7,11 +7,6 @@ import { Paper } from '@mui/material';
 
 const YearPicker = ({ label, onInputChange }) => {
   const [isHovered, setIsHovered] = useState(false);
-
-  const handleInputChange = (event) => {
-    const newValue = event.target.value;
-    onInputChange(newValue); // Call the callback with the new value
-  };
   const printDate = (date) => {
     onInputChange(date.format('YYYY'));
   };

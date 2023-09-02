@@ -1,15 +1,37 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Grid, Box } from '@mui/material';
 import PageContainer from 'src/components/container/PageContainer';
 import CoverPage from '../../components/CoverPage/CoverPage';
 import ComponentSlider from '../../components/ComponentSlider/ComponentSlider';
 import { getAuthToken } from '../authentication/auth/AuthLogin';
 import jwt from 'jwt-decode';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
+import PurpleButton from 'src/components/Buttons/PurpleButton';
 
 const Products = () => {
   const token = getAuthToken();
   const id = jwt(token)._id;
   const [booklist, setBooklist] = useState([]);
+
+  const pdfRef = useRef();
+
+  const downloadPDF = () => {
+    const input = pdfRef.current;
+    html2canvas(input).then((canvas) => {
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4', true);
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+      const imgWidth = canvas.width;
+      const imgHeight = canvas.height;
+      const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
+      const imgX = (pdfWidth - imgWidth * ratio) / 2;
+      const imgY = 50;
+      pdf.addImage(imgData, 'PNG', imgX, imgY, imgWidth * ratio, imgHeight * ratio);
+      pdf.save('report.pdf');
+    });
+  };
 
   const fetchData = async () => {
     const response = await fetch('http://localhost:3001/api/book/publisherbook', {
@@ -39,7 +61,7 @@ const Products = () => {
   ));
   return (
     <PageContainer title="Products" description="this is Products">
-      <div style={tableContainerStyle}>
+      <div style={tableContainerStyle} ref={pdfRef}>
         <h2 style={tableTitleStyle}>Book List</h2>
         <table style={bookTableStyle}>
           <thead>
@@ -66,6 +88,8 @@ const Products = () => {
           </tbody>
         </table>
       </div>
+      <PurpleButton label="Download report" onClick={downloadPDF}/>
+
       <Box>
         <Grid container spacing={3}>
           <Grid item xs={12}>
