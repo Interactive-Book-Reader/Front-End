@@ -3,7 +3,7 @@ import PageContainer from 'src/components/container/PageContainer';
 import techImage from 'src/assets/images/backgrounds/settings.png';
 import million from 'src/assets/images/backgrounds/profits.png';
 import network from 'src/assets/images/backgrounds/network.png';
-import BGimage from 'src/assets/images/backgrounds/AccPage.jpg';
+
 const AboutUs = () => {
   const [isMounted, setIsMounted] = useState(false);
 
@@ -62,9 +62,7 @@ const AboutUs = () => {
     marginTop: '30px',
     fontSize: '14px',
   };
-  document.body.style.backgroundImage = `url(${BGimage})`;
-  document.body.style.backgroundSize = 'cover';
-  document.body.style.backgroundBlendMode = 'darken';
+
   return (
     <PageContainer title="About Page" description="This is About Page">
       <div style={containerStyle}>
