@@ -1,4 +1,4 @@
-import { Box, Typography, Button, TextField, OutlinedInput, FormControl } from '@mui/material';
+import { Box, Typography, TextField, OutlinedInput, FormControl } from '@mui/material';
 import CustomTextField from '../../../components/forms/theme-elements/CustomTextField';
 import { Stack } from '@mui/system';
 import React, { useState } from 'react';
@@ -8,6 +8,10 @@ import { v4 } from 'uuid';
 import Spinner from '../../../components/Spinner/Spinner';
 import Cokkies from 'universal-cookie';
 import jwt from 'jwt-decode';
+import backgroundImg from 'src/assets/images/backgrounds/background.jpg';
+import { Paper } from '@mui/material';
+import MainTopic from 'src/components/Topic/MainTopic';
+import PurpleButton from 'src/components/Buttons/PurpleButton';
 
 const BookRegister = ({ title, subtitle, subtext }) => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -149,6 +153,41 @@ const BookRegister = ({ title, subtitle, subtext }) => {
       ) : null}
 
       {subtext}
+      <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: '100vh',
+        backgroundImage: `url(${backgroundImg})`, // Set the background image
+        backgroundSize: 'cover', // Adjust the background size
+        backgroundPosition: 'center', // Center the background image
+      }}
+    >
+      <Paper
+        elevation={10}
+        style={{
+          alignItems: 'center',
+          padding: '10px',
+          width: '19%',
+          height: '50%',
+          maxWidth: '1000px',
+          margin: '0 auto',
+          backgroundColor: '#fafaf7',
+        }}
+      >
+        <MainTopic text="Publish Book" />
+      </Paper>
+      <Paper
+        elevation={10}
+        style={{
+          padding: '20px',
+          width: '100%',
+          maxWidth: '1000px',
+          margin: '0 auto',
+          backgroundColor: '#fafaf7',
+        }}
+      >
 
       <Box>
         <Stack mb={5}>
@@ -320,34 +359,12 @@ const BookRegister = ({ title, subtitle, subtext }) => {
             </div>
           </div>
         </Stack>
-      
-
-   
-{/* 
-        <Button color="primary" variant="contained" size="medium" mb="5px" onClick={handleUpload}>
-          Upload
-        </Button>
-        {loading ? <Spinner /> : null}
-        {!loading ? (
-          <Button color="primary" variant="contained" size="medium" mb="5px" onClick={handleSubmit}>
-            Register Book
-          </Button>
-        ) : null}
-        {registerBook === 'Book Registered Successfully' ? (
-          <Typography style={{ color: 'green' }}>{registerBook}</Typography>
-        ) : registerBook === 'Book Registration Failed' ? (
-          <Typography style={{ color: 'red' }}>{registerBook}</Typography>
-        ) : null} */}
         <Box display="flex" justifyContent="center">
-        <Button color="primary" variant="contained" size="medium" mb="5px" onClick={handleUpload}>
-          Upload
-        </Button>
+        <PurpleButton label="Upload" onClick={handleUpload} />
           <div style={{ marginLeft: '10px' }}>
           {loading ? <Spinner /> : null}
         {!loading ? (
-          <Button color="primary" variant="contained" size="medium" mb="5px" onClick={handleSubmit}>
-            Register Book
-          </Button>
+           <PurpleButton label="Register Book" onClick={handleSubmit} />
         ) : null}
         {registerBook === 'Book Registered Successfully' ? (
           <Typography style={{ color: 'green' }}>{registerBook}</Typography>
@@ -356,7 +373,10 @@ const BookRegister = ({ title, subtitle, subtext }) => {
         ) : null}
           </div>
         </Box>
+        
       </Box>
+      </Paper>
+      </div>
       {subtitle}
     </>
   );
