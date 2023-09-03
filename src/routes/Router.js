@@ -23,6 +23,7 @@ const HomePage = Loadable(lazy(() => import('../views/Home/HomePage')));
 const AboutUs = Loadable(lazy(() => import('../views/AboutUs/AboutUs')));
 const Customers = Loadable(lazy(() => import('../views/customers/Customer')));
 const ARContent = Loadable(lazy(() => import('../views/AR Content/ARContent')));
+const OTPVerification = Loadable(lazy(() => import('../views/OTPVerfication/OTPVerification')));
 
 const Router = [
   {
@@ -51,6 +52,7 @@ const Router = [
       { path: '404', element: <Error /> },
       { path: '/auth/register', element: <Register /> },
       { path: '/auth/login', element: <Login /> },
+      { path: '/auth/otpverification', element: <OTPVerification /> },
       { path: '*', element: <Navigate to="/auth/404" /> },
     ],
   },
