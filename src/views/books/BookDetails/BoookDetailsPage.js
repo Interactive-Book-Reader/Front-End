@@ -12,41 +12,9 @@ import Spinner from '../../../components/Spinner/Spinner';
 import backgroundImg from 'src/assets/images/backgrounds/5153829.jpg';
 import MainTopic from 'src/components/Topic/MainTopic';
 import { InputAdornment } from '@mui/material';
-import InputLabel from '@mui/material/InputLabel';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { makeStyles } from '@mui/styles';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    '& .MuiFormControl-root': {
-      width: '100%',
-      marginBottom: theme.spacing(2),
-    },
-    '& .MuiOutlinedInput-root': {
-      '& fieldset': {
-        borderColor: 'rgba(0, 0, 0, 0.23)',
-      },
-      '&:hover fieldset': {
-        borderColor: 'rgba(0, 0, 0, 0.5)',
-      },
-      '&.Mui-focused fieldset': {
-        borderColor: theme.palette.primary.main,
-      },
-    },
-    '& .MuiInputLabel-root': {
-      color: 'rgba(0, 0, 0, 0.6)',
-    },
-    '& .MuiOutlinedInput-input': {
-      padding: '12px 16px',
-    },
-  },
-  uploadIcon: {
-    marginRight: theme.spacing(1),
-  },
-}));
 
 const BookDetailsPage = () => {
-  const classes = useStyles();
 
   const [pdf, setPdf] = useState(null);
   const [image, setImage] = useState(null);
@@ -353,24 +321,28 @@ const BookDetailsPage = () => {
                         style={{ width: '100%' }} // Apply width to the TextField
                       />
 
-                                     
-                        <div className={classes.root}>
-                        <FormControl variant="outlined">
-                        <InputLabel htmlFor="pdf-file">Upload PDF</InputLabel>
+                      <div>
+                        <Typography
+                          variant="subtitle1"
+                          fontWeight={600}
+                          component="label"
+                          mb="5px"
+                          mt="25px"
+                          display="block"
+                        >
+                          Choose Book
+                        </Typography>
+                        <FormControl variant="outlined" display="block">
                           <OutlinedInput
-                            id="pdf-file"
+                            id="image-file"
                             type="file"
-                            accept=".pdf"
+                            accept=".png, .jpg, .jpeg"
                             inputProps={{ multiple: false }}
                             onChange={(e) => setPdf(e.target.files[0])}
-                            startAdornment={
-                              <CloudUploadIcon className={classes.uploadIcon} />
-                            }
-                            label="Upload PDF"
                           />
                         </FormControl>
-                        </div>
-                 
+                      </div>
+
                       <div>
                         <Typography
                           variant="subtitle1"
