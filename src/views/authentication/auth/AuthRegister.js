@@ -61,7 +61,7 @@ const AuthRegister = ({ title, subtitle, subtext }) => {
 
         if (responseData.message==='OTP is sent successfully.'){
             console.log(responseData);
-            window.location.href = `/auth/otpverification?id=${responseData.data.publisherId}`;
+            window.location.href = `/auth/otpverification?id=${responseData.data.publisherId}&email=${responseData.data.email}`;
         }else{
             setErrorMessege(responseData.message);
         }
