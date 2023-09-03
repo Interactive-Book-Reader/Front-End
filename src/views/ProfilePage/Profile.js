@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import TextBox from 'src/components/TextBox/TextBox';
 import PurpleButton from 'src/components/Buttons/PurpleButton';
 import YearPicker from 'src/components/DateField/YearPicker';
@@ -28,9 +28,7 @@ const Profile = () => {
   const [resposeMessage, setResponseMessage] = useState('');
   const [loading, setLoading] = useState('');
   const updateData = {};
-
-  
-  
+  const fileInputRef = useRef(null);
 
   const handleNameChange = (newInputText) => {
     setName(newInputText);
@@ -62,6 +60,11 @@ const Profile = () => {
 
   const handleLogoChange = (event) => {
     setLogo(event.target.files[0]);
+  };
+
+  const handleImageClick = () => {
+    // Trigger the file input when the image is clicked
+    fileInputRef.current.click();
   };
 
   const token = getAuthToken();
@@ -202,24 +205,50 @@ const Profile = () => {
             height: '30vh',
           }}
         >
-          <img src={publisher.logo} alt="logo" style={{ width: '200px', height: '200px' }} />
+          <img
+            src={publisher.logo}
+            alt="logo"
+            style={{
+              width: '200px',
+              height: '200px',
+              cursor: 'pointer',
+              borderRadius: '50%',
+              objectFit: 'cover',
+              objectPosition: 'center',
+              transition: 'transform 0.3s ease, box-shadow 0.3s ease', // Add transitions
+              boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.8)', // Add box-shadow
+            }}
+            hover={{
+              transform: 'scale(1.1)', // Increase size by 10% on hover
+              boxShadow: '0px 8px 16px rgba(0, 0, 0, 0.9)', // Add a larger shadow on hover
+            }}
+            onClick={handleImageClick}
+          />
         </div>
         {loading === 'Uploading' ? <LoadingSpinner /> : null}
         {loading === 'Uploaded a logo!' ? (
           <Typography style={{ color: 'green' }}>Logo is uploaded!</Typography>
         ) : null}
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <input type="file" accept="image/*" onChange={handleLogoChange} />
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleLogoChange}
+            ref={fileInputRef}
+            style={{ display: 'none' }}
+          />
           <button
             onClick={handleUpload}
             style={{
               marginLeft: '10px',
               marginBottom: '20px',
-              backgroundColor: '#444',
-              color: '#fff',
+              backgroundColor: 'linear-gradient(90deg, #000, #000, #333, #333, #333, #555, #555)', // Shaded background
+              color: '#fff', // White text color
               border: 'none',
-              padding: '5px 10px',
+              padding: '10px 20px',
               cursor: 'pointer',
+              borderRadius: '5px',
+              boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.7)',
             }}
           >
             Upload
