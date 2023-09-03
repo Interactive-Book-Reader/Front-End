@@ -59,9 +59,9 @@ const AuthRegister = ({ title, subtitle, subtext }) => {
 
         const responseData = await response.json();
 
-        if (responseData.message==='Publisher is added successfully.'){
+        if (responseData.message==='OTP is sent successfully.'){
             console.log(responseData);
-            window.location.href = '/auth/login';
+            window.location.href = `/auth/otpverification?id=${responseData.data.publisherId}`;
         }else{
             setErrorMessege(responseData.message);
         }
