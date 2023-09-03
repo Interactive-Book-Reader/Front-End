@@ -49,7 +49,7 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
       if (responseData.message === 'Login Successful') {
         console.log(responseData);
         cookies.set('token', responseData.token);
-        window.location.href = `/home?token=${responseData.token}`;
+        window.location.href = `/home`;
         //Navigate('/dashboard');
       } else {
         setErrorMessege(responseData.message);
