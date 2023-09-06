@@ -46,19 +46,15 @@ const OtpInput = ({ numInputs = 6, onChange }) => {
     inputRefs.current[0].focus();
   }, []);
 
-  // CSS styles for the OTP input fields
-  const inputStyle = {
-    width: '40px',
-    height: '40px',
-    fontSize: '18px',
-    textAlign: 'center',
-  };
-
   return (
     <div
-    style={{
+      style={{
         display: 'flex',
-    }}>
+        justifyContent: 'center',
+        alignItems: 'center',
+        margin: '0 auto',
+      }}
+    >
       <div className="otp-input">
         {otp.map((digit, index) => (
           <input
@@ -70,7 +66,14 @@ const OtpInput = ({ numInputs = 6, onChange }) => {
             onKeyUp={(e) => handleBackspace(e, index)}
             onKeyDown={handleKeyDown} // Prevent Backspace and Delete
             ref={(input) => (inputRefs.current[index] = input)}
-            style={inputStyle}
+            style={{
+              width: '50px', // Adjust the width as needed
+              height: '50px', // Adjust the height as needed
+              borderRadius: '50%', // Make the input round
+              marginRight: '10px', // Add space between inputs
+              textAlign: 'center', // Center-align text
+              boxShadow: '0px 0px 2px rgba(0, 0, 0, 0.9)', // Add shadow to individual inputs
+            }}
           />
         ))}
       </div>
