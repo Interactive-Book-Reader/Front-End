@@ -47,7 +47,7 @@ const AuthRegister = ({ title, subtitle, subtext }) => {
         phonenumber: phoneNumber,
         password: password,
       };
-
+      alert("wait for OTP");
       try {
         const response = await fetch('http://localhost:3001/api/publisher/register', {
           method: 'POST',
