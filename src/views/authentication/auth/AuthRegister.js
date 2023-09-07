@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Typography, Button } from '@mui/material';
-
+import LoadingNotification from 'src/components/LoadNotification/LoadingNotofication';
 import CustomTextField from '../../../components/forms/theme-elements/CustomTextField';
 import { Stack } from '@mui/system';
 
@@ -11,6 +11,7 @@ const AuthRegister = ({ title, subtitle, subtext }) => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessege, setErrorMessege] = useState('');
+  const [loading, setLoading] = useState(false); 
 
   const handleNameChange = (event) => {
     setName(event.target.value);
@@ -47,6 +48,7 @@ const AuthRegister = ({ title, subtitle, subtext }) => {
         phonenumber: phoneNumber,
         password: password,
       };
+      setLoading(true);
       alert("wait for OTP");
       try {
         const response = await fetch('http://localhost:3001/api/publisher/register', {
@@ -164,6 +166,7 @@ const AuthRegister = ({ title, subtitle, subtext }) => {
         >
           Sign Up
         </Button>
+        {loading && <LoadingNotification />}
         <Typography style={{ color: 'red' }}>{errorMessege}</Typography>
       </Box>
       {subtitle}
