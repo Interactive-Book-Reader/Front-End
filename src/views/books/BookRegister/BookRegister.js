@@ -72,13 +72,16 @@ const BookRegister = ({ title, subtitle, subtext }) => {
     uploadBytes(imageRef, coverpage)
       .then((snaphsot) => {
         console.log('Image is uploaded.');
-        setLoading(false);
+        
 
         // Get the download URL for the uploaded image
         getDownloadURL(snaphsot.ref)
           .then((url) => {
             setImageLink(url); // Assuming you have a function to set the URL in your component's state
             console.log(imageLink);
+            if (imageLink !== '' && pdfLink !== '') {
+              setLoading(false);
+            }
           })
           .catch((error) => {
             console.error('Error getting download URL:', error);
@@ -100,6 +103,9 @@ const BookRegister = ({ title, subtitle, subtext }) => {
           .then((url) => {
             setPDFink(url); // Assuming you have a function to set the URL in your component's state
             console.log(pdfLink);
+            if (imageLink !== '' && pdfLink !== '') {
+              setLoading(false);
+            }
           })
           .catch((error) => {
             console.error('Error getting download URL:', error);
