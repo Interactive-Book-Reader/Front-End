@@ -243,7 +243,7 @@ const Profile = () => {
               marginLeft: '10px',
               marginBottom: '20px',
               backgroundColor: 'linear-gradient(90deg, #000, #000, #333, #333, #333, #555, #555)', // Shaded background
-              color: '#fff', // White text color
+              color: '#000', // White text color
               border: 'none',
               padding: '10px 20px',
               cursor: 'pointer',
