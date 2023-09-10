@@ -12,8 +12,6 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { v4 } from 'uuid';
 import { Paper } from '@mui/material';
 import { getAuthToken } from '../authentication/auth/AuthLogin';
-import getPublisher from 'src/api/profile/get_publisher';
-import updatePublisher from 'src/api/profile/update_publisher';
 
 import backgroundImg from 'src/assets/images/backgrounds/background.jpg';
 
@@ -74,7 +72,14 @@ const Profile = () => {
   const [publisher, setPublisher] = useState({});
 
   const fetchData = async () => {
-    const data = await getPublisher(id);
+    const response = await fetch('http://localhost:3001/api/publisher/getPublisher', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ _id: id }),
+    });
+    const data = await response.json();
     setPublisher(data.publisher);
   };
 
@@ -117,7 +122,14 @@ const Profile = () => {
     updateData._id = id;
     console.log(updateData);
 
-    const responseData = await updatePublisher(updateData);
+    const response = await fetch('http://localhost:3001/api/publisher/update', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updateData),
+    });
+    const responseData = await response.json();
     setResponseMessage(responseData.message);
     if (responseData.message === 'Publisher data is updated successfully.') {
       fetchData();

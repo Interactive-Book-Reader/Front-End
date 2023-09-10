@@ -3,7 +3,6 @@ import { Box, Typography, Button } from '@mui/material';
 import LoadingNotification from 'src/components/LoadNotification/LoadingNotofication';
 import CustomTextField from '../../../components/forms/theme-elements/CustomTextField';
 import { Stack } from '@mui/system';
-import regitserpublisher from '../../../api/auth/register';
 
 const AuthRegister = ({ title, subtitle, subtext }) => {
   const [name, setName] = useState('');
@@ -52,7 +51,15 @@ const AuthRegister = ({ title, subtitle, subtext }) => {
       setLoading(true);
       alert("wait for OTP");
       try {
-        const responseData = await regitserpublisher(loginData);
+        const response = await fetch('http://localhost:3001/api/publisher/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(loginData),
+        });
+
+        const responseData = await response.json();
 
         if (responseData.message==='OTP is sent successfully.'){
             console.log(responseData);
@@ -60,6 +67,7 @@ const AuthRegister = ({ title, subtitle, subtext }) => {
         }else{
             setErrorMessege(responseData.message);
         }
+
         
       } catch (error) {
         console.log('Error', error);

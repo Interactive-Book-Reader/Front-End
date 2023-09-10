@@ -7,21 +7,27 @@ import DropDownList from 'src/components/DropDownList/DropDownList';
 import Cookies from 'universal-cookie';
 import jwt from 'jwt-decode';
 import PurpleButton from 'src/components/Buttons/PurpleButton';
-import getBooks from 'src/api/ar_content/ar_content';
 
 const ARContent = () => {
-  let [list, setList] = React.useState([]);
+  let list = [];
 
   const cookies = new Cookies();
   const token = cookies.get('token');
   const id = jwt(token)._id;
 
   const fetchData = async () => {
-    const data = await getBooks(id);
+    const response = await fetch('http://localhost:3001/api/book/publisherbook', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ publisher_id: id }),
+    });
+    const data = await response.json();
     console.log(data.response);
     for (const element of data.response) {
         console.log( element.title);
-        setList((prevList) => [...prevList, element.title]);
+        list.push(element.title);
       }
   };
   useEffect(() => {
