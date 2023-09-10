@@ -5,8 +5,6 @@ import PurpleButton from 'src/components/Buttons/PurpleButton';
 import image from 'src/assets/images/OTP page/dried-flowers-notebook.jpg';
 import image1 from 'src/assets/images/OTP page/11857.jpg';
 import image2 from 'src/assets/images/OTP page/blue-brushstrokes-background.jpg';
-import verifyOTP from 'src/api/otp_verification/verify_otp';
-import resendOTP from 'src/api/otp_verification/resend_otp';
 
 const OTPVerification = () => {
   const url = new URL(window.location.href);
@@ -23,7 +21,14 @@ const OTPVerification = () => {
   };
 
   const handleSubmit = async () => {
-    const responseData = await verifyOTP(otp, id);
+    const response = await fetch('http://localhost:3001/api/publisher/verifyOTP', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ otp: otp, publisherId: id }),
+    });
+    const responseData = await response.json();
     if (responseData.message === 'OTP is verified successfully.') {
       console.log(responseData);
       window.location.href = `/auth/login`;
@@ -34,7 +39,14 @@ const OTPVerification = () => {
   };
 
   const handleResend = async () => {
-    const responseData = await resendOTP(id, email);
+    const response = await fetch('http://localhost:3001/api/publisher/resendOTP', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ publisherId: id, email: email }),
+    });
+    const responseData = await response.json();
     if (responseData.message === 'OTP is sent successfully.') {
       setResendmessage(responseData.message);
       console.log(responseData.message);
