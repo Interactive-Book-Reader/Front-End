@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
 import React, { useState } from 'react';
 import CustomTextField from '../../../components/forms/theme-elements/CustomTextField';
 import Cookies from 'universal-cookie';
-import LoginFunction from "../../../api/auth/login";
+import LoginFunction from '../../../api/auth/login';
 
 const AuthLogin = ({ title, subtitle, subtext }) => {
   const cookies = new Cookies();
