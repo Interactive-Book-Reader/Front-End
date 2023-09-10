@@ -40,7 +40,7 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
       const responseData = await LoginFunction(loginData);
       if (responseData.message === 'Login Successful') {
         console.log(responseData);
-        cookies.set('token', responseData.token);
+        cookies.set('token', responseData.token, { path: '/' });
         window.location.href = `/home`;
       } else {
         setErrorMessege(responseData.message);
