@@ -13,6 +13,7 @@ import { Paper } from '@mui/material';
 import MainTopic from 'src/components/Topic/MainTopic';
 import PurpleButton from 'src/components/Buttons/PurpleButton';
 import { InputAdornment } from '@mui/material';
+import bookRegister from 'src/api/book/book_register';
 
 const BookRegister = ({ title, subtitle, subtext }) => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -131,14 +132,7 @@ const BookRegister = ({ title, subtitle, subtext }) => {
       pdf: pdfLink,
     }; // Your JSON data
     try {
-      const response = await fetch('http://localhost:3001/api/book/store', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(jsonData),
-      });
-
+      const response = await bookRegister(jsonData);
       if (response.ok) {
         setRegisterBook('Book Registered Successfully');
         console.log('Data sent successfully');

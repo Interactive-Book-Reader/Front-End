@@ -12,7 +12,9 @@ import Spinner from '../../../components/Spinner/Spinner';
 import backgroundImg from 'src/assets/images/backgrounds/5153829.jpg';
 import MainTopic from 'src/components/Topic/MainTopic';
 import { InputAdornment } from '@mui/material';
-
+import getAllBooks from 'src/api/book/get_all_books';
+import updateBook from 'src/api/book/book_update';
+import deleteBook from 'src/api/book/book_delete';
 
 const BookDetailsPage = () => {
 
@@ -30,14 +32,7 @@ const BookDetailsPage = () => {
   const updateData = {};
 
   const fetchData = async () => {
-    const response = await fetch('http://localhost:3001/api/book/show', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ id: id }),
-    });
-    const data = await response.json();
+    const data = await getAllBooks(id);
     setBook(data);
     console.log(data);
   };
@@ -67,20 +62,11 @@ const BookDetailsPage = () => {
       updateData.pdf = pdfLink;
     }
     updateData.id = id;
-    console.log(updateData);
-    const response = await fetch('http://localhost:3001/api/book/update', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(updateData),
-    });
-    const data = await response.json();
+    const data = await updateBook(updateData);
     if (data.message === 'Book is updated successfully') {
       setLoadingDetails('Book is updated successfully');
       fetchData();
     }
-    console.log(data.message);
   };
 
   const handleUpload = () => {
@@ -127,14 +113,7 @@ const BookDetailsPage = () => {
   };
 
   const handleDelete = async () => {
-    const response = await fetch('http://localhost:3001/api/book/delete', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ id: id }),
-    });
-    const data = await response.json();
+    const data = await deleteBook(id);
     if (data.message === 'Book is deleted successfully!') {
       window.location.href = '/products';
     }
