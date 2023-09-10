@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import React, { useState } from 'react';
 import CustomTextField from '../../../components/forms/theme-elements/CustomTextField';
 import Cookies from 'universal-cookie';
+import LoginFunction from "../../../api/auth/login";
 
 const AuthLogin = ({ title, subtitle, subtext }) => {
   const cookies = new Cookies();
@@ -36,21 +37,11 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
     };
 
     try {
-      const response = await fetch('http://localhost:3001/api/publisher/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(loginData),
-      });
-
-      const responseData = await response.json();
-
+      const responseData = await LoginFunction(loginData);
       if (responseData.message === 'Login Successful') {
         console.log(responseData);
         cookies.set('token', responseData.token);
         window.location.href = `/home`;
-        //Navigate('/dashboard');
       } else {
         setErrorMessege(responseData.message);
       }
