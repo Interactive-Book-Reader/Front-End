@@ -10,6 +10,7 @@ import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import PurpleButton from 'src/components/Buttons/PurpleButton';
 import SearchBar from 'src/components/SearchBar/SearchBar';
+import publisherBook from 'src/api/products/publisher_book';
 
 const Products = () => {
   const token = getAuthToken();
@@ -39,14 +40,7 @@ const Products = () => {
   const [filteredBooks, setFilteredBooks] = useState([]);
 
   const fetchData = async () => {
-    const response = await fetch('http://localhost:3001/api/book/publisherbook', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ publisher_id: id }),
-    });
-    const data = await response.json();
+    const data = await publisherBook(id);
     setBooklist(data.response);
     setFilteredBooks(data.response);
     console.log(data.response);
