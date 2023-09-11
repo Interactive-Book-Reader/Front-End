@@ -12,17 +12,20 @@ import getBooks from 'src/api/ar_content/ar_content';
 const ARContent = () => {
   let [list, setList] = React.useState([]);
 
-  const cookies = new Cookies();
-  const token = cookies.get('token');
-  const id = jwt(token)._id;
-
   const fetchData = async () => {
-    const data = await getBooks(id);
-    console.log(data.response);
-    for (const element of data.response) {
-        console.log( element.title);
+    try {
+      const cookies = new Cookies();
+      const token = cookies.get('token');
+      const id = jwt(token)._id;
+      const data = await getBooks(id);
+      console.log(data.response);
+      for (const element of data.response) {
+        console.log(element.title);
         setList((prevList) => [...prevList, element.title]);
       }
+    } catch (err) {
+      window.location.href = '/auth/login';
+    }
   };
   useEffect(() => {
     fetchData();
