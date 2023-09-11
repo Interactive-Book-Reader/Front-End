@@ -1,7 +1,7 @@
 import { Box, Typography, OutlinedInput, FormControl } from '@mui/material';
 import CustomTextField from '../../../components/forms/theme-elements/CustomTextField';
 import { Stack } from '@mui/system';
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { storage } from '../../../firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { v4 } from 'uuid';
@@ -28,10 +28,24 @@ const BookRegister = ({ title, subtitle, subtext }) => {
   const [pdfLink, setPDFink] = useState('');
   const [loading, setLoading] = useState(false);
   const [registerBook, setRegisterBook] = useState('');
+  const [id, setId] = useState('');
 
-  const cookies = new Cokkies();
-  const token = cookies.get('token');
-  const id = jwt(token)._id;
+  
+  const fetchData = () => {
+    try {
+      const cookies = new Cokkies();
+      const token = cookies.get('token');
+      const id = jwt(token)._id;
+      setId(id);
+    }
+    catch (err) {
+      window.location.href = '/auth/login';
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
