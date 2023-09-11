@@ -13,8 +13,6 @@ import SearchBar from 'src/components/SearchBar/SearchBar';
 import publisherBook from 'src/api/products/publisher_book';
 
 const Products = () => {
-  const token = getAuthToken();
-  const id = jwt(token)._id;
   const [booklist, setBooklist] = useState([]);
 
   const pdfRef = useRef();
@@ -40,10 +38,16 @@ const Products = () => {
   const [filteredBooks, setFilteredBooks] = useState([]);
 
   const fetchData = async () => {
-    const data = await publisherBook(id);
-    setBooklist(data.response);
-    setFilteredBooks(data.response);
-    console.log(data.response);
+    try {
+      const token = getAuthToken();
+      const id = jwt(token)._id;
+      const data = await publisherBook(id);
+      setBooklist(data.response);
+      setFilteredBooks(data.response);
+      console.log(data.response);
+    } catch (err) {
+      window.location.href = '/auth/login';
+    }
   };
 
   useEffect(() => {

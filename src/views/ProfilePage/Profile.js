@@ -31,6 +31,7 @@ const Profile = () => {
   const [loading, setLoading] = useState('');
   const updateData = {};
   const fileInputRef = useRef(null);
+  const [id, setId] = useState(''); // Publisher ID
 
   const handleNameChange = (newInputText) => {
     setName(newInputText);
@@ -69,13 +70,18 @@ const Profile = () => {
     fileInputRef.current.click();
   };
 
-  const token = getAuthToken();
-  const id = jwt(token)._id;
   const [publisher, setPublisher] = useState({});
 
   const fetchData = async () => {
-    const data = await getPublisher(id);
-    setPublisher(data.publisher);
+    try {
+      const token = getAuthToken();
+      const id = jwt(token)._id;
+      setId(id);
+      const data = await getPublisher(id);
+      setPublisher(data.publisher);
+    } catch (err) {
+      window.location.href = '/auth/login';
+    }
   };
 
   useEffect(() => {
