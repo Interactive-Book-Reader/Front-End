@@ -39,8 +39,8 @@ const AuthRegister = ({ title, subtitle, subtext }) => {
     event.preventDefault();
     if (name === '' || username === '' || email === '' || phoneNumber === '' || password === '') {
       setErrorMessege('All fields are required!');
-    } else if (password.length < 8) {
-      setErrorMessege('Password must be at least 8 characters long.');
+    } else if (password.length < 6) {
+      setErrorMessege('Password must be at least 6 characters long.');
     } else {
       const loginData = {
         name: name,
@@ -58,6 +58,7 @@ const AuthRegister = ({ title, subtitle, subtext }) => {
             console.log(responseData);
             window.location.href = `/auth/otpverification?id=${responseData.data.publisherId}&email=${responseData.data.email}`;
         }else{
+          setLoading(false);
             setErrorMessege(responseData.message);
         }
         
