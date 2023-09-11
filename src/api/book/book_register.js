@@ -1,5 +1,7 @@
+import baseURL from "src/config/config";
+
 export default async function registerBook(jsonData){
-    const response = await fetch('http://localhost:3001/api/book/store', {
+    const response = await fetch(`${baseURL}/api/book/store`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

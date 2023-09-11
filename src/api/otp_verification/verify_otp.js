@@ -1,5 +1,7 @@
+import baseURL from "src/config/config";
+
 export default async function verifyOTP(otp, id) {
-  const response = await fetch('http://localhost:3001/api/publisher/verifyOTP', {
+  const response = await fetch(`${baseURL}/api/publisher/verifyOTP`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

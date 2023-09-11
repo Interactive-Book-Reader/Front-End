@@ -1,5 +1,7 @@
+import baseURL from "src/config/config";
+
 export default async function deleteBook(id) {
-  const response = await fetch('http://localhost:3001/api/book/delete', {
+  const response = await fetch(`${baseURL}/api/book/delete`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

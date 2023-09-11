@@ -1,5 +1,7 @@
+import baseURL from "src/config/config";
+
 export default async function updatePublisher(updateData){
-    const response = await fetch('http://localhost:3001/api/publisher/update', {
+    const response = await fetch(`${baseURL}/api/publisher/update`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
