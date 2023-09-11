@@ -3,9 +3,9 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { Paper } from '@mui/material';
+import { Paper, Typography } from '@mui/material';
 
-const YearPicker = ({ label, onInputChange }) => {
+const YearPicker = ({ label, onInputChange, output }) => {
   const [isHovered, setIsHovered] = useState(false);
   const printDate = (date) => {
     onInputChange(date.format('YYYY'));
@@ -25,9 +25,32 @@ const YearPicker = ({ label, onInputChange }) => {
       }}
     >
       <div style={{ marginRight: '20px', backgroundColor: '#fafaf7' }}>
+        <Typography
+          variant="h7"
+          component="div"
+          sx={{
+            flexGrow: 1,
+            fontSize: '15px',
+            color: 'black',
+            textAlign: 'justify',
+            marginLeft: '1px',
+            marginTop: '1px',
+          }}
+        >
+          Year Stablished: <span style={{ color: 'blue', fontStyle: 'italic' }}>{output}</span>
+        </Typography>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DemoContainer components={['DatePicker']}>
-            <DatePicker label={label} views={['year']} onChange={printDate} />
+            <DatePicker
+              label={label}
+              views={['year']}
+              onChange={printDate}
+              sx={{
+                width: '100%',
+                backgroundColor: '#f0f0f0',
+                borderRadius: '5px',
+              }}
+            />
           </DemoContainer>
         </LocalizationProvider>
       </div>

@@ -3,7 +3,6 @@ import TextBox from 'src/components/TextBox/TextBox';
 import PurpleButton from 'src/components/Buttons/PurpleButton';
 import YearPicker from 'src/components/DateField/YearPicker';
 import MainTopic from 'src/components/Topic/MainTopic';
-import SubTopic from 'src/components/Topic/SubTopic';
 import LoadingSpinner from 'src/components/Spinner/Spinner';
 import jwt from 'jwt-decode';
 import { Typography } from '@mui/material';
@@ -312,8 +311,7 @@ const Profile = () => {
             />
           </div>
           <div style={{ width: '48%' }}>
-            <SubTopic text={`Year Established:   ${publisher.year_stabilized}`} />
-            <YearPicker text="Date of Birth" onInputChange={handleYear_stabilizedChange} />
+            <YearPicker text="Date of Birth" onInputChange={handleYear_stabilizedChange} output={publisher.year_stabilized} label="Enter New Year:"/>
           </div>
         </div>
 

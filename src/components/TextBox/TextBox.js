@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Typography, TextField } from '@mui/material';
-import SubTopic from 'src/components/Topic/SubTopic';
 import { Paper } from '@mui/material';
 
 const TextBox = ({ inputText, label, width, type, isMultiline, onInputChange, defaultValue }) => {
@@ -39,9 +38,11 @@ const TextBox = ({ inputText, label, width, type, isMultiline, onInputChange, de
               marginTop: '10px',
             }}
           >
-            {inputText}
+            {inputText}:{' '}
+            <span style={{ color: 'blue', fontStyle: defaultValue ? 'italic' : 'normal' }}>
+              {defaultValue}
+            </span>
           </Typography>
-          <SubTopic text={defaultValue} />
         </div>
 
         <TextField
