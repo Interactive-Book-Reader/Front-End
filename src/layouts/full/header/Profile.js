@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Avatar,
@@ -10,11 +10,12 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@mui/material';
-
+import jwt from 'jwt-decode';
 import { IconListCheck, IconMail, IconUser } from '@tabler/icons';
 
 import ProfileImg from 'src/assets/images/profile/user-1.jpg';
 import Cookies from 'universal-cookie';
+import getPublisher from 'src/api/profile/get_publisher';
 
 export const clearAuthToken = () => {
   // Clear the 'token' cookie by setting its value to an empty string and specifying a past expiration date
@@ -24,6 +25,25 @@ export const clearAuthToken = () => {
 
 const Profile = () => {
   const [anchorEl2, setAnchorEl2] = useState(null);
+  const [publisher, setPublisher] = useState({});
+  const fetchData = async () => {
+    try {
+      const cookies = new Cookies();
+      const token = cookies.get('token');
+      const id = jwt(token)._id;
+
+      const response = await getPublisher(id);
+      setPublisher(response.publisher);
+      console.log(response);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   const handleClick2 = (event) => {
     setAnchorEl2(event.currentTarget);
   };
@@ -50,15 +70,22 @@ const Profile = () => {
           }),
         }}
         onClick={handleClick2}
-      >
-        <Avatar
-          src={ProfileImg}
-          alt={ProfileImg}
-          sx={{
-            width: 35,
-            height: 35,
-          }}
-        />
+      >{publisher.logo===undefined ? (<Avatar
+        src={ProfileImg}
+        alt={ProfileImg}
+        sx={{
+          width: 35,
+          height: 35,
+        }}
+      />) : (<Avatar
+        src={publisher.logo}
+        alt={publisher.logo}
+        sx={{
+          width: 35,
+          height: 35,
+        }}
+      />)}
+        
       </IconButton>
       <Menu
         id="msgs-menu"
@@ -93,7 +120,13 @@ const Profile = () => {
           <ListItemText>My Tasks</ListItemText>
         </MenuItem>
         <Box mt={1} py={1} px={2}>
-          <Button variant="outlined" color="primary" component={Link} fullWidth onClick={handleLogout}>
+          <Button
+            variant="outlined"
+            color="primary"
+            component={Link}
+            fullWidth
+            onClick={handleLogout}
+          >
             Logout
           </Button>
         </Box>
