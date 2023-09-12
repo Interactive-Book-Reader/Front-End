@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Grid, Box, Typography, Button, OutlinedInput, FormControl, Paper } from '@mui/material';
+import {
+  Grid,
+  Box,
+  Typography,
+  Button,
+  OutlinedInput,
+  FormControl,
+  Paper,
+} from '@mui/material';
 import CustomTextField from '../../../components/forms/theme-elements/CustomTextField';
 import { Stack } from '@mui/system';
 import PageContainer from 'src/components/container/PageContainer';
@@ -17,7 +25,6 @@ import updateBook from 'src/api/book/book_update';
 import deleteBook from 'src/api/book/book_delete';
 
 const BookDetailsPage = () => {
-
   const [pdf, setPdf] = useState(null);
   const [image, setImage] = useState(null);
   const [title, setTitle] = useState('');
@@ -202,7 +209,17 @@ const BookDetailsPage = () => {
                         htmlFor="title"
                         mb="5px"
                       >
-                        Title: {book.title}
+                        Title:{' '}
+                        <span
+                          style={{
+                            color: 'blue',
+                            fontStyle: 'italic',
+                            fontWeight: '800',
+                            fontSize: '16px',
+                          }}
+                        >
+                          {book.title}
+                        </span>
                       </Typography>
                       <CustomTextField
                         label="Enter new title:"
@@ -220,7 +237,17 @@ const BookDetailsPage = () => {
                         mb="5px"
                         mt="15px"
                       >
-                        Author: {book.author}
+                        Author:{' '}
+                        <span
+                          style={{
+                            color: 'blue',
+                            fontStyle: 'italic',
+                            fontWeight: '800',
+                            fontSize: '16px',
+                          }}
+                        >
+                          {book.author}
+                        </span>
                       </Typography>
                       <CustomTextField
                         label="Enter new author:"
@@ -238,7 +265,17 @@ const BookDetailsPage = () => {
                         mb="5px"
                         mt="15px"
                       >
-                        Genre: {book.genre}
+                        Genre:{' '}
+                        <span
+                          style={{
+                            color: 'blue',
+                            fontStyle: 'italic',
+                            fontWeight: '800',
+                            fontSize: '16px',
+                          }}
+                        >
+                          {book.genre}
+                        </span>
                       </Typography>
                       <CustomTextField
                         label="Enter new genre:"
@@ -256,7 +293,17 @@ const BookDetailsPage = () => {
                         mb="5px"
                         mt="15px"
                       >
-                        Summary: {book.summary}
+                        Summary:{' '}
+                        <span
+                          style={{
+                            color: 'blue',
+                            fontStyle: 'italic',
+                            fontWeight: '800',
+                            fontSize: '16px',
+                          }}
+                        >
+                          {book.summary}
+                        </span>
                       </Typography>
                       <CustomTextField
                         label="Enter new summary"
@@ -274,7 +321,17 @@ const BookDetailsPage = () => {
                         mb="5px"
                         mt="15px"
                       >
-                        Price: {book.price}
+                        Price:{' '}
+                        <span
+                          style={{
+                            color: 'blue',
+                            fontStyle: 'italic',
+                            fontWeight: '800',
+                            fontSize: '16px',
+                          }}
+                        >
+                          {book.price}
+                        </span>
                       </Typography>
                       <div></div>
                       <CustomTextField
@@ -311,13 +368,20 @@ const BookDetailsPage = () => {
                         >
                           Choose Book
                         </Typography>
-                        <FormControl variant="outlined" display="block">
+                        <FormControl
+                          variant="outlined"
+                          display="block"
+                          style={{
+                            width: '100%', // Set the desired width here
+                          }}
+                        >
                           <OutlinedInput
                             id="image-file"
                             type="file"
                             accept=".png, .jpg, .jpeg"
                             inputProps={{ multiple: false }}
                             onChange={(e) => setPdf(e.target.files[0])}
+                            
                           />
                         </FormControl>
                       </div>
@@ -334,7 +398,9 @@ const BookDetailsPage = () => {
                         >
                           Choose Cover Page
                         </Typography>
-                        <FormControl variant="outlined" display="block">
+                        <FormControl variant="outlined" display="block" style={{
+                            width: '100%', // Set the desired width here
+                        }}>
                           <OutlinedInput
                             id="image-file"
                             type="file"
@@ -399,3 +465,5 @@ const BookDetailsPage = () => {
 };
 
 export default BookDetailsPage;
+
+
