@@ -2,7 +2,7 @@ import baseURL from 'src/config/config';
 
 const getDetails = async (id) => {
   const response = await fetch(`${baseURL}/api/read_books/getdetails`,{
-    method: 'GET',
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },

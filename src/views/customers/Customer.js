@@ -1,16 +1,27 @@
-import React,{useEffect,useState,useRef} from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import PageContainer from 'src/components/container/PageContainer';
 import PurpleButton from 'src/components/Buttons/PurpleButton';
 import getDetails from 'src/api/customers/getDetails';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import jwt from 'jwt-decode';
+import Cookies from 'universal-cookie';
 
 const Customers = () => {
   const [data, setData] = useState([]);
+
   const fetchData = async () => {
-    const data = await getDetails();
-    setData(data.data);
-    console.log(data);
+    try {
+      const cookies = new Cookies();
+      const token = cookies.get('token');
+      const id = jwt(token)._id;
+      const data = await getDetails(id);
+      setData(data.data);
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+      // window.location.href = '/auth/login';
+    }
   };
 
   useEffect(() => {
@@ -35,7 +46,6 @@ const Customers = () => {
       pdf.save('Customer.pdf');
     });
   };
-  
 
   return (
     <PageContainer title="Customer" description="this is Customer Page">
@@ -75,7 +85,7 @@ const Customers = () => {
           marginTop: '10px',
         }}
       >
-        <PurpleButton label="Download report" onClick={downloadPDF}/>
+        <PurpleButton label="Download report" onClick={downloadPDF} />
       </div>
     </PageContainer>
   );
