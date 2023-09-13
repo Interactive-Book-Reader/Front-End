@@ -9,6 +9,7 @@ import image4 from 'src/assets/images/home/img2.PNG';
 import image5 from 'src/assets/images/home/Book_rack.jpg';
 import ComponentSlider from 'src/components/Slider/ComponentSlider';
 import SendUsMessage from 'src/views/Home/SendUsMessage';
+import ImageCarousel from 'src/views/Home/ImageCarousel';
 
 const HomePage = () => {
   const [isHovered, setIsHovered] = React.useState(false);
@@ -75,11 +76,8 @@ const HomePage = () => {
               </Grid>
             </div>
           </Grid>
-          <Grid item xs={18}>
-            <div>
-              <ComponentSlider components={newImageList} className="bg-white/80" />
-            </div>
-          </Grid>
+          <Grid marginTop="50px"  marginBottom="50px"><ImageCarousel/></Grid>
+          
           <div
             style={{
               maxWidth: '100%',

@@ -16,6 +16,7 @@ function SendUsMessage(props) {
     padding: '30px',
     paddingLeft: '30px',
     alignItems: 'center',
+    backgroundColor: '#a7b6c2',
   };
 
   const [formData, setFormData] = useState({
@@ -54,7 +55,7 @@ function SendUsMessage(props) {
         <form onSubmit={handleSubmit}>
           <TextField
             label="Name"
-            variant="outlined"
+            variant="standard"
             name="name"
             type="name"
             value={formData.name}
@@ -65,7 +66,7 @@ function SendUsMessage(props) {
           />
           <TextField
             label="Email"
-            variant="outlined"
+            variant="standard"
             name="email"
             type="email"
             value={formData.email}
@@ -76,7 +77,7 @@ function SendUsMessage(props) {
           />
           <TextField
             label="Contact Number"
-            variant="outlined"
+            variant="standard"
             name="contactNo"
             type="tel"
             value={formData.contactNo}
@@ -86,7 +87,7 @@ function SendUsMessage(props) {
           />
           <TextField
             label="Message"
-            variant="outlined"
+            variant="standard"
             name="message"
             multiline
             rows={4}
@@ -96,7 +97,7 @@ function SendUsMessage(props) {
             required
             margin="normal"
           />
-          <Button type="submit" variant="contained" color="primary">
+          <Button style ={{backgroundColor: '#007bff'}}type="submit" variant="contained" color="primary">
             SEND
           </Button>
         </form>
