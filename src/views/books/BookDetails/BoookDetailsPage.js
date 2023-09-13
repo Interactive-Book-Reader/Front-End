@@ -23,6 +23,7 @@ import { InputAdornment } from '@mui/material';
 import getAllBooks from 'src/api/book/get_all_books';
 import updateBook from 'src/api/book/book_update';
 import deleteBook from 'src/api/book/book_delete';
+import DropDownList from 'src/components/DropDownList/DropDownList';
 
 const BookDetailsPage = () => {
   const [pdf, setPdf] = useState(null);
@@ -37,6 +38,14 @@ const BookDetailsPage = () => {
   const [loading, setLoading] = useState(false);
   const [loadingdetails, setLoadingDetails] = useState('');
   const updateData = {};
+  const BOOK_CATEGORIES = [
+    "Adventure",
+    "Mystery",
+    "Poetry",
+    "Non-Fiction",
+    "Fairy Tales and Folklore",
+    "Animal Stories",
+  ];
 
   const fetchData = async () => {
     const data = await getAllBooks(id);
@@ -276,14 +285,9 @@ const BookDetailsPage = () => {
                         >
                           {book.genre}
                         </span>
+                        
                       </Typography>
-                      <CustomTextField
-                        label="Enter new genre:"
-                        id="Genre"
-                        variant="outlined"
-                        fullWidth
-                        onChange={(e) => setGenre(e.target.value)}
-                      />
+                      <DropDownList label="Genre" items={BOOK_CATEGORIES} onchange={setGenre}/>
 
                       <Typography
                         variant="subtitle1"
