@@ -11,6 +11,8 @@ import getBooks from 'src/api/ar_content/ar_content';
 
 const ARContent = () => {
   let [list, setList] = React.useState([]);
+  const [book, setBook] = React.useState('');
+  console.log(book);
 
   const fetchData = async () => {
     try {
@@ -120,7 +122,7 @@ const ARContent = () => {
           <Typography variant="subtitle1" fontWeight={600} component="label" mb="5px" mt="15px">
             Book :
           </Typography>
-          <DropDownList label="Book" items={list} />
+          <DropDownList label="Book" items={list} onchange={setBook}/>
         </div>
         <div
           style={{

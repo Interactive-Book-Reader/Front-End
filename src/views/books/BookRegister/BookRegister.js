@@ -14,6 +14,7 @@ import MainTopic from 'src/components/Topic/MainTopic';
 import PurpleButton from 'src/components/Buttons/PurpleButton';
 import { InputAdornment } from '@mui/material';
 import bookRegister from 'src/api/book/book_register';
+import DropDownList from 'src/components/DropDownList/DropDownList';
 
 const BookRegister = ({ title, subtitle, subtext }) => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -29,6 +30,15 @@ const BookRegister = ({ title, subtitle, subtext }) => {
   const [loading, setLoading] = useState(false);
   const [registerBook, setRegisterBook] = useState('');
   const [id, setId] = useState('');
+
+  const BOOK_CATEGORIES = [
+    "Adventure",
+    "Mystery",
+    "Poetry",
+    "Non-Fiction",
+    "Fairy Tales and Folklore",
+    "Animal Stories",
+  ];
 
   
   const fetchData = () => {
@@ -65,10 +75,6 @@ const BookRegister = ({ title, subtitle, subtext }) => {
 
   const handleAuthorChange = (event) => {
     setAuthor(event.target.value);
-  };
-
-  const handleGenreChange = (event) => {
-    setGenre(event.target.value);
   };
 
   const handleSummaryChange = (event) => {
@@ -267,13 +273,7 @@ const BookRegister = ({ title, subtitle, subtext }) => {
               >
                 Genre
               </Typography>
-              <CustomTextField
-                label="Sample Genre - Science Fiction"
-                id="Genre"
-                variant="outlined"
-                fullWidth
-                onChange={handleGenreChange}
-              />
+              <DropDownList label="Sample Genre - Science Fiction" items={BOOK_CATEGORIES}  onchange={setGenre}/>
               <Typography
                 variant="subtitle1"
                 fontWeight={600}
