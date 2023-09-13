@@ -1,27 +1,28 @@
 import React, { useState } from 'react';
-import TextField from '@mui/material/TextField';
+import { Typography, TextField } from '@mui/material';
 import Button from '@mui/material/Button';
+import { Grid, Box } from '@mui/material';
 
 function SendUsMessage(props) {
   const containerStyle = {
+    boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.9)',
+    borderRadius: '40px',
     display: 'flex',
-    marginTop:20,
+    marginTop: 20,
     flexDirection: 'row', // This sets the direction to horizontal
   };
 
   const viewStyle = {
-    flex: 1,
-    background: 'lightblue',
-    padding: '10px',
+    padding: '30px',
+    paddingLeft: '30px',
     alignItems: 'center',
-
   };
 
   const [formData, setFormData] = useState({
     email: '',
     contactNo: '',
     message: '',
-    name:'',
+    name: '',
   });
 
   const handleChange = (e) => {
@@ -38,69 +39,67 @@ function SendUsMessage(props) {
   return (
     <div style={containerStyle}>
       {/* First View */}
-      <div style={viewStyle}>
-       <div style={{padding:100}}>
-       <h3>Contact Us</h3>
-        <h2>Send us messages for any info.</h2>
-
-        <h6>call for emergency to this number</h6>
-        +91 9876543210
-
-       </div>
- 
+      <div style={{ ...viewStyle, borderRadius: '40px 0 0 40px' }}>
+        <div style={{ padding: 20 , paddingTop:'40px'}}>
+          <Typography style={{fontSize: '25px',fontWeight:'bold' ,paddingTop:'20px', alignContent:'center'}} >Contact us</Typography>
+          <Typography style={{fontSize: '35px',fontWeight:'bold' ,paddingTop:'20px' ,alignContent:'center'}}>Send us messages </Typography>
+          <Typography style={{fontSize: '35px',fontWeight:'bold' ,paddingTop:'20px' ,alignContent:'center'}}>for any info.</Typography>
+          <Typography style={{fontSize: '20px',paddingTop:'20px' ,alignContent:'center'}}>call us for any emergency to this number</Typography>
+          <Typography style={{fontSize: '20px',paddingTop:'20px' ,alignContent:'center'}}>+91 9876543210</Typography>
+        </div>
       </div>
 
       {/* Second View */}
-      <div style={viewStyle}>
-      <form onSubmit={handleSubmit}>
-      <TextField
-        label="Name"
-        variant="outlined"
-        name="name"
-        type="name"
-        value={formData.name}
-        onChange={handleChange}
-        fullWidth
-        required
-        margin="normal"
-      />
-      <TextField
-        label="Email"
-        variant="outlined"
-        name="email"
-        type="email"
-        value={formData.email}
-        onChange={handleChange}
-        fullWidth
-        required
-        margin="normal"
-      />
-      <TextField
-        label="Contact Number"
-        variant="outlined"
-        name="contactNo"
-        type="tel"
-        value={formData.contactNo}
-        onChange={handleChange}
-        fullWidth
-        margin="normal"
-      />
-      <TextField
-        label="Message"
-        variant="outlined"
-        name="message"
-        multiline
-        rows={4}
-        value={formData.message}
-        onChange={handleChange}
-        fullWidth
-        required
-        margin="normal"
-      />
-      <Button type="submit" variant="contained" color="primary">
-        SEND
-      </Button>
-    </form>
+      <div style={{ ...viewStyle,width:'65%', borderRadius: '0 40px 40px 0' }}>
+        <form onSubmit={handleSubmit}>
+          <TextField
+            label="Name"
+            variant="outlined"
+            name="name"
+            type="name"
+            value={formData.name}
+            onChange={handleChange}
+            fullWidth
+            required
+            margin="normal"
+          />
+          <TextField
+            label="Email"
+            variant="outlined"
+            name="email"
+            type="email"
+            value={formData.email}
+            onChange={handleChange}
+            fullWidth
+            required
+            margin="normal"
+          />
+          <TextField
+            label="Contact Number"
+            variant="outlined"
+            name="contactNo"
+            type="tel"
+            value={formData.contactNo}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+          />
+          <TextField
+            label="Message"
+            variant="outlined"
+            name="message"
+            multiline
+            rows={4}
+            value={formData.message}
+            onChange={handleChange}
+            fullWidth
+            required
+            margin="normal"
+          />
+          <Button type="submit" variant="contained" color="primary">
+            SEND
+          </Button>
+        </form>
       </div>
     </div>
   );
