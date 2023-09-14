@@ -1,7 +1,7 @@
 import { Box, Typography, OutlinedInput, FormControl } from '@mui/material';
 import CustomTextField from '../../../components/forms/theme-elements/CustomTextField';
 import { Stack } from '@mui/system';
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { storage } from '../../../firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { v4 } from 'uuid';
@@ -34,23 +34,21 @@ const BookRegister = ({ title, subtitle, subtext }) => {
   const [pdfUploading, setPdfUploading] = useState(false);
 
   const BOOK_CATEGORIES = [
-    "Adventure",
-    "Mystery",
-    "Poetry",
-    "Non-Fiction",
-    "Fairy Tales and Folklore",
-    "Animal Stories",
+    'Adventure',
+    'Mystery',
+    'Poetry',
+    'Non-Fiction',
+    'Fairy Tales and Folklore',
+    'Animal Stories',
   ];
 
-  
   const fetchData = () => {
     try {
       const cookies = new Cokkies();
       const token = cookies.get('token');
       const id = jwt(token)._id;
       setId(id);
-    }
-    catch (err) {
+    } catch (err) {
       window.location.href = '/auth/login';
     }
   };
@@ -58,6 +56,12 @@ const BookRegister = ({ title, subtitle, subtext }) => {
   useEffect(() => {
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if (imageUploading === false && pdfUploading === false) {
+      setLoading(false);
+    }
+  }, [imageUploading, pdfUploading]);
 
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -97,16 +101,13 @@ const BookRegister = ({ title, subtitle, subtext }) => {
     uploadBytes(imageRef, coverpage)
       .then((snaphsot) => {
         console.log('Image is uploaded.');
-        setImageUploading(false);        
 
         // Get the download URL for the uploaded image
         getDownloadURL(snaphsot.ref)
           .then((url) => {
             setImageLink(url); // Assuming you have a function to set the URL in your component's state
             console.log(imageLink);
-            if (imageUploading === false && pdfUploading === false) {
-              setLoading(false);
-            }
+            setImageUploading(false);
           })
           .catch((error) => {
             console.error('Error getting download URL:', error);
@@ -122,16 +123,13 @@ const BookRegister = ({ title, subtitle, subtext }) => {
     uploadBytes(pdfRef, selectedFile)
       .then((snaphsot) => {
         console.log('PDF is uploaded.');
-        setPdfUploading(false);
 
         // Get the download URL for the uploaded image
         getDownloadURL(snaphsot.ref)
           .then((url) => {
             setPDFink(url); // Assuming you have a function to set the URL in your component's state
             console.log(pdfLink);
-            if (imageUploading === false && pdfUploading === false) {
-              setLoading(false);
-            }
+            setPdfUploading(false);
           })
           .catch((error) => {
             console.error('Error getting download URL:', error);
@@ -278,7 +276,11 @@ const BookRegister = ({ title, subtitle, subtext }) => {
               >
                 Genre
               </Typography>
-              <DropDownList label="Sample Genre - Science Fiction" items={BOOK_CATEGORIES}  onchange={setGenre}/>
+              <DropDownList
+                label="Sample Genre - Science Fiction"
+                items={BOOK_CATEGORIES}
+                onchange={setGenre}
+              />
               <Typography
                 variant="subtitle1"
                 fontWeight={600}
@@ -391,13 +393,13 @@ const BookRegister = ({ title, subtitle, subtext }) => {
               <div style={{ marginLeft: '10px' }}>
                 {loading ? <Spinner /> : null}
                 {!loading ? <PurpleButton label="Register Book" onClick={handleSubmit} /> : null}
-                {registerBook === 'Book Registered Successfully' ? (
-                  <Typography style={{ color: 'green' }}>{registerBook}</Typography>
-                ) : registerBook === 'Book Registration Failed' ? (
-                  <Typography style={{ color: 'red' }}>{registerBook}</Typography>
-                ) : null}
               </div>
             </Box>
+            {registerBook === 'Book Registered Successfully' ? (
+              <Typography style={{ color: 'green' }}>{registerBook}</Typography>
+            ) : registerBook === 'Book Registration Failed' ? (
+              <Typography style={{ color: 'red' }}>{registerBook}</Typography>
+            ) : null}
           </Box>
         </Paper>
       </div>
