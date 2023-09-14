@@ -30,6 +30,8 @@ const BookRegister = ({ title, subtitle, subtext }) => {
   const [loading, setLoading] = useState(false);
   const [registerBook, setRegisterBook] = useState('');
   const [id, setId] = useState('');
+  const [imageUploading, setImageUploading] = useState(false);
+  const [pdfUploading, setPdfUploading] = useState(false);
 
   const BOOK_CATEGORIES = [
     "Adventure",
@@ -87,20 +89,22 @@ const BookRegister = ({ title, subtitle, subtext }) => {
 
   const handleUpload = () => {
     setLoading(true);
+    setImageUploading(true);
+    setPdfUploading(true);
     console.log('Uploading Image');
     if (coverpage == null) return;
     const imageRef = ref(storage, `images/${coverpage.name + v4()}`);
     uploadBytes(imageRef, coverpage)
       .then((snaphsot) => {
         console.log('Image is uploaded.');
-        
+        setImageUploading(false);        
 
         // Get the download URL for the uploaded image
         getDownloadURL(snaphsot.ref)
           .then((url) => {
             setImageLink(url); // Assuming you have a function to set the URL in your component's state
             console.log(imageLink);
-            if (imageLink !== '' && pdfLink !== '') {
+            if (imageUploading === false && pdfUploading === false) {
               setLoading(false);
             }
           })
@@ -118,13 +122,14 @@ const BookRegister = ({ title, subtitle, subtext }) => {
     uploadBytes(pdfRef, selectedFile)
       .then((snaphsot) => {
         console.log('PDF is uploaded.');
+        setPdfUploading(false);
 
         // Get the download URL for the uploaded image
         getDownloadURL(snaphsot.ref)
           .then((url) => {
             setPDFink(url); // Assuming you have a function to set the URL in your component's state
             console.log(pdfLink);
-            if (imageLink !== '' && pdfLink !== '') {
+            if (imageUploading === false && pdfUploading === false) {
               setLoading(false);
             }
           })

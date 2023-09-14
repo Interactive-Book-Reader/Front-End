@@ -57,8 +57,8 @@ const Customers = () => {
               <th style={headerCellStyle}>Name</th>
               <th style={headerCellStyle}>Username</th>
               <th style={headerCellStyle}>Title</th>
-              <th style={headerCellStyle}>ISBN</th>
               <th style={headerCellStyle}>Genre</th>
+              <th style={headerCellStyle}>ISBN</th>
               <th style={headerCellStyle}>Price</th>
             </tr>
           </thead>
