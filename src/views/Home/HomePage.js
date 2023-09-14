@@ -2,7 +2,6 @@ import React from 'react';
 import PageContainer from 'src/components/container/PageContainer';
 import { Grid, Box } from '@mui/material';
 import image from 'src/assets/images/home/bgImage1.jpg';
-import image5 from 'src/assets/images/home/Book_rack.jpg';
 import image2 from 'src/assets/images/home/rm347-sasi-banner-15.jpg';
 import SendUsMessage from 'src/views/Home/SendUsMessage';
 import ImageCarousel from 'src/views/Home/ImageCarousel';
