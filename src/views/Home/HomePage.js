@@ -2,12 +2,7 @@ import React from 'react';
 import PageContainer from 'src/components/container/PageContainer';
 import { Grid, Box } from '@mui/material';
 import image from 'src/assets/images/home/bgImage1.jpg';
-import image1 from 'src/assets/images/home/img1.PNG';
-import image2 from 'src/assets/images/home/img2.PNG';
-import image3 from 'src/assets/images/home/img3.PNG';
-import image4 from 'src/assets/images/home/img2.PNG';
 import image5 from 'src/assets/images/home/Book_rack.jpg';
-import ComponentSlider from 'src/components/Slider/ComponentSlider';
 import SendUsMessage from 'src/views/Home/SendUsMessage';
 import ImageCarousel from 'src/views/Home/ImageCarousel';
 
@@ -21,17 +16,6 @@ const HomePage = () => {
   const handleLeave = () => {
     setIsHovered(false);
   };
-  const images = [
-    `${image1}`,
-    `${image2}`,
-    `${image3}`,
-    `${image4}`,
-
-    // Add more image URLs here
-  ];
-
-  const newImageList = images.map((image, index) => <img src={image} alt="new cover" />);
-
   return (
     <PageContainer title="Home Page" alt="home" description="this is Home Page">
       <Box>
@@ -98,7 +82,7 @@ const HomePage = () => {
             />
           </div>
           <div>
-            <SendUsMessage></SendUsMessage>
+            <SendUsMessage/>
           </div>
         </Grid>
       </Box>

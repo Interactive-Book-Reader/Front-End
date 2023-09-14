@@ -287,7 +287,7 @@ const BookDetailsPage = () => {
                         </span>
                         
                       </Typography>
-                      <DropDownList label="Genre" items={BOOK_CATEGORIES} onchange={setGenre}/>
+                      <DropDownList label="Enter new Genre: " items={BOOK_CATEGORIES} onchange={setGenre}/>
 
                       <Typography
                         variant="subtitle1"

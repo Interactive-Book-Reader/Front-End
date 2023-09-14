@@ -1,22 +1,25 @@
 import React, { useState } from 'react';
 import { Typography, TextField } from '@mui/material';
-import Button from '@mui/material/Button';
-import { Grid, Box } from '@mui/material';
+import PurpleButton from 'src/components/Buttons/PurpleButton';
+import image from 'src/assets/images/home/8.jpg'
 
 function SendUsMessage(props) {
   const containerStyle = {
-    boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.9)',
+    boxShadow: '0px 0px 0px rgba(0, 0, 0, 0.9)',
     borderRadius: '40px',
     display: 'flex',
     marginTop: 20,
     flexDirection: 'row', // This sets the direction to horizontal
+    backgroundImage: `url(${image})`, // Replace "image" with the variable containing your image path or URL
+    backgroundSize: 'cover', // The image will cover the entire container
+    objectFit: 'cover',
   };
+  
 
   const viewStyle = {
     padding: '30px',
     paddingLeft: '30px',
     alignItems: 'center',
-    backgroundColor: '#a7b6c2',
   };
 
   const [formData, setFormData] = useState({
@@ -97,9 +100,9 @@ function SendUsMessage(props) {
             required
             margin="normal"
           />
-          <Button style ={{backgroundColor: '#007bff'}}type="submit" variant="contained" color="primary">
+          <PurpleButton label="Send">
             SEND
-          </Button>
+          </PurpleButton>
         </form>
       </div>
     </div>
