@@ -3,6 +3,7 @@ import PageContainer from 'src/components/container/PageContainer';
 import { Grid, Box } from '@mui/material';
 import image from 'src/assets/images/home/bgImage1.jpg';
 import image5 from 'src/assets/images/home/Book_rack.jpg';
+import image2 from 'src/assets/images/home/rm347-sasi-banner-15.jpg';
 import SendUsMessage from 'src/views/Home/SendUsMessage';
 import ImageCarousel from 'src/views/Home/ImageCarousel';
 
@@ -60,29 +61,33 @@ const HomePage = () => {
               </Grid>
             </div>
           </Grid>
-          <Grid marginTop="50px"  marginBottom="50px"><ImageCarousel/></Grid>
-          
+          <Grid marginTop="50px" marginBottom="50px">
+            <ImageCarousel />
+          </Grid>
+
           <div
             style={{
               maxWidth: '100%',
               maxHeight: '100%',
               borderRadius: '40px',
+              backgroundImage: `url(${image2})`,
+              backgroundSize: 'cover',
+              objectFit: 'cover',
               boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.9)',
               transition: 'transform 0.1s',
               ...(isHovered && hoverStyles),
+              padding: '20px',
+              height: '600px', // Increase the height to your desired value
+              width: '100%', // Increase the width to your desired value
             }}
             onMouseEnter={handleHover}
             onMouseLeave={handleLeave}
-            padding="20px"
           >
-            <img
-              src={image5}
-              alt="new pic"
-              style={{ maxWidth: '100%', maxHeight: '100%', borderRadius: '40px' }}
-            />
+            {/* Grid content here */}
           </div>
+
           <div>
-            <SendUsMessage/>
+            <SendUsMessage />
           </div>
         </Grid>
       </Box>
