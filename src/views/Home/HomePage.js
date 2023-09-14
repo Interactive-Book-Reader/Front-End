@@ -8,6 +8,8 @@ import image3 from 'src/assets/images/home/img3.PNG';
 import image4 from 'src/assets/images/home/img2.PNG';
 import image5 from 'src/assets/images/home/Book_rack.jpg';
 import ComponentSlider from 'src/components/Slider/ComponentSlider';
+import SendUsMessage from 'src/views/Home/SendUsMessage';
+import ImageCarousel from 'src/views/Home/ImageCarousel';
 
 const HomePage = () => {
   const [isHovered, setIsHovered] = React.useState(false);
@@ -29,6 +31,7 @@ const HomePage = () => {
   ];
 
   const newImageList = images.map((image, index) => <img src={image} alt="new cover" />);
+
   return (
     <PageContainer title="Home Page" alt="home" description="this is Home Page">
       <Box>
@@ -73,11 +76,8 @@ const HomePage = () => {
               </Grid>
             </div>
           </Grid>
-          <Grid item xs={18}>
-            <div>
-              <ComponentSlider components={newImageList} className="bg-white/80" />
-            </div>
-          </Grid>
+          <Grid marginTop="50px"  marginBottom="50px"><ImageCarousel/></Grid>
+          
           <div
             style={{
               maxWidth: '100%',
@@ -96,6 +96,9 @@ const HomePage = () => {
               alt="new pic"
               style={{ maxWidth: '100%', maxHeight: '100%', borderRadius: '40px' }}
             />
+          </div>
+          <div>
+            <SendUsMessage></SendUsMessage>
           </div>
         </Grid>
       </Box>
