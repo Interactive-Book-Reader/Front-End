@@ -1,20 +1,20 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
-import PurpleButton from '../';
+import { render, fireEvent, getByTestId } from '@testing-library/react';
+import PurpleButton from '../PurpleButton';
 
-describe('PurpleButton', () => {
-  it('renders correctly', () => {
-    const { getByText } = render(<PurpleButton label="Click me" />);
-    const buttonElement = getByText('Click me');
+describe(PurpleButton, () => {
+  it('Puple button is rendered correctly', () => {
+    const { getByTestId } = render(<PurpleButton label="Click me" />);
+    const buttonElement = getByTestId('Click me');
     expect(buttonElement).toBeTruthy();
   });
 
   it('handles onClick event', () => {
     const onClickMock = jest.fn();
-    const { getByText } = render(<PurpleButton label="Click me" onClick={onClickMock} />);
-    const buttonElement = getByText('Click me');
+    const { getByTestId } = render(<PurpleButton label="Click me" onClick={onClickMock} />);
+    const buttonElement = getByTestId('Click me');
     
-    fireEvent.press(buttonElement);
+    fireEvent.click(buttonElement);
 
     expect(onClickMock).toHaveBeenCalled();
   });

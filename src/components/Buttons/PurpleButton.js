@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 const PurpleButton = ({ label, onClick }) => {
   return (
     <Button
+      data-testid="Click me" // Test id for testing
       variant="contained"
       color="primary"
       onClick={onClick}

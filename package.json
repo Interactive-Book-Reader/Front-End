@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@emotion/react": "^11.10.0",
     "@emotion/styled": "^11.10.0",
     "@mui/icons-material": "^5.10.9",
@@ -23,6 +24,7 @@
     "chance": "^1.1.9",
     "crypto-browserify": "^3.12.0",
     "dayjs": "^1.11.9",
+    "enzyme": "^3.11.0",
     "firebase": "^10.1.0",
     "hover-carousel": "^1.1.0",
     "html2canvas": "^1.4.1",
