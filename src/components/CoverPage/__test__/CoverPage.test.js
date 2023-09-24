@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom'; // Import BrowserRouter if you use Link
-import CoverPage from '..CoverPage';
+import CoverPage from '../CoverPage';
 
 const mockData = {
   title: 'Sample Book',
@@ -11,22 +11,19 @@ const mockData = {
   id: 1,
 };
 
-test('renders CoverPage component with provided data', () => {
-  const { getByText, getByAltText } = render(
-    <Router>
-      <CoverPage {...mockData} />
-    </Router>
-  );
-
-  const titleElement = getByText('Sample Book');
-  const authorElement = getByText('John Doe');
-  const priceElement = getByText('LKR19.99');
-  const imageElement = getByAltText('img');
-
-  expect(titleElement).toBeInTheDocument();
-  expect(authorElement).toBeInTheDocument();
-  expect(priceElement).toBeInTheDocument();
-  expect(imageElement).toBeInTheDocument();
+describe(CoverPage, () => {
+  it('should render correctly', () => {
+    const { getByTestId, getByAltText } = render(
+      <Router>
+        <CoverPage {...mockData} />
+      </Router>
+    );
+    const bookname=getByTestId('Sample Book').textContent;
+    const authorname=getByTestId('John Doe').textContent;
+    const price=getByTestId('LKR19.99').textContent;
+    expect(bookname).toBe('Sample Book');
+    expect(authorname).toBe('John Doe');
+    expect(price).toBe('LKR19.99');
+  });
 });
-
 // You can add more test cases as needed
