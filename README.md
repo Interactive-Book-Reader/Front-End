@@ -42,17 +42,12 @@ The project structure is organized for scalability and maintainability:
 
 - **public**: Publicly accessible files, including the HTML template.
 
-## Contributing
+## Firebase Hosting
 
-We welcome contributions from the community! If you'd like to contribute to the Interactive Book Reader project, please follow our [Contribution Guidelines](CONTRIBUTING.md).
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+The link for the AReader web application is [link](interactive-book-reader.web.app). The website is hosted in firebase hosting. 
 
 ## Acknowledgments
 
 We would like to express our gratitude to the open-source community and the contributors who have helped make this project possible.
 
-Happy reading!
 
