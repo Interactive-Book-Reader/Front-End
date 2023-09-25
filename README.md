@@ -4,6 +4,9 @@
 
 This repository contains the frontend code for the Interactive Book Reader project. Interactive Book Reader is a web and mobile application that revolutionizes the reading experience by seamlessly integrating Augmented Reality (AR) content into books. Readers can access an extensive library of books, read traditionally, or engage with AR features to bring characters and scenarios to life. The platform also includes features like text-to-speech conversion, dictionary integration, highlighting, and bookmarking to enhance the reading and learning experience.
 
+<img src="public/Home_Page.png" alt="App Screenshot">
+
+
 ## Technologies Used
 
 - **React**: The frontend is built using the React JavaScript library, which allows for the creation of dynamic and interactive user interfaces.
