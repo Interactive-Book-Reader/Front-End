@@ -42,9 +42,13 @@ The project structure is organized for scalability and maintainability:
 
 - **public**: Publicly accessible files, including the HTML template.
 
-## Firebase Hosting
+## Getting Started
 
-The link for the AReader web application is [link](interactive-book-reader.web.app). The website is hosted in firebase hosting. 
+To get started with the AReader web application, follow these steps:
+
+1. Visit the application at [AReader Web App](https://interactive-book-reader.web.app).
+
+2. Create an account or log in to your existing account.
 
 ## Acknowledgments
 
