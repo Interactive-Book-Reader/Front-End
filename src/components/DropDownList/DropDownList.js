@@ -10,9 +10,9 @@ const DropDownList = ({ label, items, onchange }) => {
     onchange(event.target.value); // Update the selectedValue state when the value changes
   };
   return (
-    <Box sx={{ minWidth: 120 }}>
-      <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">{label}</InputLabel>
+    <Box sx={{ minWidth: 120 }} >
+      <FormControl fullWidth >
+        <InputLabel  data-testid="Select an option" id="demo-simple-select-label">{label}</InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
@@ -26,9 +26,10 @@ const DropDownList = ({ label, items, onchange }) => {
               boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.4)', // Add a shadow effect on hover
             },
           }}
+          data-testid="dropdown-test"
         >
           {items.map((item) => (
-            <MenuItem key={item} value={item}>
+            <MenuItem key={item} value={item} >
               {item}
             </MenuItem>
           ))}

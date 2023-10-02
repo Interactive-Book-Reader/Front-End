@@ -7,7 +7,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 const DateField = ({ text, width }) => {
   return (
     <div style={{ width: width, marginRight: '20px' }}>
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <LocalizationProvider dateAdapter={AdapterDayjs} data-testid="Label">
         <DemoContainer components={['DatePicker']}>
           <DatePicker
             label={text}
