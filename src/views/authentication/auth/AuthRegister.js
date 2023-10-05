@@ -4,6 +4,7 @@ import LoadingNotification from 'src/components/LoadNotification/LoadingNotofica
 import CustomTextField from '../../../components/forms/theme-elements/CustomTextField';
 import { Stack } from '@mui/system';
 import regitserpublisher from '../../../api/auth/register';
+import { userSchema } from '../../../validations/UserValidation';
 
 const AuthRegister = ({ title, subtitle, subtext }) => {
   const [name, setName] = useState('');
@@ -12,7 +13,7 @@ const AuthRegister = ({ title, subtitle, subtext }) => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessege, setErrorMessege] = useState('');
-  const [loading, setLoading] = useState(false); 
+  const [loading, setLoading] = useState(false);
 
   const handleNameChange = (event) => {
     setName(event.target.value);
@@ -35,33 +36,33 @@ const AuthRegister = ({ title, subtitle, subtext }) => {
   };
 
   const handleRegisterSubmit = async (event) => {
-    console.log('Regitser function is called');
+    const loginData = {
+      name: name,
+      username: username,
+      email: email,
+      phonenumber: phoneNumber,
+      password: password,
+    };
+    const isValid = await userSchema.isValid(loginData);
+    const message = await userSchema.validate(loginData).catch((err) => {
+      return err.message;
+    });
     event.preventDefault();
-    if (name === '' || username === '' || email === '' || phoneNumber === '' || password === '') {
-      setErrorMessege('All fields are required!');
-    } else if (password.length < 6) {
-      setErrorMessege('Password must be at least 6 characters long.');
+    if (!isValid) {
+      setErrorMessege(message);
     } else {
-      const loginData = {
-        name: name,
-        username: username,
-        email: email,
-        phonenumber: phoneNumber,
-        password: password,
-      };
       setLoading(true);
-      alert("wait for OTP");
+      alert('wait for OTP');
       try {
         const responseData = await regitserpublisher(loginData);
 
-        if (responseData.message==='OTP is sent successfully.'){
-            console.log(responseData);
-            window.location.href = `/auth/otpverification?id=${responseData.data.publisherId}&email=${responseData.data.email}`;
-        }else{
+        if (responseData.message === 'OTP is sent successfully.') {
+          console.log(responseData);
+          window.location.href = `/auth/otpverification?id=${responseData.data.publisherId}&email=${responseData.data.email}`;
+        } else {
           setLoading(false);
-            setErrorMessege(responseData.message);
+          setErrorMessege(responseData.message);
         }
-        
       } catch (error) {
         console.log('Error', error);
       }
