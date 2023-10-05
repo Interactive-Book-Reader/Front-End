@@ -43,6 +43,7 @@ const AuthRegister = ({ title, subtitle, subtext }) => {
       phonenumber: phoneNumber,
       password: password,
     };
+    console.log(loginData);
     const isValid = await userSchema.isValid(loginData);
     const message = await userSchema.validate(loginData).catch((err) => {
       return err.message;
