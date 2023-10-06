@@ -55,7 +55,7 @@ const Router = [
       { path: '/auth/register', element: <Register /> },
       { path: '/auth/login', element: <Login /> },
       { path: '/auth/forgotpassword', element: <ForgotPassword /> },
-      { path: '/auth/resetpassword', element: <AuthResetPassword /> },
+      { path: '/auth/resetpassword/:id/:token', element: <AuthResetPassword /> },
       { path: '/auth/otpverification', element: <OTPVerification /> },
       { path: '*', element: <Navigate to="/auth/404" /> },
     ],
