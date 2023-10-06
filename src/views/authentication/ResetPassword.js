@@ -7,8 +7,10 @@ import PageContainer from 'src/components/container/PageContainer';
 import AuthLogin from './auth/AuthResetPassword';
 import logoImage from 'src/assets/images/logos/AReader3Dpublishers.png';
 import backgroundImage from 'src/assets/images/backgrounds/books-beach.jpg';
+import { useParams } from 'react-router-dom';
 
 const ResetPassword = () => {
+  let { id, token } = useParams();
   return (
     <PageContainer title="Reset Password" description="this is Reset Password page">
       <Box
@@ -44,6 +46,8 @@ const ResetPassword = () => {
               <img src={logoImage} alt="Our Publications Logo" style={{ maxWidth: '100%' }} />
               <AuthLogin
                 title="Reset Password"
+                id={id}
+                token={token}
                 subtitle={
                   <Stack direction="row" spacing={1} justifyContent="center" mt={3}>
                     <Typography color="textSecondary" variant="h6" fontWeight="500">
@@ -71,4 +75,4 @@ const ResetPassword = () => {
   );
 };
 
-export default ResetPassword ;
+export default ResetPassword;
