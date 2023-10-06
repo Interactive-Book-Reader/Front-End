@@ -16,6 +16,7 @@ const Error = Loadable(lazy(() => import('../views/authentication/Error')));
 const Register = Loadable(lazy(() => import('../views/authentication/Register')));
 const Login = Loadable(lazy(() => import('../views/authentication/Login')));
 const ForgotPassword = Loadable(lazy(() => import('../views/authentication/Forgetpassword')));
+const AuthResetPassword = Loadable(lazy(() => import('../views/authentication/ResetPassword')));
 const BoookDetailsPage = Loadable(
   lazy(() => import('../views/books/BookDetails/BoookDetailsPage')),
 );
@@ -54,6 +55,7 @@ const Router = [
       { path: '/auth/register', element: <Register /> },
       { path: '/auth/login', element: <Login /> },
       { path: '/auth/forgotpassword', element: <ForgotPassword /> },
+      { path: '/auth/resetpassword', element: <AuthResetPassword /> },
       { path: '/auth/otpverification', element: <OTPVerification /> },
       { path: '*', element: <Navigate to="/auth/404" /> },
     ],
