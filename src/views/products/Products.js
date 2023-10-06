@@ -258,8 +258,7 @@ const tableContainerStyle = {
 
 const tableTitleStyle = {
   fontSize: '24px',
-  textAlign: 'left',
-  left: 116,
+  textAlign: 'center',
 };
 
 const bookTableStyle = {
