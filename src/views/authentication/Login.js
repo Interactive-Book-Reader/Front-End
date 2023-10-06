@@ -9,9 +9,8 @@ import logoImage from 'src/assets/images/logos/AReader3Dpublishers.png';
 import backgroundImage from 'src/assets/images/backgrounds/loginBackground.jpg';
 
 const Login2 = () => {
-  
   return (
-    <PageContainer title="Login" description="this is Login page">      
+    <PageContainer title="Login" description="this is Login page">
       <Box
         sx={{
           backgroundImage: `url(${backgroundImage})`,
@@ -41,12 +40,8 @@ const Login2 = () => {
             justifyContent="center"
             alignItems="center"
           >
-            <Card elevation={9} sx={{ p: 4, zIndex: 1, width: '100%', maxWidth: '500px' }}>   
-            <img
-                src={logoImage}
-                alt="Our Publications Logo"
-                style={{ maxWidth: '100%' }}
-              />       
+            <Card elevation={9} sx={{ p: 4, zIndex: 1, width: '100%', maxWidth: '500px' }}>
+              <img src={logoImage} alt="Our Publications Logo" style={{ maxWidth: '100%' }} />
               <AuthLogin
                 subtitle={
                   <Stack direction="row" spacing={1} justifyContent="center" mt={3}>
