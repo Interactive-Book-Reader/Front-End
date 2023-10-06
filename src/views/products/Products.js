@@ -97,15 +97,17 @@ const Products = () => {
       (!genres.Poetry || book.genre === 'Poetry')
     );
   });
-  const newbooklist = filteredBooks.map((book, index) => (
-    <CoverPage
-      title={book.title}
-      author={book.author}
-      price={book.price}
-      photo={book.coverpage}
-      id={book._id}
-    />
-  ));
+  const newbooklist = filteredBooks
+    .filter((book) => CheckboxedBooks.includes(book))
+    .map((book, index) => (
+      <CoverPage
+        title={book.title}
+        author={book.author}
+        price={book.price}
+        photo={book.coverpage}
+        id={book._id}
+      />
+    ));
 
   return (
     <PageContainer title="Products" description="this is Products">
