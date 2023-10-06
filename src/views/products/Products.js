@@ -5,12 +5,13 @@ import CoverPage from '../../components/CoverPage/CoverPage';
 import ComponentSlider from '../../components/Slider/ComponentSlider';
 import { getAuthToken } from '../authentication/auth/AuthLogin';
 import jwt from 'jwt-decode';
-import Checkbox from '../../components/checkbox/checkbox';
+
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import PurpleButton from 'src/components/Buttons/PurpleButton';
-import SearchBar from 'src/components/SearchBar/SearchBar';
+
 import publisherBook from 'src/api/products/publisher_book';
+import Autosuggest from 'react-autosuggest';
 
 const Products = () => {
   const [booklist, setBooklist] = useState([]);
@@ -36,6 +37,8 @@ const Products = () => {
   // eslint-disable-next-line no-unused-vars
   const [searchValue, setSearchValue] = useState('');
   const [filteredBooks, setFilteredBooks] = useState([]);
+  const [suggestions, setSuggestions] = useState([]);
+  // Initialize suggestions with some sample data
 
   const fetchData = async () => {
     try {
@@ -57,7 +60,27 @@ const Products = () => {
   const handleSearch = (query) => {
     setSearchValue(query);
     filterBooks(query);
+    setSuggestions(getSuggestions(query));
   };
+  //Suggesting titles while search
+  // const suggestionData = [booklist.title];
+  // Assuming booklist is an array of objects with a 'title' property
+  const suggestionData = booklist.map((book) => book.title);
+
+  const getSuggestions = (value) => {
+    const inputValue = value.trim().toLowerCase();
+    const inputLength = inputValue.length;
+
+    return inputLength === 0
+      ? []
+      : suggestionData.filter((suggestion) => suggestion.toLowerCase().startsWith(inputValue));
+  };
+
+  const renderSuggestion = (suggestion) => (
+    <div style={{ padding: '8px 0', borderBottom: '1px solid #ccc', cursor: 'pointer' }}>
+      {suggestion}
+    </div>
+  );
 
   const [genres, setGenres] = useState({
     Adventure: false,
@@ -97,63 +120,109 @@ const Products = () => {
       (!genres.Poetry || book.genre === 'Poetry')
     );
   });
-  const newbooklist = filteredBooks.map((book, index) => (
-    <CoverPage
-      title={book.title}
-      author={book.author}
-      price={book.price}
-      photo={book.coverpage}
-      id={book._id}
-    />
-  ));
+  const newbooklist = filteredBooks
+    .filter((book) => CheckboxedBooks.includes(book))
+    .map((book, index) => (
+      <CoverPage
+        title={book.title}
+        author={book.author}
+        price={book.price}
+        photo={book.coverpage}
+        id={book._id}
+      />
+    ));
 
   return (
     <PageContainer title="Products" description="this is Products">
       <div style={tableContainerStyle} ref={pdfRef}>
         <h2 style={tableTitleStyle}>Book List</h2>
-        <SearchBar callback={handleSearch} />
+        <Autosuggest
+          suggestions={suggestions}
+          onSuggestionsFetchRequested={({ value }) => {
+            setSuggestions(getSuggestions(value));
+          }}
+          onSuggestionsClearRequested={() => {
+            setSuggestions([]);
+          }}
+          getSuggestionValue={(suggestion) => suggestion}
+          renderSuggestion={renderSuggestion}
+          inputProps={{
+            placeholder: 'Search...',
+            value: searchValue,
+            onChange: (event, { newValue }) => handleSearch(newValue),
+            style: {
+              border: 'none',
+              boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', // Add a subtle shadow
+              borderRadius: '4px', // Rounded corners
+              padding: '8px 12px', // Adjust padding
+              fontSize: '16px', // Adjust font size
+              width: '80%', // Take full width
+              backgroundColor: '#f5f5f5', // Background color
+              color: '#333', // Text color
+              justifySelf: 'center',
+              marginLeft: '100px',
+            },
+          }}
+        />
+
         <div
           style={{
-            marginBottom: '10px',
-            marginLeft: '25px',
+            display: 'flex',
+            justifyContent: 'center',
+            marginTop: '20px',
           }}
         >
-          <h4>Filter Genre</h4>
-          {Object.entries(genres).map(([genre, checked]) => (
-            <Checkbox
-              key={genre}
-              label={genre}
-              checked={checked}
-              onChange={() => handleGenreChange(genre)}
-            />
-          ))}
+          <div style={filterBox}>
+            {' '}
+            <h4 style={{ marginLeft: '40px' }}>Filter Genre</h4>
+            {Object.entries(genres).map(([genre, checked]) => (
+              <label
+                key={genre}
+                style={{
+                  display: 'block',
+                  alignItems: 'center',
+                  margin: '8px 0',
+                  marginLeft: '40px',
+                }}
+              >
+                <input
+                  type="checkbox"
+                  checked={checked}
+                  onChange={() => handleGenreChange(genre)}
+                  style={{ margin: '0 8px 0 0' }}
+                />
+                <span>{genre}</span>
+              </label>
+            ))}
+          </div>
+
+          <table style={bookTableStyle}>
+            <thead>
+              <tr>
+                <th style={headerCellStyle}>Title</th>
+                <th style={headerCellStyle}>Author</th>
+                <th style={headerCellStyle}>Price</th>
+                <th style={headerCellStyle}>Genre</th>
+                {/* <th style={headerCellStyle}>Summary</th> */}
+                <th style={headerCellStyle}>ISBN</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredBooks
+                .filter((book) => CheckboxedBooks.includes(book))
+                .map((book, index) => (
+                  <tr key={index}>
+                    <td style={cellStyle}>{book.title}</td>
+                    <td style={cellStyle}>{book.author}</td>
+                    <td style={cellStyle}>{book.price}</td>
+                    <td style={cellStyle}>{book.genre}</td>
+                    {/* <td style={cellStyle}>{book.summary}</td> */}
+                    <td style={cellStyle}>{book.ISBN}</td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
         </div>
-        <table style={bookTableStyle}>
-          <thead>
-            <tr>
-              <th style={headerCellStyle}>Title</th>
-              <th style={headerCellStyle}>Author</th>
-              <th style={headerCellStyle}>Price</th>
-              <th style={headerCellStyle}>Genre</th>
-              <th style={headerCellStyle}>Summary</th>
-              <th style={headerCellStyle}>ISBN</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredBooks
-              .filter((book) => CheckboxedBooks.includes(book))
-              .map((book, index) => (
-                <tr key={index}>
-                  <td style={cellStyle}>{book.title}</td>
-                  <td style={cellStyle}>{book.author}</td>
-                  <td style={cellStyle}>{book.price}</td>
-                  <td style={cellStyle}>{book.genre}</td>
-                  <td style={cellStyle}>{book.summary}</td>
-                  <td style={cellStyle}>{book.ISBN}</td>
-                </tr>
-              ))}
-          </tbody>
-        </table>
       </div>
       <div
         style={{
@@ -180,7 +249,7 @@ const tableContainerStyle = {
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'top',
-  justifyContent: 'center',
+  justifyContent: 'top',
   height: 'auto',
   background: 'white',
   boxShadow: '0px 20px 20px rgba(225.83, 225.19, 248.63, 0.50)',
@@ -194,15 +263,15 @@ const tableTitleStyle = {
 
 const bookTableStyle = {
   borderCollapse: 'collapse',
-  width: '100%',
-  maxWidth: '1000px',
+  width: '70%',
+  maxWidth: '800px',
   margin: '0 auto',
 };
 
 const cellStyle = {
   border: '0px',
   padding: '10px',
-  textAlign: 'center',
+  textAlign: 'left',
   left: 116,
   top: 4,
   color: 'black',
@@ -215,6 +284,18 @@ const cellStyle = {
 const headerCellStyle = {
   backgroundColor: '#abc4ed',
   color: '#22262b',
+  textAlign: 'left',
+  left: 116,
+};
+
+const filterBox = {
+  display: 'flex',
+  flexDirection: 'column',
+  justifySelf: 'center',
+  boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+  backgroundColor: '#f5f5f5',
+  width: '20%', // Adjust the width as needed
+  marginLeft: '20px', // Adjust the left margin as needed
 };
 
 export default Products;
