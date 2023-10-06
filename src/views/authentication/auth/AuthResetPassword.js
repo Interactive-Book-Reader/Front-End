@@ -1,9 +1,31 @@
 import { Box, Typography, Button, Stack } from '@mui/material';
 import React, { useState } from 'react';
 import CustomTextField from '../../../components/forms/theme-elements/CustomTextField';
+import resetPasswordFunction from 'src/api/auth/resetpassword';
 
 
-const AuthResetPassword= ({ title, subtitle, subtext }) => {
+const AuthResetPassword= ({ title, subtitle, subtext,id, token }) => {
+
+    const [password, setPassword] = useState('');
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const data = {
+            password: password,
+            id: id,
+            token: token
+        };
+        console.log(data);
+        try{
+            const response = await resetPasswordFunction(data);
+            console.log(response);
+        }
+        catch(error){
+            console.log(error);
+        }
+
+    };
   return (
     <form>
       {title ? (
@@ -29,7 +51,9 @@ const AuthResetPassword= ({ title, subtitle, subtext }) => {
             id="password"
             variant="outlined"
             type="password" // Set the input type to "password"
+            onChange={(e) => setPassword(e.target.value)}
             fullWidth
+            required
           />
         </Box>
       </Stack>
@@ -42,6 +66,7 @@ const AuthResetPassword= ({ title, subtitle, subtext }) => {
           fullWidth
           type="submit" // Use type="submit" to trigger form submission
           sx={{ backgroundColor: '#003566' }}
+            onClick={handleSubmit}
         >
           Submit
         </Button>
