@@ -6,7 +6,7 @@ const SearchBar = ({ callback }) => {
   const container = {
     marginLeft: '76px',
     width: '200px',
-    marginBottom: '10px', // Corrected the typo in marginTop
+    marginBottom: '10px', 
     borderRadius: 10,
     border: 'none',
   };
@@ -21,7 +21,7 @@ const SearchBar = ({ callback }) => {
   };
 
   const searchBarInput = {
-    height: '30px', // Corrected the typo in height
+    height: '30px',
     width: '300px',
     fontSize: '16px',
     border: 'none',
@@ -42,7 +42,7 @@ const SearchBar = ({ callback }) => {
           style={searchBarInput}
           value={innerValue}
           onChange={(e) => setInnerValue(e.target.value)}
-          placeholder="Search Title"
+          placeholder="Find book"
         />
         {/* You can add a clear button here if needed */}
         {/* <div style={searchBarClear}>Clear</div> */}
