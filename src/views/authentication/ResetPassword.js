@@ -48,24 +48,6 @@ const ResetPassword = () => {
                 title="Reset Password"
                 id={id}
                 token={token}
-                subtitle={
-                  <Stack direction="row" spacing={1} justifyContent="center" mt={3}>
-                    <Typography color="textSecondary" variant="h6" fontWeight="500">
-                      Navigate to SignIn page?
-                    </Typography>
-                    <Typography
-                      component={Link}
-                      to="/auth/login"
-                      fontWeight="500"
-                      sx={{
-                        textDecoration: 'none',
-                        color: 'primary.main',
-                      }}
-                    >
-                      SignIn
-                    </Typography>
-                  </Stack>
-                }
               />
             </Card>
           </Grid>
