@@ -5,7 +5,7 @@ import CoverPage from '../../components/CoverPage/CoverPage';
 import ComponentSlider from '../../components/Slider/ComponentSlider';
 import { getAuthToken } from '../authentication/auth/AuthLogin';
 import jwt from 'jwt-decode';
-
+import Checkbox from '../../components/checkbox/checkbox';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import PurpleButton from 'src/components/Buttons/PurpleButton';
@@ -59,19 +59,44 @@ const Products = () => {
     filterBooks(query);
   };
 
+  const [genres, setGenres] = useState({
+    Adventure: false,
+    Mystery: false,
+    Poetry: false,
+    'Non-Fiction': false,
+    'Fairy Tales and Forklore': false,
+    'Animal Stories': false,
+  });
+  const handleGenreChange = (genre) => {
+    setGenres({ ...genres, [genre]: !genres[genre] });
+  };
+
   const filterBooks = (query) => {
     if (!query) {
       // If the search query is empty, show all books
       setFilteredBooks(booklist);
     } else {
-      // Filter books by title containing the search query (case-insensitive)
-      const filtered = booklist.filter((book) =>
-        book.title.toLowerCase().includes(query.toLowerCase()),
+      const processedQuery = query.replace(/&/g, 'and');
+      // Filter books by title or author or ISBN containing the search query (case-insensitive)
+      const filtered = booklist.filter(
+        (book) =>
+          book.title.toLowerCase().includes(processedQuery.toLowerCase()) ||
+          book.author.toLowerCase().includes(processedQuery.toLowerCase()) ||
+          book.ISBN.toLowerCase().includes(processedQuery.toLowerCase()),
       );
       setFilteredBooks(filtered);
     }
   };
-
+  const CheckboxedBooks = booklist.filter((book) => {
+    return (
+      (!genres.Adventure || book.genre === 'Adventure') &&
+      (!genres.Mystery || book.genre === 'Mystery') &&
+      (!genres['Non-Fiction'] || book.genre === 'Non-Fiction') &&
+      (!genres['Animal Stories'] || book.genre === 'Animal Stories') &&
+      (!genres['Fairy Tales and Forklore'] || book.genre === 'Fairy Tales and Forklore') &&
+      (!genres.Poetry || book.genre === 'Poetry')
+    );
+  });
   const newbooklist = filteredBooks.map((book, index) => (
     <CoverPage
       title={book.title}
@@ -87,7 +112,22 @@ const Products = () => {
       <div style={tableContainerStyle} ref={pdfRef}>
         <h2 style={tableTitleStyle}>Book List</h2>
         <SearchBar callback={handleSearch} />
-
+        <div
+          style={{
+            marginBottom: '10px',
+            marginLeft: '25px',
+          }}
+        >
+          <h4>Filter Genre</h4>
+          {Object.entries(genres).map(([genre, checked]) => (
+            <Checkbox
+              key={genre}
+              label={genre}
+              checked={checked}
+              onChange={() => handleGenreChange(genre)}
+            />
+          ))}
+        </div>
         <table style={bookTableStyle}>
           <thead>
             <tr>
@@ -100,16 +140,18 @@ const Products = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredBooks.map((book, index) => (
-              <tr key={index}>
-                <td style={cellStyle}>{book.title}</td>
-                <td style={cellStyle}>{book.author}</td>
-                <td style={cellStyle}>{book.price}</td>
-                <td style={cellStyle}>{book.genre}</td>
-                <td style={cellStyle}>{book.summary}</td>
-                <td style={cellStyle}>{book.ISBN}</td>
-              </tr>
-            ))}
+            {filteredBooks
+              .filter((book) => CheckboxedBooks.includes(book))
+              .map((book, index) => (
+                <tr key={index}>
+                  <td style={cellStyle}>{book.title}</td>
+                  <td style={cellStyle}>{book.author}</td>
+                  <td style={cellStyle}>{book.price}</td>
+                  <td style={cellStyle}>{book.genre}</td>
+                  <td style={cellStyle}>{book.summary}</td>
+                  <td style={cellStyle}>{book.ISBN}</td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>
