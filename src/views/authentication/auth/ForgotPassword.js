@@ -15,21 +15,19 @@ const ForgotPassword = ({ title, subtitle, subtext }) => {
     setError('');
 
     const loginData = {
-        username: username,
-      };
+      username: username,
+    };
 
-    try{
-        const responseData = await forgotPasswordFunction(loginData);
-        if (responseData.message==="Password reset link has been sent to your email.") {
-          navigate('/auth/login');
-          alert(responseData.message);
-          }
-          else {
-            setError(responseData.message);
-          }
-    }
-    catch(error){
-        console.error('Error:', error);
+    try {
+      const responseData = await forgotPasswordFunction(loginData);
+      if (responseData.message === 'Password reset link has been sent to your email.') {
+        navigate('/auth/login');
+        alert(responseData.message);
+      } else {
+        setError(responseData.message);
+      }
+    } catch (error) {
+      console.error('Error:', error);
     }
   };
 
