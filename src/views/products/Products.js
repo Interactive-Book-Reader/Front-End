@@ -38,7 +38,7 @@ const Products = () => {
   const [searchValue, setSearchValue] = useState('');
   const [filteredBooks, setFilteredBooks] = useState([]);
   const [suggestions, setSuggestions] = useState([]);
-  // Initialize suggestions with some sample data
+
 
   const fetchData = async () => {
     try {
