@@ -33,7 +33,7 @@ const AuthResetPassword = ({ title, subtitle, subtext, id, token }) => {
         } else {
           swal({
             title: "Done!",
-            text: "user is added to database",
+            text: "Password is updated successfully.",
             icon: "success",
             timer: 2000000,
             button: false

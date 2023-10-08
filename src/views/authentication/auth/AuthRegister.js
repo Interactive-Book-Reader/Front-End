@@ -5,6 +5,7 @@ import CustomTextField from '../../../components/forms/theme-elements/CustomText
 import { Stack } from '@mui/system';
 import regitserpublisher from '../../../api/auth/register';
 import { userSchema } from '../../../validations/UserValidation';
+import swal from 'sweetalert';
 
 const AuthRegister = ({ title, subtitle, subtext }) => {
   const [name, setName] = useState('');
@@ -53,7 +54,13 @@ const AuthRegister = ({ title, subtitle, subtext }) => {
       setErrorMessege(message);
     } else {
       setLoading(true);
-      alert('wait for OTP');
+      swal({
+        title: "Done!",
+        text: "Wait for sending OTP.",
+        icon: "info",
+        timer: 5000,
+        button: false
+      })
       try {
         const responseData = await regitserpublisher(loginData);
 

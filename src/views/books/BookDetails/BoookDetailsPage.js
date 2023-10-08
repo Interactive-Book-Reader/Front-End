@@ -24,6 +24,8 @@ import getAllBooks from 'src/api/book/get_all_books';
 import updateBook from 'src/api/book/book_update';
 import deleteBook from 'src/api/book/book_delete';
 import DropDownList from 'src/components/DropDownList/DropDownList';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const BookDetailsPage = () => {
   const [pdf, setPdf] = useState(null);
@@ -81,6 +83,9 @@ const BookDetailsPage = () => {
     const data = await updateBook(updateData);
     if (data.message === 'Book is updated successfully') {
       setLoadingDetails('Book is updated successfully');
+      toast.success('Book is updated successfully!', {
+        position: toast.POSITION.TOP_RIGHT,
+      });
       fetchData();
     }
   };
@@ -145,6 +150,7 @@ const BookDetailsPage = () => {
   }, []);
 
   return (
+    <>
     <PageContainer title="Book Details" description="this is Book Details">
       <div
         style={{
@@ -465,6 +471,8 @@ const BookDetailsPage = () => {
         </Paper>
       </div>
     </PageContainer>
+    <ToastContainer />
+    </>
   );
 };
 

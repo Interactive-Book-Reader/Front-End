@@ -4,6 +4,7 @@ import PageContainer from 'src/components/container/PageContainer';
 import BookRegister from './BookRegister/BookRegister';
 import backgroundImg from 'src/assets/images/backgrounds/registerbg1.jpg';
 
+
 const Register2 = () => (
   <PageContainer title="Book Register" description="ENTER YOUR BOOK DETAILS">
     <Card

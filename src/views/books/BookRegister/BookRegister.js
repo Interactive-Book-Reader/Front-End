@@ -15,6 +15,8 @@ import PurpleButton from 'src/components/Buttons/PurpleButton';
 import { InputAdornment } from '@mui/material';
 import bookRegister from 'src/api/book/book_register';
 import DropDownList from 'src/components/DropDownList/DropDownList';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const BookRegister = ({ title, subtitle, subtext }) => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -158,6 +160,9 @@ const BookRegister = ({ title, subtitle, subtext }) => {
       const response = await bookRegister(jsonData);
       if (response.ok) {
         setRegisterBook('Book Registered Successfully');
+        toast.success('Book Registered Successfully!', {
+          position: toast.POSITION.TOP_RIGHT,
+        });
         console.log('Data sent successfully');
       } else {
         setRegisterBook('Book Registration Failed');
@@ -404,6 +409,7 @@ const BookRegister = ({ title, subtitle, subtext }) => {
         </Paper>
       </div>
       {subtitle}
+      <ToastContainer />
     </>
   );
 };
