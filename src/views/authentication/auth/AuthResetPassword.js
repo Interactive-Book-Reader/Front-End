@@ -2,6 +2,8 @@ import { Box, Typography, Button, Stack } from '@mui/material';
 import React, { useState } from 'react';
 import CustomTextField from '../../../components/forms/theme-elements/CustomTextField';
 import resetPasswordFunction from 'src/api/auth/resetpassword';
+import { resetPasswordSchema } from '../../../validations/ResetPassword';
+import swal from 'sweetalert';
 
 const AuthResetPassword = ({ title, subtitle, subtext, id, token }) => {
   const [error, setError] = useState('');
@@ -17,15 +19,29 @@ const AuthResetPassword = ({ title, subtitle, subtext, id, token }) => {
       token: token,
     };
 
-    try {
-      const response = await resetPasswordFunction(data);
-      if (response.message !== 'Password is updated successfully.') {
-        setError(response.message);
-      } else {
-        setError(response.message);
+    const isValid = await resetPasswordSchema.isValid(data);
+    const message = await resetPasswordSchema.validate(data).catch((err) => {
+      return err.message;
+    });
+    if (!isValid) {
+      setError(message);
+    } else {
+      try {
+        const response = await resetPasswordFunction(data);
+        if (response.message !== 'Password is updated successfully.') {
+          setError(response.message);
+        } else {
+          swal({
+            title: "Done!",
+            text: "user is added to database",
+            icon: "success",
+            timer: 2000000,
+            button: false
+          })
+        }
+      } catch (error) {
+        setError(error.message);
       }
-    } catch (error) {
-      setError(error.message);
     }
   };
 
