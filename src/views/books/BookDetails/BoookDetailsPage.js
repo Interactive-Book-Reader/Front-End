@@ -85,14 +85,21 @@ const BookDetailsPage = () => {
     if (pdfLink !== '') {
       updateData.pdf = pdfLink;
     }
-    updateData.id = id;
-    const data = await updateBook(updateData);
-    if (data.message === 'Book is updated successfully') {
-      setLoadingDetails('Book is updated successfully');
-      toast.success('Book is updated successfully!', {
+    if (Object.keys(updateData).length === 0) {
+      toast.error('No changes to update!', {
         position: toast.POSITION.TOP_RIGHT,
       });
-      fetchData();
+    } else {
+      updateData.id = id;
+
+      const data = await updateBook(updateData);
+      if (data.message === 'Book is updated successfully') {
+        setLoadingDetails('Book is updated successfully');
+        toast.success('Book is updated successfully!', {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+        fetchData();
+      }
     }
   };
 

@@ -160,6 +160,73 @@ const BookRegister = ({ title, subtitle, subtext }) => {
   const handleSubmit = async (e) => {
     console.log('id is ', id);
     console.log(ISBN);
+    
+    if (Title === '') {
+      toast.error('Title cannot be empty!', {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      return;
+    }
+    if (ISBN === '') {
+      toast.error('ISBN cnnot be empty!', {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      return;
+    }
+    if (ISBN.length <= 3) {
+      toast.error('ISBN must be greater than 3 characters!', {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      return;
+    }
+    if (ISBN.length >= 14) {
+      toast.error('ISBN must be less than 14 characters!', {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      return;
+    }
+    if (ISBN.toInteger===false) {
+      toast.error('ISBN must be a number!', {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      return;
+    }
+    if (author === '') {
+      toast.error('Author cannot be empty!', {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      return;
+    }
+    if (genre === '') {
+      toast.error('Genre cannot be empty!', {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      return;
+    }
+    if (summary === '') {
+      toast.error('Summary cannot be empty!', {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      return;
+    }
+    if (price === '') {
+      toast.error('Price cannot be empty!', {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      return;
+    }
+    if (imageLink === '') {
+      toast.error('Coverpage cannot be empty!', {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      return;
+    }
+    if (pdfLink === '') {
+      toast.error('PDF cannot be empty!', {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      return;
+    }
     const jsonData = {
       publisher_id: id,
       title: Title,
@@ -170,7 +237,7 @@ const BookRegister = ({ title, subtitle, subtext }) => {
       price: price,
       coverpage: imageLink,
       pdf: pdfLink,
-    }; // Your JSON data
+    }; // Your JSON data here
     try {
       const response = await bookRegister(jsonData);
       if (response.ok) {
