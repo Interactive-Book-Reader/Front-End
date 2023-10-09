@@ -32,7 +32,7 @@ const Router = [
     path: '/',
     element: <FullLayout />,
     children: [
-      { path: '/', element: <Navigate to="/home" /> },
+      { path: '/', element: <Navigate to="/auth/login" /> },
       { path: '/home', exact: true, element: <HomePage /> },
       { path: '/products', exact: true, element: <Products /> },
       { path: '/customers', exact: true, element: <Customers /> },
