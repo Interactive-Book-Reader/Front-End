@@ -1,4 +1,4 @@
-import { Box, Typography, OutlinedInput, FormControl } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import CustomTextField from '../../../components/forms/theme-elements/CustomTextField';
 import { Stack } from '@mui/system';
 import React, { useState, useEffect } from 'react';
@@ -17,6 +17,21 @@ import bookRegister from 'src/api/book/book_register';
 import DropDownList from 'src/components/DropDownList/DropDownList';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { styled } from '@mui/material/styles';
+import Button from '@mui/material/Button';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+
+const VisuallyHiddenInput = styled('input')({
+  clip: 'rect(0 0 0 0)',
+  clipPath: 'inset(50%)',
+  height: 1,
+  overflow: 'hidden',
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
+  whiteSpace: 'nowrap',
+  width: 1,
+});
 
 const BookRegister = ({ title, subtitle, subtext }) => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -357,15 +372,15 @@ const BookRegister = ({ title, subtitle, subtext }) => {
                 >
                   Upload PDF
                 </Typography>
-                <FormControl variant="outlined">
-                  <OutlinedInput
-                    id="pdf-file"
+               
+                <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
+                  Choose PDF
+                  <VisuallyHiddenInput
                     type="file"
                     accept="application/pdf"
-                    inputProps={{ multiple: false }}
                     onChange={handleFileChange}
                   />
-                </FormControl>
+                </Button>
 
                 <div style={{ marginLeft: '20px', display: 'flex', alignItems: 'center' }}>
                   <Typography
@@ -380,16 +395,15 @@ const BookRegister = ({ title, subtitle, subtext }) => {
                     Upload Coverpage
                   </Typography>
 
-                  <FormControl variant="outlined" className="MuiOutlinedInput-root">
-                    <OutlinedInput
-                      id="pdf-file"
+                 
+                  <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
+                    Choose Coverpage
+                    <VisuallyHiddenInput
                       type="file"
-                      accept=".pdf"
-                      inputProps={{ multiple: false }}
+                      accept="image/jpeg, image/png, image/gif"
                       onChange={handleCoverPageChange}
-                      className="MuiOutlinedInput-input"
                     />
-                  </FormControl>
+                  </Button>
                 </div>
               </div>
             </Stack>
