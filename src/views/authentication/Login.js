@@ -18,6 +18,7 @@ const Login2 = () => {
     // const apkPath = process.env.PUBLIC_URL + '/your-app.apk';
     window.location.href = apkPath;
   };
+
   return (
     <PageContainer title="Login" description="this is Login page">
       <Box

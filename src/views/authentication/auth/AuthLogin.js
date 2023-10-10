@@ -12,6 +12,7 @@ import React, { useState } from 'react';
 import CustomTextField from '../../../components/forms/theme-elements/CustomTextField';
 import Cookies from 'universal-cookie';
 import LoginFunction from '../../../api/auth/login';
+import swal from 'sweetalert';
 
 const AuthLogin = ({ title, subtitle, subtext }) => {
   const cookies = new Cookies();
@@ -40,8 +41,20 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
       const responseData = await LoginFunction(loginData);
       if (responseData.message === 'Login Successful') {
         console.log(responseData);
-        cookies.set('token', responseData.token, { path: '/' });
-        window.location.href = `/home`;
+        swal({
+          title: 'Done!',
+          text: 'Login as a publisher.',
+          icon: 'success',
+          timer: 1000, // Set the timer to 2000 milliseconds (2 seconds)
+          button: false,
+        });
+
+        // Use setTimeout to wait for 2 seconds before executing the following code
+        setTimeout(() => {
+          cookies.set('token', responseData.token, { path: '/' });
+          cookies.set('user',"login");
+          window.location.href = `/home`;
+        }, 1000); // Also set the delay here to 2000 milliseconds (2 seconds)
       } else {
         setErrorMessege(responseData.message);
       }
@@ -102,7 +115,7 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
           </FormGroup>
           <Typography
             component={Link}
-            to="/"
+            to="/auth/forgotpassword"
             fontWeight="500"
             sx={{
               textDecoration: 'none',

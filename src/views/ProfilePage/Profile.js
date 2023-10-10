@@ -13,6 +13,9 @@ import { Paper } from '@mui/material';
 import { getAuthToken } from '../authentication/auth/AuthLogin';
 import getPublisher from 'src/api/profile/get_publisher';
 import updatePublisher from 'src/api/profile/update_publisher';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 import backgroundImg from 'src/assets/images/backgrounds/background.jpg';
 
@@ -126,6 +129,9 @@ const Profile = () => {
     setResponseMessage(responseData.message);
     if (responseData.message === 'Publisher data is updated successfully.') {
       fetchData();
+      toast.success('Publisher data is updated!', {
+        position: toast.POSITION.TOP_RIGHT,
+      });
     }
     console.log(responseData.message);
   };
@@ -155,6 +161,7 @@ const Profile = () => {
   };
 
   return (
+    <>
     <div
       style={{
         display: 'flex',
@@ -336,6 +343,8 @@ const Profile = () => {
         <Typography style={{ color: 'green' }}>{resposeMessage}</Typography>
       </Paper>
     </div>
+    <ToastContainer />
+    </>
   );
 };
 

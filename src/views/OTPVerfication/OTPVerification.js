@@ -7,6 +7,7 @@ import image1 from 'src/assets/images/OTP page/11857.jpg';
 import image2 from 'src/assets/images/OTP page/blue-brushstrokes-background.jpg';
 import verifyOTP from 'src/api/otp_verification/verify_otp';
 import resendOTP from 'src/api/otp_verification/resend_otp';
+import swal from 'sweetalert';
 
 const OTPVerification = () => {
   const url = new URL(window.location.href);
@@ -26,7 +27,18 @@ const OTPVerification = () => {
     const responseData = await verifyOTP(otp, id);
     if (responseData.message === 'OTP is verified successfully.') {
       console.log(responseData);
-      window.location.href = `/auth/login`;
+      swal({
+        title: "Done!",
+        text: "Publisher is registered successfully.",
+        icon: "success",
+        timer: 2000,
+        button: false
+      })
+       // Use setTimeout to wait for 2 seconds before executing the following code
+       setTimeout(() => {
+        window.location.href = `/auth/login`;
+      }, 1000); // Also set the delay here to 2000 milliseconds (2 seconds)
+      
     } else {
       setErrormessage(responseData.message);
       console.log(responseData);
