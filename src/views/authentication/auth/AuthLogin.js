@@ -12,7 +12,10 @@ import React, { useState } from 'react';
 import CustomTextField from '../../../components/forms/theme-elements/CustomTextField';
 import Cookies from 'universal-cookie';
 import LoginFunction from '../../../api/auth/login';
+import AdminLoginFunction from '../../../api/auth/adminLogin';
 import swal from 'sweetalert';
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
 const AuthLogin = ({ title, subtitle, subtext }) => {
   const cookies = new Cookies();
@@ -29,6 +32,12 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
     setPassword(event.target.value);
   };
 
+  const [alignment, setAlignment] = React.useState('Publihser');
+
+  const handleChange = (event, newAlignment) => {
+    setAlignment(newAlignment);
+  };
+
   const handleLoginSubmit = async (event) => {
     event.preventDefault();
 
@@ -36,30 +45,55 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
       username: username,
       password: password,
     };
+    if (alignment === 'Admin') {
+      console.log('Admin');
+      try {
+        const responseData = await AdminLoginFunction(loginData);
+        if (responseData.message === 'Login Successful') {
+          console.log(responseData);
+          swal({
+            title: 'Done!',
+            text: 'Login as an admin.',
+            icon: 'success',
+            timer: 1000, // Set the timer to 2000 milliseconds (2 seconds)
+            button: false,
+          });
 
-    try {
-      const responseData = await LoginFunction(loginData);
-      if (responseData.message === 'Login Successful') {
-        console.log(responseData);
-        swal({
-          title: 'Done!',
-          text: 'Login as a publisher.',
-          icon: 'success',
-          timer: 1000, // Set the timer to 2000 milliseconds (2 seconds)
-          button: false,
-        });
-
-        // Use setTimeout to wait for 2 seconds before executing the following code
-        setTimeout(() => {
-          cookies.set('token', responseData.token, { path: '/' });
-          cookies.set('user',"login");
-          window.location.href = `/home`;
-        }, 1000); // Also set the delay here to 2000 milliseconds (2 seconds)
-      } else {
-        setErrorMessege(responseData.message);
+          // Use setTimeout to wait for 2 seconds before executing the following code
+          setTimeout(() => {
+            cookies.set('admin_token', responseData.token, { path: '/' });
+            window.location.href = `/admin/home`;
+          }, 1000); // Also set the delay here to 2000 milliseconds (2 seconds)
+        } else {
+          setErrorMessege(responseData.message);
+        }
+      } catch (error) {
+        console.error('Error:', error);
       }
-    } catch (error) {
-      console.error('Error:', error);
+    } else {
+      try {
+        const responseData = await LoginFunction(loginData);
+        if (responseData.message === 'Login Successful') {
+          console.log(responseData);
+          swal({
+            title: 'Done!',
+            text: 'Login as a publisher.',
+            icon: 'success',
+            timer: 1000, // Set the timer to 2000 milliseconds (2 seconds)
+            button: false,
+          });
+
+          // Use setTimeout to wait for 2 seconds before executing the following code
+          setTimeout(() => {
+            cookies.set('token', responseData.token, { path: '/' });
+            window.location.href = `/home`;
+          }, 1000); // Also set the delay here to 2000 milliseconds (2 seconds)
+        } else {
+          setErrorMessege(responseData.message);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
     }
   };
 
@@ -72,7 +106,19 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
       ) : null}
 
       {subtext}
-
+      <ToggleButtonGroup
+        color="primary"
+        value={alignment}
+        exclusive
+        onChange={handleChange}
+        aria-label="Platform"
+      >
+        <ToggleButton value="Publisher">Publisher</ToggleButton>
+        <ToggleButton value="Admin">Admin</ToggleButton>
+      </ToggleButtonGroup>
+      <Typography fontWeight="700" variant="h6" mb={1}>
+        {alignment}
+      </Typography>
       <Stack>
         <Box>
           <Typography

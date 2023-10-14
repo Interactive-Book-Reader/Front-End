@@ -5,6 +5,7 @@ import Loadable from '../layouts/full/shared/loadable/Loadable';
 /* ***Layouts**** */
 const FullLayout = Loadable(lazy(() => import('../layouts/full/FullLayout')));
 const BlankLayout = Loadable(lazy(() => import('../layouts/blank/BlankLayout')));
+const AdminLayout = Loadable(lazy(() => import('../layouts/Admin/full/FullLayout')));
 
 /* ****Pages***** */
 const Products = Loadable(lazy(() => import('../views/products/Products')));
@@ -26,6 +27,7 @@ const AboutUs = Loadable(lazy(() => import('../views/AboutUs/AboutUs')));
 const Customers = Loadable(lazy(() => import('../views/customers/Customer')));
 const ARContent = Loadable(lazy(() => import('../views/AR Content/ARContent')));
 const OTPVerification = Loadable(lazy(() => import('../views/OTPVerfication/OTPVerification')));
+const AdminProfile=Loadable(lazy(() => import('../views/ProfilePage/AdminProfile')));
 
 const Router = [
   {
@@ -60,6 +62,16 @@ const Router = [
       { path: '*', element: <Navigate to="/auth/404" /> },
     ],
   },
+  {
+    path: '/admin',
+    element: <AdminLayout />,
+    children: [
+      {path: '/admin/home', exact: true, element: <HomePage /> },
+      {path: '/admin/abutus', exact: true, element: <AboutUs /> },
+      {path: '/admin/profile', exact: true, element: <AdminProfile /> },
+    ]
+  },
+  
 ];
 
 export default Router;
