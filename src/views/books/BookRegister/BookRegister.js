@@ -1,4 +1,4 @@
-import { Box, Typography, OutlinedInput, FormControl } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import CustomTextField from '../../../components/forms/theme-elements/CustomTextField';
 import { Stack } from '@mui/system';
 import React, { useState, useEffect } from 'react';
@@ -17,6 +17,21 @@ import bookRegister from 'src/api/book/book_register';
 import DropDownList from 'src/components/DropDownList/DropDownList';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { styled } from '@mui/material/styles';
+import Button from '@mui/material/Button';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+
+const VisuallyHiddenInput = styled('input')({
+  clip: 'rect(0 0 0 0)',
+  clipPath: 'inset(50%)',
+  height: 1,
+  overflow: 'hidden',
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
+  whiteSpace: 'nowrap',
+  width: 1,
+});
 
 const BookRegister = ({ title, subtitle, subtext }) => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -145,6 +160,73 @@ const BookRegister = ({ title, subtitle, subtext }) => {
   const handleSubmit = async (e) => {
     console.log('id is ', id);
     console.log(ISBN);
+    
+    if (Title === '') {
+      toast.error('Title cannot be empty!', {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      return;
+    }
+    if (ISBN === '') {
+      toast.error('ISBN cnnot be empty!', {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      return;
+    }
+    if (ISBN.length <= 3) {
+      toast.error('ISBN must be greater than 3 characters!', {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      return;
+    }
+    if (ISBN.length >= 14) {
+      toast.error('ISBN must be less than 14 characters!', {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      return;
+    }
+    if (ISBN.toInteger===false) {
+      toast.error('ISBN must be a number!', {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      return;
+    }
+    if (author === '') {
+      toast.error('Author cannot be empty!', {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      return;
+    }
+    if (genre === '') {
+      toast.error('Genre cannot be empty!', {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      return;
+    }
+    if (summary === '') {
+      toast.error('Summary cannot be empty!', {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      return;
+    }
+    if (price === '') {
+      toast.error('Price cannot be empty!', {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      return;
+    }
+    if (imageLink === '') {
+      toast.error('Coverpage cannot be empty!', {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      return;
+    }
+    if (pdfLink === '') {
+      toast.error('PDF cannot be empty!', {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      return;
+    }
     const jsonData = {
       publisher_id: id,
       title: Title,
@@ -155,7 +237,7 @@ const BookRegister = ({ title, subtitle, subtext }) => {
       price: price,
       coverpage: imageLink,
       pdf: pdfLink,
-    }; // Your JSON data
+    }; // Your JSON data here
     try {
       const response = await bookRegister(jsonData);
       if (response.ok) {
@@ -357,15 +439,15 @@ const BookRegister = ({ title, subtitle, subtext }) => {
                 >
                   Upload PDF
                 </Typography>
-                <FormControl variant="outlined">
-                  <OutlinedInput
-                    id="pdf-file"
+               
+                <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
+                  Choose PDF
+                  <VisuallyHiddenInput
                     type="file"
                     accept="application/pdf"
-                    inputProps={{ multiple: false }}
                     onChange={handleFileChange}
                   />
-                </FormControl>
+                </Button>
 
                 <div style={{ marginLeft: '20px', display: 'flex', alignItems: 'center' }}>
                   <Typography
@@ -380,16 +462,15 @@ const BookRegister = ({ title, subtitle, subtext }) => {
                     Upload Coverpage
                   </Typography>
 
-                  <FormControl variant="outlined" className="MuiOutlinedInput-root">
-                    <OutlinedInput
-                      id="pdf-file"
+                 
+                  <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
+                    Choose Coverpage
+                    <VisuallyHiddenInput
                       type="file"
-                      accept=".pdf"
-                      inputProps={{ multiple: false }}
+                      accept="image/jpeg, image/png, image/gif"
                       onChange={handleCoverPageChange}
-                      className="MuiOutlinedInput-input"
                     />
-                  </FormControl>
+                  </Button>
                 </div>
               </div>
             </Stack>

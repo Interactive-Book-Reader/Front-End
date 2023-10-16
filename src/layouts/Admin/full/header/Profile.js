@@ -101,11 +101,11 @@ const Profile = () => {
           },
         }}
       >
-        <MenuItem component={Link} to="/profile">
+        <MenuItem component={Link} to="/admin/profile">
           <ListItemIcon>
             <IconUser width={20} />
           </ListItemIcon>
-          <ListItemText link="profile">My Profile</ListItemText>
+          <ListItemText link="/admin/profile">My Profile</ListItemText>
         </MenuItem>
         <MenuItem>
           <ListItemIcon>

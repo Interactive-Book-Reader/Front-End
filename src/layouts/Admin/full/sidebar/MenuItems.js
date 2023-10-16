@@ -15,31 +15,31 @@ const Menuitems = [
     icon: IconHome,
     href: '/home',
   },
-  {
-    id: uniqueId(),
-    title: 'Products',
-    icon: IconBrandProducthunt,
-    href: '/products',
-  },
-  {
-    id: uniqueId(),
-    title: 'Customers',
-    icon: IconCards,
-    href: '/customers',
-  },
-  {
-    id: uniqueId(),
-    title: 'AR Content',
-    icon: IconAugmentedReality,
-    href: '/arcontent',
-  },
+  // {
+  //   id: uniqueId(),
+  //   title: 'Products',
+  //   icon: IconBrandProducthunt,
+  //   href: '/products',
+  // },
+  // {
+  //   id: uniqueId(),
+  //   title: 'Customers',
+  //   icon: IconCards,
+  //   href: '/customers',
+  // },
+  // {
+  //   id: uniqueId(),
+  //   title: 'AR Content',
+  //   icon: IconAugmentedReality,
+  //   href: '/arcontent',
+  // },
 
-  {
-    id: uniqueId(),
-    title: 'Book Register',
-    icon: IconBook2,
-    href: '/registerbook',
-  },
+  // {
+  //   id: uniqueId(),
+  //   title: 'Book Register',
+  //   icon: IconBook2,
+  //   href: '/registerbook',
+  // },
   {
     id : uniqueId(),
     title: 'About us',
