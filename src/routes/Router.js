@@ -67,7 +67,7 @@ const Router = [
     element: <AdminLayout />,
     children: [
       {path: '/admin/home', exact: true, element: <HomePage /> },
-      {path: '/admin/abutus', exact: true, element: <AboutUs /> },
+      {path: '/admin/aboutus', exact: true, element: <AboutUs /> },
       {path: '/admin/profile', exact: true, element: <AdminProfile /> },
     ]
   },

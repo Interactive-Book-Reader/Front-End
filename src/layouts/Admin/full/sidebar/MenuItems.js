@@ -1,5 +1,5 @@
 import {
-   IconLogin, IconBook2, IconUserPlus, IconHome,IconBrandProducthunt,IconAccessible,IconCards,IconAugmentedReality
+   IconLogin, IconUserPlus, IconHome,IconAccessible
 } from '@tabler/icons';
 
 import { uniqueId } from 'lodash';
@@ -13,38 +13,13 @@ const Menuitems = [
     id:uniqueId(),
     title: 'Home',
     icon: IconHome,
-    href: '/home',
+    href: '/admin/home',
   },
-  // {
-  //   id: uniqueId(),
-  //   title: 'Products',
-  //   icon: IconBrandProducthunt,
-  //   href: '/products',
-  // },
-  // {
-  //   id: uniqueId(),
-  //   title: 'Customers',
-  //   icon: IconCards,
-  //   href: '/customers',
-  // },
-  // {
-  //   id: uniqueId(),
-  //   title: 'AR Content',
-  //   icon: IconAugmentedReality,
-  //   href: '/arcontent',
-  // },
-
-  // {
-  //   id: uniqueId(),
-  //   title: 'Book Register',
-  //   icon: IconBook2,
-  //   href: '/registerbook',
-  // },
   {
     id : uniqueId(),
     title: 'About us',
     icon: IconAccessible,
-    href: '/aboutus',
+    href: '/admin/aboutus',
   },
   
   {

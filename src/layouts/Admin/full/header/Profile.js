@@ -15,25 +15,25 @@ import { IconListCheck, IconMail, IconUser } from '@tabler/icons';
 
 import ProfileImg from 'src/assets/images/profile/user-1.jpg';
 import Cookies from 'universal-cookie';
-import getPublisher from 'src/api/profile/get_publisher';
+import {getAdmin} from 'src/api/profile/get_admin';
 
 export const clearAuthToken = () => {
   // Clear the 'token' cookie by setting its value to an empty string and specifying a past expiration date
   const cookies = new Cookies();
-  cookies.set('token', null, { path: '/' });
+  cookies.set('admin_token', null, { path: '/' });
 };
 
 const Profile = () => {
   const [anchorEl2, setAnchorEl2] = useState(null);
-  const [publisher, setPublisher] = useState({});
+  const [admin, setAdmin] = useState({});
   const fetchData = async () => {
     try {
       const cookies = new Cookies();
-      const token = cookies.get('token');
+      const token = cookies.get('admin_token');
       const id = jwt(token)._id;
-
-      const response = await getPublisher(id);
-      setPublisher(response.publisher);
+      console.log(id);
+      const response = await getAdmin(id);
+      setAdmin(response);
       console.log(response);
     } catch (error) {
       console.error('Error:', error);
@@ -70,22 +70,26 @@ const Profile = () => {
           }),
         }}
         onClick={handleClick2}
-      >{publisher.logo===undefined ? (<Avatar
-        src={ProfileImg}
-        alt={ProfileImg}
-        sx={{
-          width: 35,
-          height: 35,
-        }}
-      />) : (<Avatar
-        src={publisher.logo}
-        alt={publisher.logo}
-        sx={{
-          width: 35,
-          height: 35,
-        }}
-      />)}
-        
+      >
+        {admin.profile_image === undefined ? (
+          <Avatar
+            src={ProfileImg}
+            alt={ProfileImg}
+            sx={{
+              width: 35,
+              height: 35,
+            }}
+          />
+        ) : (
+          <Avatar
+            src={admin.profile_image}
+            alt={admin.profile_image}
+            sx={{
+              width: 35,
+              height: 35,
+            }}
+          />
+        )}
       </IconButton>
       <Menu
         id="msgs-menu"

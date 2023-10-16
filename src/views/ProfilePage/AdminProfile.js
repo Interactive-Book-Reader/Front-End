@@ -9,7 +9,7 @@ import { storage } from '../../firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { v4 } from 'uuid';
 import { Paper } from '@mui/material';
-import getAdmin from '../../api/auth/getAdmin';
+import {getAdmin} from 'src/api/profile/get_admin';
 import updatePublisher from 'src/api/profile/update_publisher';
 import { getAdminToken } from 'src/config/token/getAdminToken';
 import { ToastContainer, toast } from 'react-toastify';
@@ -20,17 +20,15 @@ import backgroundImg from 'src/assets/images/backgrounds/background.jpg';
 const AdminProfile = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [phonenumber, setPhonenumber] = useState('');
   const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [bio_data, setBio_data] = useState('');
+  const [password, setPassword] = useState(''); // Not visible only editable
   const [logo, setLogo] = useState(null);
   const [imageLink, setImageLink] = useState('');
   const [resposeMessage, setResponseMessage] = useState('');
   const [loading, setLoading] = useState('');
   const updateData = {};
   const fileInputRef = useRef(null);
-  const [id, setId] = useState(''); // Publisher ID
+  const [id, setId] = useState(''); 
 
   const handleNameChange = (newInputText) => {
     setName(newInputText);
@@ -40,21 +38,15 @@ const AdminProfile = () => {
     setEmail(newInputText);
   };
 
-//   const handlePhonenumberChange = (newInputText) => {
-//     setPhonenumber(newInputText);
-//   };
 
   const handleUsernameChange = (newInputText) => {
     setUsername(newInputText);
   };
 
-//   const handleBio_dataChange = (newInputText) => {
-//     setBio_data(newInputText);
-//   };
-
   const handlePasswordChange = (newInputText) => {
     setPassword(newInputText);
   };
+
 
   const handleLogoChange = (event) => {
     setLogo(event.target.files[0]);
@@ -65,7 +57,7 @@ const AdminProfile = () => {
     fileInputRef.current.click();
   };
 
-  const [publisher, setPublisher] = useState({});
+  const [admin, setAdmin] = useState({});
 
   const fetchData = async () => {
     try {
@@ -74,7 +66,7 @@ const AdminProfile = () => {
     console.log(id);
       setId(id);
       const data = await getAdmin(id);
-      setPublisher(data.publisher);
+      setAdmin(data);
     } catch (err) {
       window.location.href = '/auth/login';
       console.log(err);
@@ -94,22 +86,13 @@ const AdminProfile = () => {
     if (email !== '') {
       updateData.email = email;
     }
-    if (phonenumber !== '') {
-      updateData.phonenumber = phonenumber;
-    }
+
     if (username !== '') {
       updateData.username = username;
     }
+    
     if (password !== '') {
-      if (password.length < 8) {
-        setResponseMessage('Password must be at least 8 characters long.');
-        return;
-      } else {
-        updateData.password = password;
-      }
-    }
-    if (bio_data !== '') {
-      updateData.bio_data = bio_data;
+      updateData.password = password;
     }
     if (imageLink !== '') {
       updateData.logo = imageLink;
@@ -121,7 +104,7 @@ const AdminProfile = () => {
     setResponseMessage(responseData.message);
     if (responseData.message === 'Admin data is updated successfully.') {
       fetchData();
-      toast.success('Publisher data is updated!', {
+      toast.success('Admin data is updated!', {
         position: toast.POSITION.TOP_RIGHT,
       });
     }
@@ -198,7 +181,7 @@ const AdminProfile = () => {
             }}
           >
             <img
-              src={publisher.logo}
+              src={admin.profile_image}
               alt="logo"
               style={{
                 width: '200px',
@@ -255,7 +238,7 @@ const AdminProfile = () => {
                 width="100%"
                 type="text"
                 isMultiline={false}
-                defaultValue={publisher.name}
+                defaultValue={admin.name}
                 onInputChange={handleNameChange}
               />
             </div>
@@ -266,7 +249,7 @@ const AdminProfile = () => {
                 width="100%"
                 type="text"
                 isMultiline={false}
-                defaultValue={publisher.email}
+                defaultValue={admin.email}
                 onInputChange={handleEmailChange}
               />
             </div>
@@ -275,29 +258,15 @@ const AdminProfile = () => {
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
             <div style={{ width: '48%' }}>
               <TextBox
-                inputText="Phone"
-                label="Enter new phone number:"
-                width="100%"
-                type="text"
-                isMultiline={false}
-                defaultValue={publisher.phonenumber}
-                // onInputChange={handlePhonenumberChange}
-              />
-            </div>
-            <div style={{ width: '48%' }}>
-              <TextBox
                 inputText="Username"
                 label="Enter new username:"
                 width="100%"
                 type="text"
                 isMultiline={false}
-                defaultValue={publisher.username}
+                defaultValue={admin.username}
                 onInputChange={handleUsernameChange}
               />
             </div>
-          </div>
-
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
             <div style={{ width: '48%' }}>
               <TextBox
                 inputText="Password"
@@ -306,29 +275,10 @@ const AdminProfile = () => {
                 type="password"
                 isMultiline={false}
                 defaultValue="Not Visible only editable"
-                // onInputChange={handlePasswordChange}
+                onInputChange={handlePasswordChange}
               />
             </div>
-            {/* <div style={{ width: '48%' }}>
-              <YearPicker
-                text="Date of Birth"
-                onInputChange={handleYear_stabilizedChange}
-                output={publisher.year_stabilized}
-                label="Enter New Year:"
-              />
-            </div> */}
           </div>
-
-          <TextBox
-            inputText="Bio Data"
-            label="Enter bio data:"
-            width="100%"
-            type="text"
-            isMultiline={true}
-            defaultValue={publisher.bio_data}
-            // onInputChange={handleBio_dataChange}
-          />
-
           <div
             style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}
             onSubmit={handleUpdateSubmit}
