@@ -10,7 +10,7 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { v4 } from 'uuid';
 import { Paper } from '@mui/material';
 import {getAdmin} from 'src/api/profile/get_admin';
-import updatePublisher from 'src/api/profile/update_publisher';
+import updateAdmin from 'src/api/profile/update_admin';
 import { getAdminToken } from 'src/config/token/getAdminToken';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -22,6 +22,8 @@ const AdminProfile = () => {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState(''); // Not visible only editable
+  const [phonenumber, setPhonenumber] = useState('');
+  const [bio_data, setBio_data] = useState('');
   const [logo, setLogo] = useState(null);
   const [imageLink, setImageLink] = useState('');
   const [resposeMessage, setResponseMessage] = useState('');
@@ -45,6 +47,14 @@ const AdminProfile = () => {
 
   const handlePasswordChange = (newInputText) => {
     setPassword(newInputText);
+  };
+
+  const handlePhonenumberChange = (newInputText) => {
+    setPhonenumber(newInputText);
+  };
+
+  const handleBio_dataChange = (newInputText) => {
+    setBio_data(newInputText);
   };
 
 
@@ -94,13 +104,22 @@ const AdminProfile = () => {
     if (password !== '') {
       updateData.password = password;
     }
+
+    if (phonenumber !== '') {
+      updateData.phonenumber = phonenumber;
+    }
+
+    if (bio_data !== '') {
+      updateData.bio_data = bio_data;
+    }
+
     if (imageLink !== '') {
       updateData.logo = imageLink;
     }
     updateData._id = id;
     console.log(updateData);
 
-    const responseData = await updatePublisher(updateData);
+    const responseData = await updateAdmin(updateData);
     setResponseMessage(responseData.message);
     if (responseData.message === 'Admin data is updated successfully.') {
       fetchData();
@@ -276,6 +295,30 @@ const AdminProfile = () => {
                 isMultiline={false}
                 defaultValue="Not Visible only editable"
                 onInputChange={handlePasswordChange}
+              />
+            </div>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
+            <div style={{ width: '48%' }}>
+              <TextBox
+                inputText="Phone Number"
+                label="Enter new Phone Number:"
+                width="100%"
+                type="text"
+                isMultiline={false}
+                defaultValue={admin.phonenumber}
+                onInputChange={handlePhonenumberChange}
+              />
+            </div>
+            <div style={{ width: '48%' }}>
+              <TextBox
+                inputText="Bio Data"
+                label="Enter new Bio Data:"
+                width="100%"
+                type="text"
+                isMultiline={true}
+                defaultValue={admin.bio_data}
+                onInputChange={handleBio_dataChange}
               />
             </div>
           </div>
