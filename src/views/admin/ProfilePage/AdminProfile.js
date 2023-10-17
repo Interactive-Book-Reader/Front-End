@@ -5,11 +5,11 @@ import MainTopic from 'src/components/Topic/MainTopic';
 import LoadingSpinner from 'src/components/Spinner/Spinner';
 import jwt from 'jwt-decode';
 import { Typography } from '@mui/material';
-import { storage } from '../../firebase';
+import { storage } from '../../../firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { v4 } from 'uuid';
 import { Paper } from '@mui/material';
-import {getAdmin} from 'src/api/profile/get_admin';
+import { getAdmin } from 'src/api/profile/get_admin';
 import updateAdmin from 'src/api/profile/update_admin';
 import { getAdminToken } from 'src/config/token/getAdminToken';
 import { ToastContainer, toast } from 'react-toastify';
@@ -30,7 +30,7 @@ const AdminProfile = () => {
   const [loading, setLoading] = useState('');
   const updateData = {};
   const fileInputRef = useRef(null);
-  const [id, setId] = useState(''); 
+  const [id, setId] = useState('');
 
   const handleNameChange = (newInputText) => {
     setName(newInputText);
@@ -39,7 +39,6 @@ const AdminProfile = () => {
   const handleEmailChange = (newInputText) => {
     setEmail(newInputText);
   };
-
 
   const handleUsernameChange = (newInputText) => {
     setUsername(newInputText);
@@ -57,7 +56,6 @@ const AdminProfile = () => {
     setBio_data(newInputText);
   };
 
-
   const handleLogoChange = (event) => {
     setLogo(event.target.files[0]);
   };
@@ -73,7 +71,7 @@ const AdminProfile = () => {
     try {
       const token = getAdminToken();
       const id = jwt(token)._id;
-    console.log(id);
+      console.log(id);
       setId(id);
       const data = await getAdmin(id);
       setAdmin(data);
@@ -100,7 +98,7 @@ const AdminProfile = () => {
     if (username !== '') {
       updateData.username = username;
     }
-    
+
     if (password !== '') {
       updateData.password = password;
     }
