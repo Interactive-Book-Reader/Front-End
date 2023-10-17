@@ -27,7 +27,10 @@ const AboutUs = Loadable(lazy(() => import('../views/AboutUs/AboutUs')));
 const Customers = Loadable(lazy(() => import('../views/customers/Customer')));
 const ARContent = Loadable(lazy(() => import('../views/AR Content/ARContent')));
 const OTPVerification = Loadable(lazy(() => import('../views/OTPVerfication/OTPVerification')));
-const AdminProfile=Loadable(lazy(() => import('../views/ProfilePage/AdminProfile')));
+const AdminProfile = Loadable(lazy(() => import('../views/admin/ProfilePage/AdminProfile')));
+const AddAdmin = Loadable(lazy(() => import('../views/admin/AddAdmin/AddAdmin')));
+const AdminCustomer = Loadable(lazy(() => import('../views/admin/Customer/Customer')));
+const AdminPublisher = Loadable(lazy(() => import('../views/admin/Publisher/Publisher')));
 
 const Router = [
   {
@@ -66,12 +69,15 @@ const Router = [
     path: '/admin',
     element: <AdminLayout />,
     children: [
-      {path: '/admin/home', exact: true, element: <HomePage /> },
-      {path: '/admin/aboutus', exact: true, element: <AboutUs /> },
-      {path: '/admin/profile', exact: true, element: <AdminProfile /> },
-    ]
+      { path: '/admin/home', exact: true, element: <HomePage /> },
+      { path: '/admin/aboutus', exact: true, element: <AboutUs /> },
+      { path: '/admin/profile', exact: true, element: <AdminProfile /> },
+      { path: '/admin/addadmin', exact: true, element: <AddAdmin /> },
+      { path: '/admin/customers', exact: true, element: <AdminCustomer /> },
+      { path: '/admin/publisher', exact: true, element: <AdminPublisher /> },
+      { path: '*', element: <Navigate to="/auth/404" /> },
+    ],
   },
-  
 ];
 
 export default Router;
