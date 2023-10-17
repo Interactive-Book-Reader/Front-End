@@ -5,7 +5,7 @@ import './Login.css';
 // components
 import PageContainer from 'src/components/container/PageContainer';
 import AuthLogin from './auth/AuthLogin';
-import logoImage from 'src/assets/images/logos/AReader3Dpublishers.png';
+import logoImage from 'src/assets/images/logos/AReader3Dpublishers-reduced.png';
 import backgroundImage from 'src/assets/images/backgrounds/loginBackground.jpg';
 
 const Login2 = () => {

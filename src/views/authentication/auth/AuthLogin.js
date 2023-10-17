@@ -32,10 +32,12 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
     setPassword(event.target.value);
   };
 
-  const [alignment, setAlignment] = React.useState('Publihser');
+  const [alignment, setAlignment] = useState('Publihser');
 
   const handleChange = (event, newAlignment) => {
-    setAlignment(newAlignment);
+    if (newAlignment !== null) {
+      setAlignment(newAlignment);
+    }
   };
 
   const handleLoginSubmit = async (event) => {
@@ -106,18 +108,36 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
       ) : null}
 
       {subtext}
-      <ToggleButtonGroup
-        color="primary"
-        value={alignment}
-        exclusive
-        onChange={handleChange}
-        aria-label="Platform"
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
       >
-        <ToggleButton value="Publisher">Publisher</ToggleButton>
-        <ToggleButton value="Admin">Admin</ToggleButton>
-      </ToggleButtonGroup>
-      <Typography fontWeight="700" variant="h6" mb={1}>
-        {alignment}
+        <ToggleButtonGroup
+          color="primary"
+          value={alignment}
+          exclusive
+          onChange={handleChange}
+          aria-label="Platform"
+        >
+          <ToggleButton value="Publisher">Publisher</ToggleButton>
+          <ToggleButton value="Admin">Admin</ToggleButton>
+        </ToggleButtonGroup>
+      </div>
+      <Typography
+        fontWeight="700"
+        variant="h6"
+        mb={1}
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginTop: '10px',
+        }}
+      >
+        Ready to login as {alignment} !!!
       </Typography>
       <Stack>
         <Box>
@@ -155,22 +175,37 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
             onChange={handlePasswordChange}
           />
         </Box>
-        <Stack justifyContent="space-between" direction="row" alignItems="center" my={2}>
-          <FormGroup>
-            <FormControlLabel control={<Checkbox defaultChecked />} label="Remember this Device" />
-          </FormGroup>
-          <Typography
-            component={Link}
-            to="/auth/forgotpassword"
-            fontWeight="500"
-            sx={{
-              textDecoration: 'none',
-              color: 'primary.main',
+
+        {alignment !== 'Admin' ? (
+          <Stack justifyContent="space-between" direction="row" alignItems="center" my={2}>
+            <FormGroup>
+              <FormControlLabel
+                control={<Checkbox defaultChecked />}
+                label="Remember this Device"
+              />
+            </FormGroup>
+            <Typography
+              component={Link}
+              to="/auth/forgotpassword"
+              fontWeight="500"
+              sx={{
+                textDecoration: 'none',
+                color: 'primary.main',
+              }}
+            >
+              Forgot Password ?
+            </Typography>
+          </Stack>
+        ) : (
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginTop: '10px',
             }}
-          >
-            Forgot Password ?
-          </Typography>
-        </Stack>
+          ></div>
+        )}
       </Stack>
       <Box>
         <Button
