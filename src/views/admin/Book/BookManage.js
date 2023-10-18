@@ -2,14 +2,13 @@ import PageContainer from 'src/components/container/PageContainer';
 import { Box, Typography } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import React, { useEffect, useState, useMemo } from 'react';
-import getAll from 'src/api/customers/getAll';
-import moment from 'moment';
+import getAll from 'src/api/book/getBookPublisher';
 import Avatar from '@mui/material/Avatar';
 import UserAction from './UserAction';
 import PurpleButton from 'src/components/Buttons/PurpleButton';
-import deleteUser from 'src/api/customers/deleteUser';
+import deleteBook from 'src/api/book/book_delete';
 
-const Customer = () => {
+const BookManage = () => {
   const [pageSize, setPageSize] = useState(5);
   const [rows, setRows] = useState([]);
   const [rowId, setRowId] = useState(null);
@@ -19,19 +18,28 @@ const Customer = () => {
   const columns = useMemo(
     () => [
       {
-        field: 'image_link',
-        headerName: 'Avator',
-        width: 70,
-        renderCell: (params) => <Avatar src={params.row.image_link} sx={{ width: 40, height: 40 }} />,
+        field: 'coverpage',
+        headerName: 'Coverpage',
+        width: 90,
+        renderCell: (params) => (
+          <Avatar src={params.row.coverpage} sx={{ width: 40, height: 40 }} />
+        ),
         sortable: false,
         filterable: false,
       },
-      { field: 'name', headerName: 'Name', width: 150,editable: true },
-      { field: 'email', headerName: 'Email', width: 200, editable: true },
-      { field: 'username', headerName: 'Username', width: 120, editable: true },
-      { field: 'createdAt', headerName: 'Created At', width: 100, renderCell: (params) => {return moment(params.value).format('DD/MM/YYYY')} },
-      { field: 'bio_data', headerName: 'Bio Data', width: 220, editable: true },
-      { field: 'phonenumber', headerName: 'Phone Number', width: 130, editable: true },
+      { field: 'title', headerName: 'Title', width: 200, editable: true },
+      { field: 'author', headerName: 'Author', width: 150, editable: true },
+      { field: 'genre', headerName: 'Genre', width: 140 },
+      { field: 'price', headerName: 'Price', width: 100, editable: true },
+      {
+        field: 'logo',
+        headerName: 'Publisher',
+        width: 90,
+        renderCell: (params) => <Avatar src={params.row.logo} sx={{ width: 40, height: 40 }} />,
+        sortable: false,
+        filterable: false,
+      },
+      { field: 'name', headerName: 'Name', width: 220 },
       {
         field: 'actions',
         headerName: 'Actions',
@@ -46,21 +54,21 @@ const Customer = () => {
     try {
       const data = await getAll();
       setRows([]);
-      for (let i = 0; i < data.users.length; i++) {
-        let item = {
-            image_link: data.users[i].image_link,
-            name: data.users[i].name,
-            email: data.users[i].email,
-            username: data.users[i].username,
-            createdAt: data.users[i].createdAt,
-            bio_data: data.users[i].bio_data,
-            phonenumber: data.users[i].phonenumber,
-            id: data.users[i]._id,
+      const newData = data.data;
+      console.log(data.data);
+      newData.forEach((item, index) => {
+        let item1 = {
+          coverpage: item.book_details.coverpage,
+          title: item.book_details.title,
+          author: item.book_details.author,
+          genre: item.book_details.genre,
+          price: item.book_details.price,
+          logo: item.book_details.publisher_details.logo,
+          name: item.book_details.publisher_details.name,
+          id: item.book_details._id,
         };
-        setRows((rows) => [...rows, item]);
-        // console.log(data.data[i]);
-      }
-      console.log(data);
+        setRows((rows) => [...rows, item1]);
+      });
     } catch (err) {
       window.location.href = '/auth/login';
     }
@@ -73,15 +81,15 @@ const Customer = () => {
   const handleDelete = async () => {
     console.log(selectionModel);
     for (const element of selectionModel) {
-      const response = await deleteUser(element);
+      const response = await deleteBook(element);
       console.log(response);
     }
-    setMessage('Publisher Deleted Successfully');
+    setMessage('Book Deleted Successfully');
     fetchData();
   };
 
   return (
-    <PageContainer title="Customer Page" description="this is Customer Page">
+    <PageContainer title="Book Manage" description="this is Book Manage Page">
       <Box
         sx={{
           height: 400,
@@ -99,11 +107,11 @@ const Customer = () => {
           pageSize={pageSize}
           pagination
           onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-          checkboxSelection    
+          checkboxSelection
           selectionModel={selectionModel}
           onRowSelectionModelChange={(newSelectionModel) => {
             setSelectionModel(newSelectionModel);
-          }}   
+          }}
           getRowSpacing={(params) => ({
             top: params.isFirstVisible ? 0 : 8,
             bottom: params.isLastVisible ? 0 : 8,
@@ -135,8 +143,10 @@ const Customer = () => {
       </Box>
       <div style={{
         padding: '30px',
-      }}></div>
-      <PurpleButton label={'Delete Reader'} onClick={handleDelete} />
+      }}>
+
+      </div>
+      <PurpleButton label={'Delete Book'} onClick={handleDelete} />
       <Box>
         <Typography style={{ color: 'green', textDecoration: 'none' }}>{message}</Typography>
       </Box>
@@ -144,4 +154,4 @@ const Customer = () => {
   );
 };
 
-export default Customer;
+export default BookManage;

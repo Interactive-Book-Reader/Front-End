@@ -31,6 +31,7 @@ const AdminProfile = Loadable(lazy(() => import('../views/admin/ProfilePage/Admi
 const AddAdmin = Loadable(lazy(() => import('../views/admin/AddAdmin/AddAdmin')));
 const AdminCustomer = Loadable(lazy(() => import('../views/admin/Customer/Customer')));
 const AdminPublisher = Loadable(lazy(() => import('../views/admin/Publisher/Publisher')));
+const BookManage = Loadable(lazy(() => import('../views/admin/Book/BookManage')));
 
 const Router = [
   {
@@ -74,6 +75,7 @@ const Router = [
       { path: '/admin/profile', exact: true, element: <AdminProfile /> },
       { path: '/admin/addadmin', exact: true, element: <AddAdmin /> },
       { path: '/admin/customers', exact: true, element: <AdminCustomer /> },
+      { path: '/admin/book', exact: true, element: <BookManage /> },
       { path: '/admin/publisher', exact: true, element: <AdminPublisher /> },
       { path: '*', element: <Navigate to="/auth/404" /> },
     ],
