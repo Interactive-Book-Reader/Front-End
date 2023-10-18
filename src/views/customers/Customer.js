@@ -7,6 +7,7 @@ import jwt from 'jwt-decode';
 import Cookies from 'universal-cookie';
 import { Box, Typography } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
+import Avatar from '@mui/material/Avatar';
 
 const Customers = () => {
   const [pageSize, setPageSize] = useState(5);
@@ -14,8 +15,16 @@ const Customers = () => {
 
   const columns = useMemo(
     () => [
-      { field: 'name', headerName: 'Name', width: 150 },
-      { field: 'username', headerName: 'Username', width: 150 },
+      {
+        field: 'image_link',
+        headerName: 'Avator',
+        width: 70,
+        renderCell: (params) => <Avatar src={params.row.image_link} sx={{ width: 40, height: 40 }} />,
+        sortable: false,
+        filterable: false,
+      },
+      { field: 'name', headerName: 'Name', width: 180 },
+      { field: 'username', headerName: 'Username', width: 170 },
       { field: 'title', headerName: 'Title', width: 300 },
       { field: 'genre', headerName: 'Genre', width: 250 },
       { field: 'ISBN', headerName: 'ISBN', width: 80 },
@@ -33,6 +42,7 @@ const Customers = () => {
       const newData = data.read_books;
       newData.forEach((item, index) => {
         let item1 = {
+          image_link: item.user_details.image_link,
           name: item.user_details.name,
           username: item.user_details.username,
           title: item.book_details.title,
@@ -72,11 +82,27 @@ const Customers = () => {
           pageSize={pageSize}
           pagination
           onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-          checkboxSelection
           getRowSpacing={(params) => ({
             top: params.isFirstVisible ? 0 : 5,
             bottom: params.isLastVisible ? 0 : 5,
           })}
+          sx={{
+            '& .MuiDataGrid-cell--textLeft': {
+              textAlign: 'left',
+            },
+            '& .MuiDataGrid-columnsContainer': {
+              backgroundColor: (theme) => (theme.palette.mode === 'light' ? '#fafafa' : '#1c2125'),
+            },
+            '& .MuiDataGrid-iconSeparator': {
+              display: 'none',
+            },
+            '& .MuiDataGrid-columnHeader, .MuiDataGrid-cell': {
+              borderRight: `2px solid rgba(224, 224, 224, 1)`,
+            },
+            '& .MuiDataGrid-columnsContainer, .MuiDataGrid-cell': {
+              borderBottom: `3px solid rgba(224, 224, 224, 1)`,
+            },
+          }}
         />
       </Box>
     </PageContainer>
