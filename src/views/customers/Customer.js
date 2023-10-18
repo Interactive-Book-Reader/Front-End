@@ -30,19 +30,19 @@ const Customers = () => {
       const token = cookies.get('token');
       const id = jwt(token)._id;
       const data = await getDetails(id);
-      for (let i = 0; i < data.data.length; i++) {
-        let item = {
-          name: data.data[i].user_details.name,
-          username: data.data[i].user_details.username,
-          title: data.data[i].book_details.title,
-          genre: data.data[i].book_details.genre,
-          ISBN: data.data[i].book_details.ISBN,
-          price: data.data[i].book_details.price,
-          id: i,
+      const newData = data.read_books;
+      newData.forEach((item, index) => {
+        let item1 = {
+          name: item.user_details.name,
+          username: item.user_details.username,
+          title: item.book_details.title,
+          genre: item.book_details.genre,
+          ISBN: item.book_details.ISBN,
+          price: item.book_details.price,
+          id: index,
         };
-        setRows((rows) => [...rows, item]);
-        console.log(data.data[i]);
-      }
+        setRows((rows) => [...rows, item1]);
+      });
       console.log(data);
     } catch (err) {
       window.location.href = '/auth/login';
@@ -72,7 +72,7 @@ const Customers = () => {
           pageSize={pageSize}
           pagination
           onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-          checkboxSelection       
+          checkboxSelection
           getRowSpacing={(params) => ({
             top: params.isFirstVisible ? 0 : 5,
             bottom: params.isLastVisible ? 0 : 5,
