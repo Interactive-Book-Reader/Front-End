@@ -6,12 +6,14 @@ import getAll from 'src/api/publisher/getAll';
 import Avatar from '@mui/material/Avatar';
 import UserAction from './UserAction';
 import PurpleButton from 'src/components/Buttons/PurpleButton';
+import deletePublisher from 'src/api/publisher/deletePublisher';
 
 const Publisher = () => {
   const [pageSize, setPageSize] = useState(5);
   const [rows, setRows] = useState([]);
   const [rowId, setRowId] = useState(null);
   const [selectionModel, setSelectionModel] = useState([]);
+  const [message, setMessage] = useState('');
 
   const columns = useMemo(
     () => [
@@ -32,7 +34,7 @@ const Publisher = () => {
         field: 'actions',
         headerName: 'Actions',
         type: 'actions',
-        renderCell: (params) => <UserAction {...{ params, rowId, setRowId,selectionModel }} />,
+        renderCell: (params) => <UserAction {...{ params, rowId, setRowId, selectionModel }} />,
       },
     ],
     [rowId, selectionModel],
@@ -41,6 +43,7 @@ const Publisher = () => {
   const fetchData = async () => {
     try {
       const data = await getAll();
+      setRows([]);
       for (const element of data.publishers) {
         let item = {
           logo: element.logo,
@@ -61,15 +64,13 @@ const Publisher = () => {
 
   const handleDelete = async () => {
     console.log(selectionModel);
-    // for (const element of selectionModel) {
-    //   const response = await fetch(`http://localhost:5000/api/publisher/${element}`, {
-    //     method: 'DELETE',
-    //   });
-    //   const data = await response.json();
-    //   console.log(data);
-    // }
-    // window.location.reload();
-  }
+    for (const element of selectionModel) {
+      const response = await deletePublisher(element);
+      console.log(response);
+    }
+    setMessage('Publisher Deleted Successfully');
+    fetchData();
+  };
   useEffect(() => {
     fetchData();
     console.log(rowId);
@@ -95,13 +96,12 @@ const Publisher = () => {
           onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
           checkboxSelection
           selectionModel={selectionModel}
-         onRowSelectionModelChange={(newSelectionModel) => {
+          onRowSelectionModelChange={(newSelectionModel) => {
             setSelectionModel(newSelectionModel);
-          }
-         }
+          }}
           getRowSpacing={(params) => ({
-            top: params.isFirstVisible ? 0 : 5,
-            bottom: params.isLastVisible ? 0 : 5,
+            top: params.isFirstVisible ? 0 : 8,
+            bottom: params.isLastVisible ? 0 : 8,
           })}
           sx={{
             '& .MuiDataGrid-cell--textLeft': {
@@ -117,7 +117,7 @@ const Publisher = () => {
               borderRight: `2px solid rgba(224, 224, 224, 1)`,
             },
             '& .MuiDataGrid-columnsContainer, .MuiDataGrid-cell': {
-              borderBottom: `5px solid rgba(224, 224, 224, 1)`,
+              borderBottom: `3px solid rgba(224, 224, 224, 1)`,
             },
           }}
           onCellEditStop={(params) => {
@@ -128,10 +128,10 @@ const Publisher = () => {
           }}
         />
       </Box>
-      <PurpleButton
-       label={'Delete Publisher'}
-        onClick={handleDelete}
-      />
+      <PurpleButton label={'Delete Publisher'} onClick={handleDelete} />
+      <Box>
+        <Typography style={{ color: 'green', textDecoration: 'none' }}>{message}</Typography>
+      </Box>
     </PageContainer>
   );
 };
