@@ -16,20 +16,21 @@ const UserAction = ({ params, rowId, setRowId }) => {
       ...data,
       _id: id,
     };
-    await Update(sendData);
-    console.log(data);
-    console.log(id);
+    const response = await Update(sendData);
+    if (response.message === 'Publisher data is updated successfully.') {
+      setSuccess(true);
+      setRowId(null);
+    }
     setLoading(false);
-    setSuccess(true);
-    setRowId(null);
   };
 
   useEffect(() => {
     if (rowId === params.id && success) {
       setSuccess(false);
     }
-  }, [rowId, success]);
+  }, [rowId]);
   return (
+    <>
     <Box
       sx={{
         m: 1,
@@ -74,6 +75,8 @@ const UserAction = ({ params, rowId, setRowId }) => {
         />
       )}
     </Box>
+    
+    </>
   );
 };
 

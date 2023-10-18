@@ -5,11 +5,13 @@ import React, { useEffect, useState, useMemo } from 'react';
 import getAll from 'src/api/publisher/getAll';
 import Avatar from '@mui/material/Avatar';
 import UserAction from './UserAction';
+import PurpleButton from 'src/components/Buttons/PurpleButton';
 
 const Publisher = () => {
   const [pageSize, setPageSize] = useState(5);
   const [rows, setRows] = useState([]);
   const [rowId, setRowId] = useState(null);
+  const [selectionModel, setSelectionModel] = useState([]);
 
   const columns = useMemo(
     () => [
@@ -23,31 +25,31 @@ const Publisher = () => {
       },
       { field: 'name', headerName: 'Name', width: 150, editable: true },
       { field: 'email', headerName: 'Email', width: 250, editable: true },
-      { field: 'username', headerName: 'Username', width: 120 , editable: true},
-      { field: 'bio_data', headerName: 'Bio Data', width: 250 , editable: true},
-      { field: 'phonenumber', headerName: 'Phone Number', width: 130 , editable: true},
+      { field: 'username', headerName: 'Username', width: 120, editable: true },
+      { field: 'bio_data', headerName: 'Bio Data', width: 250, editable: true },
+      { field: 'phonenumber', headerName: 'Phone Number', width: 130, editable: true },
       {
         field: 'actions',
         headerName: 'Actions',
         type: 'actions',
-        renderCell: params => <UserAction {...{params,rowId,setRowId}} />,
+        renderCell: (params) => <UserAction {...{ params, rowId, setRowId,selectionModel }} />,
       },
     ],
-    [rowId],
+    [rowId, selectionModel],
   );
 
   const fetchData = async () => {
     try {
       const data = await getAll();
-      for (let i = 0; i < data.publishers.length; i++) {
+      for (const element of data.publishers) {
         let item = {
-          logo: data.publishers[i].logo,
-          name: data.publishers[i].name,
-          email: data.publishers[i].email,
-          username: data.publishers[i].username,
-          bio_data: data.publishers[i].bio_data,
-          phonenumber: data.publishers[i].phonenumber,
-          id: data.publishers[i]._id,
+          logo: element.logo,
+          name: element.name,
+          email: element.email,
+          username: element.username,
+          bio_data: element.bio_data,
+          phonenumber: element.phonenumber,
+          id: element._id,
         };
         setRows((rows) => [...rows, item]);
       }
@@ -57,6 +59,17 @@ const Publisher = () => {
     }
   };
 
+  const handleDelete = async () => {
+    console.log(selectionModel);
+    // for (const element of selectionModel) {
+    //   const response = await fetch(`http://localhost:5000/api/publisher/${element}`, {
+    //     method: 'DELETE',
+    //   });
+    //   const data = await response.json();
+    //   console.log(data);
+    // }
+    // window.location.reload();
+  }
   useEffect(() => {
     fetchData();
     console.log(rowId);
@@ -81,6 +94,11 @@ const Publisher = () => {
           pagination
           onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
           checkboxSelection
+          selectionModel={selectionModel}
+         onRowSelectionModelChange={(newSelectionModel) => {
+            setSelectionModel(newSelectionModel);
+          }
+         }
           getRowSpacing={(params) => ({
             top: params.isFirstVisible ? 0 : 5,
             bottom: params.isLastVisible ? 0 : 5,
@@ -110,6 +128,10 @@ const Publisher = () => {
           }}
         />
       </Box>
+      <PurpleButton
+       label={'Delete Publisher'}
+        onClick={handleDelete}
+      />
     </PageContainer>
   );
 };
