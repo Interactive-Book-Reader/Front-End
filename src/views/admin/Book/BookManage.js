@@ -7,6 +7,7 @@ import Avatar from '@mui/material/Avatar';
 import UserAction from './UserAction';
 import PurpleButton from 'src/components/Buttons/PurpleButton';
 import deleteBook from 'src/api/book/book_delete';
+import { getAdminToken } from 'src/config/token/getAdminToken';
 
 const BookManage = () => {
   const [pageSize, setPageSize] = useState(5);
@@ -51,6 +52,11 @@ const BookManage = () => {
   );
 
   const fetchData = async () => {
+    try {
+      getAdminToken();
+    } catch (err) {
+      window.location.href = '/auth/login';
+    }
     try {
       const data = await getAll();
       setRows([]);

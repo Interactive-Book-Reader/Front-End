@@ -8,6 +8,7 @@ import Avatar from '@mui/material/Avatar';
 import UserAction from './UserAction';
 import PurpleButton from 'src/components/Buttons/PurpleButton';
 import deleteUser from 'src/api/customers/deleteUser';
+import { getAdminToken } from 'src/config/token/getAdminToken';
 
 const Customer = () => {
   const [pageSize, setPageSize] = useState(5);
@@ -44,18 +45,23 @@ const Customer = () => {
 
   const fetchData = async () => {
     try {
+      getAdminToken();
+    } catch (err) {
+      window.location.href = '/auth/login';
+    }
+    try {
       const data = await getAll();
       setRows([]);
-      for (let i = 0; i < data.users.length; i++) {
+      for (const element of data.users) {
         let item = {
-            image_link: data.users[i].image_link,
-            name: data.users[i].name,
-            email: data.users[i].email,
-            username: data.users[i].username,
-            createdAt: data.users[i].createdAt,
-            bio_data: data.users[i].bio_data,
-            phonenumber: data.users[i].phonenumber,
-            id: data.users[i]._id,
+            image_link: element.image_link,
+            name: element.name,
+            email: element.email,
+            username: element.username,
+            createdAt: element.createdAt,
+            bio_data: element.bio_data,
+            phonenumber: element.phonenumber,
+            id: element._id,
         };
         setRows((rows) => [...rows, item]);
         // console.log(data.data[i]);
