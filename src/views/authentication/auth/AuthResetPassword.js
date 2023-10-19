@@ -23,6 +23,7 @@ const AuthResetPassword = ({ title, subtitle, subtext, id, token }) => {
     const message = await resetPasswordSchema.validate(data).catch((err) => {
       return err.message;
     });
+    console.log(data);
     if (!isValid) {
       setError(message);
     } else {
