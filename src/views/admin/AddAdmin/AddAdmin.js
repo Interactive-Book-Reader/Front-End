@@ -1,25 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Grid, Box, Typography, Button, Paper } from '@mui/material';
 import CustomTextField from '../../../components/forms/theme-elements/CustomTextField';
 import { Stack } from '@mui/system';
 import PageContainer from 'src/components/container/PageContainer';
-import { useLocation } from 'react-router-dom';
-import { IconTrash, IconCloudUpload, IconAdjustments } from '@tabler/icons';
+import { IconCloudUpload, IconAd } from '@tabler/icons';
 import { storage } from '../../../firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { v4 } from 'uuid';
 import Spinner from '../../../components/Spinner/Spinner';
-import backgroundImg from 'src/assets/images/backgrounds/5153829.jpg';
+import backgroundImg from 'src/assets/images/backgrounds/2947.jpg';
 import MainTopic from 'src/components/Topic/MainTopic';
-import { InputAdornment } from '@mui/material';
-import getAllBooks from 'src/api/book/get_all_books';
-import updateBook from 'src/api/book/book_update';
-import deleteBook from 'src/api/book/book_delete';
-import DropDownList from 'src/components/DropDownList/DropDownList';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { styled } from '@mui/material/styles';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import adminCreate from '../../../api/auth/adminCreate';
+import { userSchema } from '../../../validations/AdminValidation';
+import { getAdminToken } from 'src/config/token/getAdminToken';
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -34,97 +31,34 @@ const VisuallyHiddenInput = styled('input')({
 });
 
 const AddAdmin = () => {
-  const [pdf, setPdf] = useState(null);
   const [image, setImage] = useState(null);
-  const [title, setTitle] = useState('');
-  const [author, setAuthor] = useState('');
-  const [genre, setGenre] = useState('');
-  const [summary, setSummary] = useState('');
-  const [price, setPrice] = useState(0);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassowrd] = useState('');
+  const [username, setUsername] = useState('');
+  const [phonenumber, setPhonenumber] = useState('');
+  const [bio_data, setBio_data] = useState('');
   const [imageLink, setImageLink] = useState('');
-  const [pdfLink, setPDFLink] = useState('');
   const [loading, setLoading] = useState(false);
   const [loadingdetails, setLoadingDetails] = useState('');
-  const updateData = {};
-  const BOOK_CATEGORIES = [
-    'Adventure',
-    'Mystery',
-    'Poetry',
-    'Non-Fiction',
-    'Fairy Tales and Folklore',
-    'Animal Stories',
-  ];
+  const [errorMessege, setErrorMessege] = useState('');
+
 
   const fetchData = async () => {
-    const data = await getAllBooks(id);
-    setBook(data);
-    console.log(data);
-  };
-
-  const handleUpdate = async () => {
-    console.log(imageLink);
-    console.log(summary);
-    if (title !== '') {
-      updateData.title = title;
-    }
-    if (author !== '') {
-      updateData.author = author;
-    }
-    if (genre !== '') {
-      updateData.genre = genre;
-    }
-    if (summary !== '') {
-      updateData.summary = summary;
-    }
-    if (price !== 0) {
-      updateData.price = price;
-    }
-    if (imageLink !== '') {
-      updateData.coverpage = imageLink;
-    }
-    if (pdfLink !== '') {
-      updateData.pdf = pdfLink;
-    }
-    if (Object.keys(updateData).length === 0) {
-      toast.error('No changes to update!', {
-        position: toast.POSITION.TOP_RIGHT,
-      });
-    } else {
-      updateData.id = id;
-
-      const data = await updateBook(updateData);
-      if (data.message === 'Book is updated successfully') {
-        setLoadingDetails('Book is updated successfully');
-        toast.success('Book is updated successfully!', {
-          position: toast.POSITION.TOP_RIGHT,
-        });
-        fetchData();
-      }
+    try {
+      getAdminToken();
+    } catch (err) {
+      window.location.href = '/auth/login';
     }
   };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const handleUpload = () => {
     console.log('uploading');
     setLoading(true);
-    if (pdf !== null) {
-      const storageRef = ref(storage, `pdf/${pdf.name + v4()}`);
-      uploadBytes(storageRef, pdf)
-        .then((snapshot) => {
-          console.log('Uploaded pdf!');
-          getDownloadURL(snapshot.ref)
-            .then((url) => {
-              setLoading(false);
-              setPDFLink(url);
-              setLoadingDetails('PDF uploaded successfully!');
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
     if (image !== null) {
       const storageRef2 = ref(storage, `images/${image.name + v4()}`);
       uploadBytes(storageRef2, image)
@@ -134,7 +68,7 @@ const AddAdmin = () => {
             .then((url) => {
               setLoading(false);
               setImageLink(url);
-              setLoadingDetails('Coverpage uploaded successfully!');
+              setLoadingDetails('Logo uploaded successfully!');
             })
             .catch((error) => {
               console.log(error);
@@ -146,21 +80,48 @@ const AddAdmin = () => {
     }
   };
 
-  const handleDelete = async () => {
-    const data = await deleteBook(id);
-    if (data.message === 'Book is deleted successfully!') {
-      window.location.href = '/products';
+  const handleCreateAdmin = async (event) => {
+    setErrorMessege('');
+    setLoadingDetails('');
+    console.log(name);
+    const adminData = {
+      name: name,
+      email: email,
+      password: password,
+      username: username,
+      phonenumber: phonenumber,
+      bio_data: bio_data,
+      image: imageLink,
+    };
+    const isValid = await userSchema.isValid(adminData);
+
+    if (isValid) {
+      setLoading(true);
+      try {
+        const responseData = await adminCreate(adminData);
+        if (responseData.message === 'Admin is added successfully.') {
+          console.log(responseData);
+          toast.success('Admin data is updated!', {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+          setLoading(false);
+          setLoadingDetails(responseData.message);
+        } else {
+          setLoading(false);
+          setErrorMessege(responseData.message);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      try {
+        // Attempt to validate and catch validation errors
+        await userSchema.validate(adminData);
+      } catch (validationError) {
+        setErrorMessege(validationError.message);
+      }
     }
   };
-
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const id = queryParams.get('id');
-  const [book, setBook] = useState({});
-
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   return (
     <>
@@ -181,7 +142,7 @@ const AddAdmin = () => {
             style={{
               alignItems: 'center',
               padding: '10px',
-              width: '19%',
+              width: '17%',
               height: '50%',
               maxWidth: '1000px',
               margin: '0 auto',
@@ -193,7 +154,7 @@ const AddAdmin = () => {
           <Paper
             elevation={10}
             style={{
-              padding: '30px',
+              padding: '40px',
               width: '80%',
               maxWidth: '900px',
               margin: '0 auto',
@@ -201,190 +162,120 @@ const AddAdmin = () => {
             }}
           >
             <Box>
-              <Grid container spacing={3}>
+              <Grid container spacing={5}>
                 <>
-                  <Grid item xs={8} lg={8.7}>
+                  <Grid item xs={8} lg={10}>
                     <Box>
-                      <Stack mb={9}>
+                      <Stack mb={10}>
                         <Typography
                           variant="subtitle1"
                           fontWeight={600}
                           component="label"
-                          htmlFor="title"
+                          htmlFor="name"
                           mb="5px"
                         >
-                          Title:{' '}
-                          <span
-                            style={{
-                              color: 'blue',
-                              fontStyle: 'italic',
-                              fontWeight: '800',
-                              fontSize: '16px',
-                            }}
-                          >
-                            {book.title}
-                          </span>
+                          Name:
                         </Typography>
                         <CustomTextField
-                          label="Enter new title:"
-                          id="title"
+                          label="Enter new admin name:"
+                          id="name"
                           variant="outlined"
                           fullWidth
-                          onChange={(e) => setTitle(e.target.value)}
+                          onChange={(e) => setName(e.target.value)}
                         />
 
                         <Typography
                           variant="subtitle1"
                           fontWeight={600}
                           component="label"
-                          htmlFor="author"
+                          htmlFor="email"
                           mb="5px"
                           mt="15px"
                         >
-                          Author:{' '}
-                          <span
-                            style={{
-                              color: 'blue',
-                              fontStyle: 'italic',
-                              fontWeight: '800',
-                              fontSize: '16px',
-                            }}
-                          >
-                            {book.author}
-                          </span>
+                          Email Address:
                         </Typography>
                         <CustomTextField
-                          label="Enter new author:"
-                          id="author"
+                          label="Enter new admin email address:"
+                          id="email"
                           variant="outlined"
                           fullWidth
-                          onChange={(e) => setAuthor(e.target.value)}
+                          onChange={(e) => setEmail(e.target.value)}
                         />
 
                         <Typography
                           variant="subtitle1"
                           fontWeight={600}
                           component="label"
-                          htmlFor="Genre"
+                          htmlFor="username"
                           mb="5px"
                           mt="15px"
                         >
-                          Genre:{' '}
-                          <span
-                            style={{
-                              color: 'blue',
-                              fontStyle: 'italic',
-                              fontWeight: '800',
-                              fontSize: '16px',
-                            }}
-                          >
-                            {book.genre}
-                          </span>
+                          Username:
                         </Typography>
-                        <DropDownList
-                          label="Enter new Genre: "
-                          items={BOOK_CATEGORIES}
-                          onchange={setGenre}
+                        <CustomTextField
+                          label="Enter new admin username:"
+                          id="username"
+                          variant="outlined"
+                          fullWidth
+                          onChange={(e) => setUsername(e.target.value)}
                         />
 
                         <Typography
                           variant="subtitle1"
                           fontWeight={600}
                           component="label"
-                          htmlFor="summary"
+                          htmlFor="password"
                           mb="5px"
                           mt="15px"
                         >
-                          Summary:{' '}
-                          <span
-                            style={{
-                              color: 'blue',
-                              fontStyle: 'italic',
-                              fontWeight: '800',
-                              fontSize: '16px',
-                            }}
-                          >
-                            {book.summary}
-                          </span>
+                          Password:
                         </Typography>
                         <CustomTextField
-                          label="Enter new summary"
-                          id="summary"
+                          label="Enter new admin password:"
+                          id="password"
                           variant="outlined"
                           fullWidth
-                          onChange={(e) => setSummary(e.target.value)}
+                          type="password"
+                          onChange={(e) => setPassowrd(e.target.value)}
                         />
 
                         <Typography
                           variant="subtitle1"
                           fontWeight={600}
                           component="label"
-                          htmlFor="price"
+                          htmlFor="phonenumber"
                           mb="5px"
                           mt="15px"
                         >
-                          Price:{' '}
-                          <span
-                            style={{
-                              color: 'blue',
-                              fontStyle: 'italic',
-                              fontWeight: '800',
-                              fontSize: '16px',
-                            }}
-                          >
-                            {book.price}
-                          </span>
+                          Phone Number:
                         </Typography>
-                        <div></div>
                         <CustomTextField
-                          label="Price"
-                          type="number"
+                          label="Enter new admin phone number:"
+                          id="phonenumber"
                           variant="outlined"
                           fullWidth
-                          onChange={(e) => setPrice(e.target.value)}
-                          InputProps={{
-                            startAdornment: (
-                              <InputAdornment position="start" style={{ padding: '0 8px' }}>
-                                Rs.
-                              </InputAdornment>
-                            ),
-                          }}
-                          inputProps={{
-                            min: 0, // Set the minimum allowed value to 0
-                            style: {
-                              /* Additional styles for the input field itself */
-                              '-moz-appearance': 'textfield' /* Remove default arrows in Firefox */,
-                            },
-                          }}
-                          style={{ width: '100%' }} // Apply width to the TextField
+                          onChange={(e) => setPhonenumber(e.target.value)}
+                        />
+
+                        <Typography
+                          variant="subtitle1"
+                          fontWeight={600}
+                          component="label"
+                          htmlFor="bio_data"
+                          mb="5px"
+                          mt="15px"
+                        >
+                          Bio Data:
+                        </Typography>
+                        <CustomTextField
+                          label="Enter new admin bio data:"
+                          id="bio_data"
+                          variant="outlined"
+                          fullWidth
+                          onChange={(e) => setBio_data(e.target.value)}
                         />
 
                         <div style={{ display: 'flex', alignItems: 'center', paddingTop: '10px' }}>
-                          <div style={{ flex: '1', marginRight: '20px' }}>
-                            <Typography
-                              variant="subtitle1"
-                              fontWeight={600}
-                              component="label"
-                              mb="5px"
-                              display="block"
-                            >
-                              Choose Book
-                            </Typography>
-
-                            <Button
-                              component="label"
-                              variant="contained"
-                              startIcon={<CloudUploadIcon />}
-                            >
-                              Choose PDF
-                              <VisuallyHiddenInput
-                                type="file"
-                                accept="application/pdf"
-                                onChange={(e) => setPdf(e.target.files[0])}
-                              />
-                            </Button>
-                          </div>
-
                           <div style={{ flex: '1' }}>
                             <Typography
                               variant="subtitle1"
@@ -394,7 +285,7 @@ const AddAdmin = () => {
                               mb="5px"
                               display="block"
                             >
-                              Choose Cover Page
+                              Choose Logo
                             </Typography>
 
                             <Button
@@ -402,7 +293,7 @@ const AddAdmin = () => {
                               variant="contained"
                               startIcon={<CloudUploadIcon />}
                             >
-                              Choose Coverpage
+                              Choose Logo
                               <VisuallyHiddenInput
                                 type="file"
                                 accept="image/jpeg, image/png, image/gif"
@@ -431,11 +322,11 @@ const AddAdmin = () => {
                             color="primary"
                             variant="contained"
                             size="large"
-                            startIcon={<IconAdjustments />}
-                            onClick={handleUpdate}
+                            startIcon={<IconAd />}
+                            onClick={handleCreateAdmin}
                             style={{ width: '50%' }}
                           >
-                            Update details
+                            Create Admin
                           </Button>
                         )}
                         {loading ? (
@@ -443,19 +334,9 @@ const AddAdmin = () => {
                             <Spinner />
                           </div>
                         ) : null}
-                        <div style={{ marginTop: '10px' }} /> {/* Add spacing */}
-                        <Button
-                          color="primary"
-                          variant="contained"
-                          size="large"
-                          startIcon={<IconTrash />}
-                          onClick={handleDelete}
-                          style={{ width: '50%' }}
-                        >
-                          Delete book
-                        </Button>
                       </div>
                       <Typography style={{ color: 'green' }}>{loadingdetails}</Typography>
+                      <Typography style={{ color: 'red' }}>{errorMessege}</Typography>
                     </Box>
                   </Grid>
                 </>
@@ -470,4 +351,3 @@ const AddAdmin = () => {
 };
 
 export default AddAdmin;
-
